@@ -9,11 +9,18 @@ interface BranchProps {
 
 const Branch: FC<BranchProps> = ({item, level}) => {
   const [selected, setSelected] = useState(false)
-
+  console.log('Branch item', item)
   const hasChildren = !!item.children && item.children.length > 0
   const isFolder = !!item.children
 
   const renderBranches = () => {
+    /**
+     * Так теперь надо объяснение для этой функции
+     *
+     * 1. Первое, что я понял, что ты тут делаешь, это проверяешь, есть ли у элемента дети и если да то отображаешь их
+     * и рендеришь космпонент.
+     * По сути схема такая же как и в материал компоненте надо только немного ее переделать...
+     */
     if (hasChildren) {
       const newLevel = level + 1
 
