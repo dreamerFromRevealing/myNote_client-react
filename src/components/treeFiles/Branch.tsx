@@ -1,54 +1,36 @@
-import React, {FC, useState} from 'react';
-import Node from './Nodes/Node';
-import {DATAType} from "../../types/types_data_from_server/dataType";
+import React, {FC} from 'react';
+import {TreeProps} from "./Tree";
+import StyledTreeItem from "./StyledTreeItem";
+import NodeNewComponent from "./Nodes/NodeNewComponent";
+import {useSelector} from "react-redux";
 
-interface BranchProps {
-  item: DATAType,
-  level: number
-}
+/**
+ * Как бы нам просунуть эту картинку
+ * @param data
+ * @constructor
+ */
+const Branch: FC<TreeProps>  = ({data}) => {
+  const createComponent = useSelector((state: any) => state.app.createComponent);
 
-const Branch: FC<BranchProps> = ({item, level}) => {
-  const [selected, setSelected] = useState(false)
-  console.log('Branch item', item)
-  const hasChildren = !!item.children && item.children.length > 0
-  const isFolder = !!item.children
-
-  const renderBranches = () => {
-    /**
-     * Так теперь надо объяснение для этой функции
-     *
-     * 1. Первое, что я понял, что ты тут делаешь, это проверяешь, есть ли у элемента дети и если да то отображаешь их
-     * и рендеришь космпонент.
-     * По сути схема такая же как и в материал компоненте надо только немного ее переделать...
-     */
-    if (hasChildren) {
-      const newLevel = level + 1
-
-      return item.children && item.children.map((child: DATAType) => {
-        return <Branch key={child._id} item={child} level={newLevel}/>
-      })
-    }
-
-    return null
-  }
-
-  const toggleSelected = () => {
-    setSelected((prev: boolean) => !prev)
+  if (Array.isArray(data)) {
+    return (
+      <StyledTreeItem type={'Folder'} nodeId={'root'} labelText={'Parent'}>
+        {createComponent && <NodeNewComponent type={'Folder'}  parenId={'root'}/>}
+        {Array.isArray(data)
+          ? data.map((node: any) => <Branch key={node._id} data={node}/>)
+          : null}
+      </StyledTreeItem>
+    )
   }
 
   return (
-    <>
-      <Node
-        selected={selected}
-        item={item}
-        level={level}
-        onToggle={hasChildren && toggleSelected}
-        isFolder={isFolder}
-      />
-
-      {selected && renderBranches()}
-    </>
-  );
+    <StyledTreeItem type={data.__typename} nodeId={data._id} labelText={data.title || ''}>
+      {createComponent && <NodeNewComponent type={createComponent}  parenId={data._id}/>}
+      {Array.isArray(data.children)
+        ? data.children.map((node: any) => <Branch key={node._id} data={node}/>)
+        : null}
+    </StyledTreeItem>
+  )
 };
 
 export default Branch;

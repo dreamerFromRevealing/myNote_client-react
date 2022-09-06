@@ -2,19 +2,21 @@ import React, {FC} from 'react';
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import {Menu, MenuItem} from "@mui/material";
 import useDeleteFile from "../../hooks/CRUD/useDeleteFile";
+import {useDispatch} from "react-redux";
+import {setCreateComponent} from "../../store/appSlice/appSlice";
 
 
 interface NodeMenuProps {
   onRename: (boolean: boolean) => void;
-  setCreateComponent: (string: string) => void;
   isFolder: boolean;
   id: string;
 }
 
-const NodeMenu: FC<NodeMenuProps> = ({onRename, setCreateComponent, isFolder, id}) => {
+const NodeMenu: FC<NodeMenuProps> = ({onRename, isFolder, id}) => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const deleteFile = useDeleteFile()
+  const dispatch = useDispatch()
 
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -24,7 +26,7 @@ const NodeMenu: FC<NodeMenuProps> = ({onRename, setCreateComponent, isFolder, id
   };
 
   const handleCreateFile = (type: string) => {
-    setCreateComponent(type)
+    dispatch(setCreateComponent(type))
     handleClose();
   };
 
@@ -54,8 +56,8 @@ const NodeMenu: FC<NodeMenuProps> = ({onRename, setCreateComponent, isFolder, id
         }}
       >
 
-        {isFolder && <MenuItem onClick={() => handleCreateFile('document')}>Создать документ</MenuItem>}
-        {isFolder && <MenuItem onClick={() => handleCreateFile('folder')}>Создать папку</MenuItem>}
+        {isFolder && <MenuItem onClick={() => handleCreateFile('Document')}>Создать документ</MenuItem>}
+        {isFolder && <MenuItem onClick={() => handleCreateFile('Folder')}>Создать папку</MenuItem>}
         <MenuItem onClick={handleRename}>Переименовать</MenuItem>
         <MenuItem onClick={handleDelete}>Удалить</MenuItem>
       </Menu>

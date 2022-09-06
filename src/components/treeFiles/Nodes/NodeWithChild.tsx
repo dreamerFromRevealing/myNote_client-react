@@ -34,7 +34,7 @@ const NodeWithChild: FC<NodeWithChildProps> = (
           />
           {selected ? <AiOutlineDown onClick={onToggle}/> : <AiOutlineUp onClick={onToggle}/>}
         </NodeRow>
-        <NodeMenu id={item._id} isFolder={true} setCreateComponent={setCreateComponent} onRename={setRename}/>
+        <NodeMenu id={item._id} isFolder={true} onRename={setRename}/>
       </NodeItem>
     </NodeWrapper>
   );

@@ -15,8 +15,8 @@ const useCreateFile = () => {
 
   return async (type: string, parenId: string, name: string) => {
     try {
-      if (type === 'document') await createDocument({variables: {parentFolderId: parenId, title: name}})
-      if (type === 'folder') await createFolder({variables: {parentFolderId: parenId, title: name}})
+      if (type === 'Document') await createDocument({variables: {parentFolderId: parenId, title: name}})
+      if (type === 'Folder') await createFolder({variables: {parentFolderId: parenId, title: name}})
       callAlert( 'File created successfully!', 'success');
     } catch (e) {
       console.log(e);

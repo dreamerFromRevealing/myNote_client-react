@@ -34,7 +34,7 @@ const NodeWithoutChild: FC<NodeChildProps> = (
             title={item.title || ''}
           />
         </NodeRow>
-        <NodeMenu id={item._id} isFolder={isFolder} setCreateComponent={setCreateComponent} onRename={setRename}/>
+        <NodeMenu id={item._id} isFolder={isFolder} onRename={setRename}/>
       </NodeItem>
     </NodeWrapper>
   );

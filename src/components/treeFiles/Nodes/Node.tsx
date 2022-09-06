@@ -21,35 +21,31 @@ export interface NodeChildProps extends NodeProps {
 
 const Node: FC<NodeProps> = ({item, level, onToggle, selected, isFolder}) => {
   const [rename, setRename] = useState(false)
-  const [createComponent, setCreateComponent] = useState('')
-
-
 
   return (
     <>
-      { onToggle ?
-        <NodeWithChild
-          item={item}
-          level={level}
-          onToggle={onToggle}
-          rename={rename}
-          setRename={setRename}
-          isFolder={isFolder}
-          selected={selected}
-          setCreateComponent={setCreateComponent}
-        />
-        :
-        <NodeWithoutChild
-          rename={rename}
-          setRename={setRename}
-          isFolder={isFolder}
-          selected={selected}
-          item={item}
-          level={level}
-          onToggle={onToggle}
-          setCreateComponent={setCreateComponent}
-        />}
-      {createComponent && <NodeNewComponent parenId={item._id} setCreateComponent={setCreateComponent} createComponent={createComponent}/>}
+      {/*{ onToggle ?*/}
+      {/*  <NodeWithChild*/}
+      {/*    item={item}*/}
+      {/*    level={level}*/}
+      {/*    onToggle={onToggle}*/}
+      {/*    rename={rename}*/}
+      {/*    setRename={setRename}*/}
+      {/*    isFolder={isFolder}*/}
+      {/*    selected={selected}*/}
+      {/*  />*/}
+      {/*  :*/}
+      {/*  <NodeWithoutChild*/}
+      {/*    rename={rename}*/}
+      {/*    setRename={setRename}*/}
+      {/*    isFolder={isFolder}*/}
+      {/*    selected={selected}*/}
+      {/*    item={item}*/}
+      {/*    level={level}*/}
+      {/*    onToggle={onToggle}*/}
+      {/*  />*/}
+      {/*}*/}
+      {/*{createComponent && <NodeNewComponent parenId={item._id} setCreateComponent={setCreateComponent} createComponent={createComponent}/>}*/}
     </>
   );
 };
