@@ -1,18 +1,23 @@
 import React, {FC, useEffect, useRef, useState} from 'react';
-import {NodeRow, NodeTextWrap} from "../styles";
-import {AiOutlineFile, AiOutlineFolder} from "react-icons/ai";
 import useCreateFile from "../../../hooks/CRUD/useCreateFile";
+import Box from "@mui/material/Box";
+import NodeIcon from "./NodeIcon";
+import TreeItem from "@mui/lab/TreeItem";
+import {useDispatch, useSelector} from "react-redux";
+import {setCreateComponent} from "../../../store/appSlice/appSlice";
+import FormControl from "@mui/material/FormControl";
+import {TreeInput} from "../styles";
 
 interface NodeNewComponentProps {
-  setCreateComponent: (string: string) => void;
-  createComponent: string;
   parenId: string;
 }
 
-const NodeNewComponent: FC<NodeNewComponentProps> = ({setCreateComponent, createComponent, parenId}) => {
+const NodeNewComponent: FC<NodeNewComponentProps> = ({ parenId,  ...other}) => {
   const input = useRef<HTMLInputElement>(null);
   const [name, setName] = useState('');
   const createFile = useCreateFile()
+  const createComponent = useSelector((state: any) => state.app.createComponent);
+  const dispatch = useDispatch()
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setName(e.target.value);
@@ -20,9 +25,9 @@ const NodeNewComponent: FC<NodeNewComponentProps> = ({setCreateComponent, create
 
   const onSubmit = () => {
     if (name.length > 0) {
-      createFile(createComponent, parenId, name)
+      createFile(createComponent.type, parenId, name)
     }
-    setCreateComponent('');
+    dispatch(setCreateComponent(''))
   }
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -38,19 +43,24 @@ const NodeNewComponent: FC<NodeNewComponentProps> = ({setCreateComponent, create
   }, [])
 
   return (
-    <NodeRow>
-      {createComponent === 'folder' ? <AiOutlineFolder size={24}/> : <AiOutlineFile size={24}/>}
-      <NodeTextWrap>
-        <input
-          ref={input}
-          type="text"
-          value={name}
-          onBlur={onSubmit}
-          onChange={handleChange}
-          onKeyDown={handleKeyDown}
-        />
-      </NodeTextWrap>
-    </NodeRow>
+      <TreeItem
+        nodeId={'new'}
+        label={
+          <Box sx={{ display: 'flex', alignItems: 'center', p: 0.5, pr: 0 }}>
+            <NodeIcon type={createComponent.type}/>
+            <FormControl>
+              <TreeInput
+                inputRef={input}
+                value={name}
+                onBlur={onSubmit}
+                onChange={handleChange}
+                onKeyDown={handleKeyDown}
+              />
+            </FormControl>
+          </Box>
+        }
+        {...other}
+      />
   );
 };
 

@@ -4,6 +4,7 @@ const appSlice = createSlice({
   name: 'app',
   initialState: {
     viewMode: 'mix',
+    createComponent: null,
     alert: {
       show: false,
       message: '',
@@ -17,8 +18,11 @@ const appSlice = createSlice({
     setAlert: (state, action) => {
       state.alert = action.payload;
     },
+    setCreateComponent: (state, action) => {
+      state.createComponent = action.payload;
+    }
   },
 });
 
 export default appSlice.reducer;
-export const {setViewMode, setAlert} = appSlice.actions;
+export const {setViewMode, setAlert, setCreateComponent} = appSlice.actions;

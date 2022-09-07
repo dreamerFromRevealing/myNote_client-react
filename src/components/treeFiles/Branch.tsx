@@ -1,47 +1,49 @@
-import React, {FC, useState} from 'react';
-import Node from './Nodes/Node';
-import {DATAType} from "../../types/types_data_from_server/dataType";
+import React, {FC, useEffect} from 'react';
+import {TreeProps} from "./Tree";
+import StyledTreeItem from "./StyledTreeItem";
+import NodeNewComponent from "./Nodes/NodeNewComponent";
+import {useSelector} from "react-redux";
 
-interface BranchProps {
-  item: DATAType,
-  level: number
+interface BranchProps extends TreeProps {
+  openWhenCreateNewNode?: (id: string) => void;
 }
 
-const Branch: FC<BranchProps> = ({item, level}) => {
-  const [selected, setSelected] = useState(false)
+const Branch: FC<BranchProps>  = ({data, openWhenCreateNewNode}) => {
+  const createComponent = useSelector((state: any) => state.app.createComponent);
 
-  const hasChildren = !!item.children && item.children.length > 0
-  const isFolder = !!item.children
-
-  const renderBranches = () => {
-    if (hasChildren) {
-      const newLevel = level + 1
-
-      return item.children && item.children.map((child: DATAType) => {
-        return <Branch key={child._id} item={child} level={newLevel}/>
-      })
+  useEffect(() => {
+    if (createComponent && openWhenCreateNewNode) {
+      openWhenCreateNewNode(createComponent.parenId)
     }
+  }, [createComponent])
 
-    return null
+  if (Array.isArray(data)) {
+    return (
+      <StyledTreeItem type={'Folder'} nodeId={'root'} labelText={'Parent'}>
+        {createComponent?.parenId === 'root' && <NodeNewComponent parenId={'root'}/>}
+        {Array.isArray(data)
+          ? data.map((node: any) => <Branch key={node._id} data={node}/>)
+          : null}
+      </StyledTreeItem>
+    )
   }
-
-  const toggleSelected = () => {
-    setSelected((prev: boolean) => !prev)
-  }
-
+  if (data.__typename === 'Folder') {
   return (
-    <>
-      <Node
-        selected={selected}
-        item={item}
-        level={level}
-        onToggle={hasChildren && toggleSelected}
-        isFolder={isFolder}
-      />
-
-      {selected && renderBranches()}
-    </>
-  );
+    <StyledTreeItem type={data.__typename} nodeId={data._id} labelText={data.title || ''}>
+      {createComponent?.parenId === data._id && <NodeNewComponent parenId={data._id}/>}
+      {(Array.isArray(data.children) && data.children.length > 0)
+        ? data.children.map((node: any) => (
+          <>
+            <Branch key={node._id} data={node}/>
+          </>
+        ))
+        : null}
+    </StyledTreeItem>
+  )} else {
+    return (
+      <StyledTreeItem type={data.__typename} nodeId={data._id} labelText={data.title || ''}/>
+    )
+  }
 };
 
 export default Branch;
