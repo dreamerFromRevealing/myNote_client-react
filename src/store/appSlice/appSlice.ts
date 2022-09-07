@@ -4,7 +4,7 @@ const appSlice = createSlice({
   name: 'app',
   initialState: {
     viewMode: 'mix',
-    createComponent: '',
+    createComponent: null,
     alert: {
       show: false,
       message: '',

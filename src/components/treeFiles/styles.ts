@@ -1,7 +1,8 @@
 import styled from "styled-components"
+import {OutlinedInput} from "@mui/material";
 
 interface NodeWrapperProps {
-    level: number
+  level: number
 }
 
 export const NodeWrapper = styled.div<NodeWrapperProps>`
@@ -34,3 +35,12 @@ export const NodeRow = styled.div`
   width: 90%;
   
  `
+
+export const TreeInput = styled(OutlinedInput)`
+  input {
+    padding: 0;
+  }
+  fieldset {
+   
+  }
+`

@@ -6,7 +6,7 @@ interface IconComponentProps {
   type?: string
 }
 
-const IconComponent: FC<IconComponentProps> = ({type}) => {
+const NodeIcon: FC<IconComponentProps> = ({type}) => {
   return (
     <>
       {type === 'Folder' && <FolderIcon sx={{mr: 1, color: '#ff9800'}}/>}
@@ -15,4 +15,4 @@ const IconComponent: FC<IconComponentProps> = ({type}) => {
   );
 };
 
-export default IconComponent;
+export default NodeIcon;

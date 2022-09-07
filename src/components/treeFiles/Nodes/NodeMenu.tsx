@@ -1,14 +1,15 @@
 import React, {FC} from 'react';
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import {Menu, MenuItem} from "@mui/material";
-import useDeleteFile from "../../hooks/CRUD/useDeleteFile";
+import useDeleteFile from "../../../hooks/CRUD/useDeleteFile";
 import {useDispatch} from "react-redux";
-import {setCreateComponent} from "../../store/appSlice/appSlice";
+import {setCreateComponent} from "../../../store/appSlice/appSlice";
+import Box from "@mui/material/Box";
 
 
 interface NodeMenuProps {
   onRename: (boolean: boolean) => void;
-  isFolder: boolean;
+  isFolder?: boolean;
   id: string;
 }
 
@@ -19,45 +20,47 @@ const NodeMenu: FC<NodeMenuProps> = ({onRename, isFolder, id}) => {
   const dispatch = useDispatch()
 
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
+    event.stopPropagation()
     setAnchorEl(event.currentTarget);
   };
-  const handleClose = () => {
+  const handleClose = (e: any) => {
+     e.stopPropagation()
     setAnchorEl(null);
   };
 
-  const handleCreateFile = (type: string) => {
-    dispatch(setCreateComponent(type))
-    handleClose();
+  const handleCreateFile = (e: React.MouseEvent<HTMLElement>, type: string) => {
+    dispatch(setCreateComponent({type, parenId: id}))
+    handleClose(e);
   };
 
-  const handleRename = () => {
+  const handleRename = (e: React.MouseEvent<HTMLElement>) => {
     onRename(true);
-    handleClose()
+    handleClose(e)
   };
 
 
-  const handleDelete = () => {
-    deleteFile(isFolder, id)
-    handleClose()
+  const handleDelete = (e: React.MouseEvent<HTMLElement>) => {
+    deleteFile(!!isFolder, id)
+    handleClose(e)
   };
 
   return (
     <div>
-      <div onClick={handleClick}>
+      <Box sx={{display: 'flex', alignItems: 'center'}} onClick={handleClick}>
         <MoreVertIcon/>
-      </div>
+      </Box>
       <Menu
         id="basic-menu"
         anchorEl={anchorEl}
         open={open}
-        onClose={handleClose}
+        onClose={e => handleClose(e)}
         MenuListProps={{
           'aria-labelledby': 'basic-button',
         }}
       >
 
-        {isFolder && <MenuItem onClick={() => handleCreateFile('Document')}>Создать документ</MenuItem>}
-        {isFolder && <MenuItem onClick={() => handleCreateFile('Folder')}>Создать папку</MenuItem>}
+        {isFolder && <MenuItem onClick={e => handleCreateFile(e,'Document')}>Создать документ</MenuItem>}
+        {isFolder && <MenuItem onClick={e => handleCreateFile(e,'Folder')}>Создать папку</MenuItem>}
         <MenuItem onClick={handleRename}>Переименовать</MenuItem>
         <MenuItem onClick={handleDelete}>Удалить</MenuItem>
       </Menu>

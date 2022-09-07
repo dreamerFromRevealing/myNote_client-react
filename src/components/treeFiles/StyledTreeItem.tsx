@@ -1,10 +1,12 @@
 import * as React from 'react';
-import {FC} from 'react';
+import {FC, useState} from 'react';
 import Box from '@mui/material/Box';
 import TreeItem, {TreeItemProps} from '@mui/lab/TreeItem';
-import Typography from '@mui/material/Typography';
 import {SvgIconProps} from '@mui/material/SvgIcon';
-import IconComponent from "./IconComponent";
+import NodeIcon from "./Nodes/NodeIcon";
+import NodeMenu from "./Nodes/NodeMenu";
+import NodeText from "./Nodes/NodeText";
+import {useNavigate} from "react-router-dom";
 
 type StyledTreeItemProps = TreeItemProps & {
   bgColor?: string;
@@ -22,20 +24,46 @@ const StyledTreeItem: FC<StyledTreeItemProps> = (props) => {
     type,
     ...other
   } = props;
+  const [rename, setRename] = useState(false)
+  const navigate = useNavigate();
 
-  return (
-    <TreeItem
-      label={
-        <Box sx={{ display: 'flex', alignItems: 'center', p: 0.5, pr: 0 }}>
-          <IconComponent type={type}/>
-          <Typography variant="body2" sx={{ fontWeight: 'inherit', flexGrow: 1 }}>
-            {labelText}
-          </Typography>
-        </Box>
-      }
-      {...other}
-    />
-  );
+  const getDocument = (e: React.MouseEvent<HTMLElement>) => {
+    e.stopPropagation();
+    navigate('/doc/' + other.nodeId)
+  }
+
+
+  if (type === 'Folder') {
+    return (
+      <TreeItem
+        label={
+          <Box sx={{display: 'flex', alignItems: 'center', p: 0.5, pr: 0}}>
+            <NodeIcon type={type}/>
+            <NodeText rename={rename} onRename={setRename} labelText={labelText} isFolder
+                      id={other.nodeId}/>
+            <NodeMenu id={other.nodeId} isFolder onRename={setRename}/>
+          </Box>
+        }
+        {...other}
+      />
+    );
+  } else {
+    return (
+      <TreeItem
+        label={
+          <Box sx={{display: 'flex', alignItems: 'center', p: 0.5, pr: 0}}>
+            <Box sx={{display: 'flex', alignItems: 'center', width: 0.9}} onClick={getDocument}>
+            <NodeIcon type={type}/>
+            <NodeText rename={rename} onRename={setRename} labelText={labelText}
+                      id={other.nodeId}/>
+            </Box>
+            <NodeMenu id={other.nodeId} onRename={setRename}/>
+          </Box>
+        }
+        {...other}
+      />
+    );
+  }
 }
 
 export default StyledTreeItem;

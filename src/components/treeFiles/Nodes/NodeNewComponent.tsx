@@ -1,17 +1,18 @@
 import React, {FC, useEffect, useRef, useState} from 'react';
 import useCreateFile from "../../../hooks/CRUD/useCreateFile";
 import Box from "@mui/material/Box";
-import IconComponent from "../IconComponent";
+import NodeIcon from "./NodeIcon";
 import TreeItem from "@mui/lab/TreeItem";
 import {useDispatch, useSelector} from "react-redux";
 import {setCreateComponent} from "../../../store/appSlice/appSlice";
+import FormControl from "@mui/material/FormControl";
+import {TreeInput} from "../styles";
 
 interface NodeNewComponentProps {
   parenId: string;
-  type: string;
 }
 
-const NodeNewComponent: FC<NodeNewComponentProps> = ({ parenId, type, ...other}) => {
+const NodeNewComponent: FC<NodeNewComponentProps> = ({ parenId,  ...other}) => {
   const input = useRef<HTMLInputElement>(null);
   const [name, setName] = useState('');
   const createFile = useCreateFile()
@@ -24,7 +25,7 @@ const NodeNewComponent: FC<NodeNewComponentProps> = ({ parenId, type, ...other})
 
   const onSubmit = () => {
     if (name.length > 0) {
-      createFile(createComponent, parenId, name)
+      createFile(createComponent.type, parenId, name)
     }
     dispatch(setCreateComponent(''))
   }
@@ -46,15 +47,16 @@ const NodeNewComponent: FC<NodeNewComponentProps> = ({ parenId, type, ...other})
         nodeId={'new'}
         label={
           <Box sx={{ display: 'flex', alignItems: 'center', p: 0.5, pr: 0 }}>
-            <IconComponent type={type}/>
-            <input
-              ref={input}
-              type="text"
-              value={name}
-              onBlur={onSubmit}
-              onChange={handleChange}
-              onKeyDown={handleKeyDown}
-            />
+            <NodeIcon type={createComponent.type}/>
+            <FormControl>
+              <TreeInput
+                inputRef={input}
+                value={name}
+                onBlur={onSubmit}
+                onChange={handleChange}
+                onKeyDown={handleKeyDown}
+              />
+            </FormControl>
           </Box>
         }
         {...other}

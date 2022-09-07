@@ -15,16 +15,27 @@ export interface TreeProps {
 }
 
 const Tree: FC<TreeProps> = ({data}) => {
+  const [expanded, setExpanded] = React.useState<string[]>([]);
+
+  const handleToggle = (event: React.SyntheticEvent, nodeIds: string[]) => {
+    setExpanded(nodeIds);
+  };
+
+  const openWhenCreateNewNode = (id: string) => {
+    setExpanded([...expanded, id])
+  }
 
   return (
     <TreeView
+      expanded={expanded}
       aria-label="rich object"
       defaultCollapseIcon={<ExpandMoreIcon/>}
       defaultExpanded={['root']}
       defaultExpandIcon={<ChevronRightIcon/>}
+      onNodeToggle={handleToggle}
       // sx={{ height: 110, flexGrow: 1, maxWidth: 400, overflowY: 'auto' }}
     >
-      <Branch data={data}/>
+      <Branch openWhenCreateNewNode={openWhenCreateNewNode} data={data}/>
     </TreeView>
   );
 };
