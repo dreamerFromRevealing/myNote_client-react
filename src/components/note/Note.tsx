@@ -6,6 +6,7 @@ import {GET_DOCUMENT, UPDATE_DOCUMENT} from './queries';
 import {setStatus, switchSaveDocument} from "../../store/fileSlice/fileSlice";
 import {useDispatch, useSelector} from "react-redux";
 import { useParams } from 'react-router-dom';
+import HeaderNote from "./HeaderNote";
 
 
 const Note = () => {
@@ -15,7 +16,7 @@ const Note = () => {
   const [updateDocument] = useMutation(UPDATE_DOCUMENT);
   // TODO Поработать над роутером (docId из параметров адреса)
   const { docId } = useParams();
-  const [getDocumentContent] = useLazyQuery(
+  const [getDocumentContent, {data}] = useLazyQuery(
     GET_DOCUMENT,
     {variables: {_id: docId}}
   );
@@ -83,7 +84,6 @@ const Note = () => {
     }
   }, [state.saveDocument])
 
-
   useEffect(() => {
     const handleKeyDown = (e: any) => {
       if (e.ctrlKey && e.keyCode === 83) {
@@ -98,26 +98,29 @@ const Note = () => {
   }, [])
 
   return (
-    <NoteWrapper>
-      <NoteTextArea width={mode.textarea} autoFocus value={input} onChange={e => setInput(e.target.value)}/>
-      <NoteMarkDown
-        width={mode.markdown}
-        components={{
-          code({inline, className, children}) {
-            const match = /language-(\w+)/.exec(className || '')
-            return !inline && match ? (
-              <SyntaxHighlighter language={match[1]} PreTag="div">
-                {String(children).replace(/\n$/, '')}
-              </SyntaxHighlighter>
-            ) : (
-              <code className={className}>{children}</code>
-            )
-          }
-        }}
-      >
-        {input}
-      </NoteMarkDown>
-    </NoteWrapper>
+    <>
+      <HeaderNote title={data?.document?.title}/>
+      <NoteWrapper>
+        <NoteTextArea width={mode.textarea} autoFocus value={input} onChange={e => setInput(e.target.value)}/>
+        <NoteMarkDown
+          width={mode.markdown}
+          components={{
+            code({inline, className, children}) {
+              const match = /language-(\w+)/.exec(className || '')
+              return !inline && match ? (
+                <SyntaxHighlighter language={match[1]} PreTag="div">
+                  {String(children).replace(/\n$/, '')}
+                </SyntaxHighlighter>
+              ) : (
+                <code className={className}>{children}</code>
+              )
+            }
+          }}
+        >
+          {input}
+        </NoteMarkDown>
+      </NoteWrapper>
+    </>
   );
 };
 
