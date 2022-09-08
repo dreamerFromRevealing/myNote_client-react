@@ -5,15 +5,15 @@ import useDeleteFile from "../../../hooks/CRUD/useDeleteFile";
 import {useDispatch} from "react-redux";
 import {setCreateComponent} from "../../../store/appSlice/appSlice";
 import Box from "@mui/material/Box";
+import {openModal} from "../../../store/modalSlice/modalSlice";
 
 
 interface NodeMenuProps {
-  onRename: (boolean: boolean) => void;
   isFolder?: boolean;
   id: string;
 }
 
-const NodeMenu: FC<NodeMenuProps> = ({onRename, isFolder, id}) => {
+const NodeMenu: FC<NodeMenuProps> = ({isFolder, id}) => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const deleteFile = useDeleteFile()
@@ -33,8 +33,11 @@ const NodeMenu: FC<NodeMenuProps> = ({onRename, isFolder, id}) => {
     handleClose(e);
   };
 
-  const handleRename = (e: React.MouseEvent<HTMLElement>) => {
-    onRename(true);
+  const handleEdit = (e: React.MouseEvent<HTMLElement>) => {
+    dispatch(openModal({
+      modalType: 'edit',
+      modalProps: {id}
+    }))
     handleClose(e)
   };
 
@@ -61,7 +64,7 @@ const NodeMenu: FC<NodeMenuProps> = ({onRename, isFolder, id}) => {
 
         {isFolder && <MenuItem onClick={e => handleCreateFile(e,'Document')}>Создать документ</MenuItem>}
         {isFolder && <MenuItem onClick={e => handleCreateFile(e,'Folder')}>Создать папку</MenuItem>}
-        <MenuItem onClick={handleRename}>Переименовать</MenuItem>
+        <MenuItem onClick={handleEdit}>Редактировать</MenuItem>
         <MenuItem onClick={handleDelete}>Удалить</MenuItem>
       </Menu>
     </div>

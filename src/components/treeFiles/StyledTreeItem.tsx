@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {FC, useState} from 'react';
+import {FC} from 'react';
 import Box from '@mui/material/Box';
 import TreeItem, {TreeItemProps} from '@mui/lab/TreeItem';
 import {SvgIconProps} from '@mui/material/SvgIcon';
@@ -24,7 +24,6 @@ const StyledTreeItem: FC<StyledTreeItemProps> = (props) => {
     type,
     ...other
   } = props;
-  const [rename, setRename] = useState(false)
   const navigate = useNavigate();
 
   const getDocument = (e: React.MouseEvent<HTMLElement>) => {
@@ -39,9 +38,8 @@ const StyledTreeItem: FC<StyledTreeItemProps> = (props) => {
         label={
           <Box sx={{display: 'flex', alignItems: 'center', p: 0.5, pr: 0}}>
             <NodeIcon type={type}/>
-            <NodeText rename={rename} onRename={setRename} labelText={labelText} isFolder
-                      id={other.nodeId}/>
-            <NodeMenu id={other.nodeId} isFolder onRename={setRename}/>
+            <NodeText labelText={labelText}/>
+            <NodeMenu id={other.nodeId} isFolder/>
           </Box>
         }
         {...other}
@@ -54,10 +52,9 @@ const StyledTreeItem: FC<StyledTreeItemProps> = (props) => {
           <Box sx={{display: 'flex', alignItems: 'center', p: 0.5, pr: 0}}>
             <Box sx={{display: 'flex', alignItems: 'center', width: 0.9}} onClick={getDocument}>
             <NodeIcon type={type}/>
-            <NodeText rename={rename} onRename={setRename} labelText={labelText}
-                      id={other.nodeId}/>
+            <NodeText  labelText={labelText}/>
             </Box>
-            <NodeMenu id={other.nodeId} onRename={setRename}/>
+            <NodeMenu id={other.nodeId}/>
           </Box>
         }
         {...other}
