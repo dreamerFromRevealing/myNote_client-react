@@ -16,6 +16,7 @@ import MainAlert from "../alert/MainAlert";
 import {useDispatch, useSelector} from "react-redux";
 import {createFileTree} from "../../store/fileSlice/fileSlice";
 import Preloader from "./items/Preloader";
+import MainModal from "../modals/mainModal/MainModal";
 
 const MainLayout: FC<PropsWithChildren> = ({children}) => {
   const {loading, data} = useQuery(GET_TREE)
@@ -51,6 +52,7 @@ const MainLayout: FC<PropsWithChildren> = ({children}) => {
       </MainLayoutRow>
       <Footer/>
       <MainAlert/>
+      <MainModal/>
     </MainLayoutWrapper>
   )
 }
