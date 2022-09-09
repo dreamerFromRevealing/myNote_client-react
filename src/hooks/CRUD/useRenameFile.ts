@@ -1,10 +1,11 @@
 import {useMutation} from "@apollo/client";
-import {UPDATE_DOCUMENT_TITLE, UPDATE_FOLDER_TITLE} from "../../components/treeFiles/queries";
+import {UPDATE_DOCUMENT_TITLE} from "../../queries/treeFiles";
 import useAlert from "../useAlert";
+import {UPDATE_FOLDER} from "../../queries/queries";
 
 const useRenameFile = () => {
   const [updateDocumentTitle] = useMutation(UPDATE_DOCUMENT_TITLE);
-  const [updateFolderTitle] = useMutation(UPDATE_FOLDER_TITLE);
+  const [updateFolderTitle] = useMutation(UPDATE_FOLDER);
   const callAlert = useAlert();
 
   return async (isFolder: boolean, id: string, name: string) => {

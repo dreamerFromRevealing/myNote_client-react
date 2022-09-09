@@ -9,14 +9,7 @@ export const UPDATE_DOCUMENT_TITLE = gql`
     }
 `
 
-export const UPDATE_FOLDER_TITLE = gql`
-    mutation UpdateFolder ($_id: String!, $title: String){
-        updateFolder (payload: {_id: $_id, title: $title}) {
-            _id
-            title
-        }
-    }
-`
+
 
 export const CREATE_NEW_DOCUMENT = gql`
     mutation CreateDocument ($parentFolderId: String!, $title: String!){

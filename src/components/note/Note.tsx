@@ -2,11 +2,11 @@ import React, {useEffect, useState} from 'react';
 import {Prism as SyntaxHighlighter} from "react-syntax-highlighter";
 import {NoteMarkDown, NoteTextArea, NoteWrapper} from "./styles"
 import {useLazyQuery, useMutation} from "@apollo/client";
-import {GET_DOCUMENT, UPDATE_DOCUMENT} from './queries';
 import {setStatus, switchSaveDocument} from "../../store/fileSlice/fileSlice";
 import {useDispatch, useSelector} from "react-redux";
 import { useParams } from 'react-router-dom';
 import HeaderNote from "./HeaderNote";
+import {GET_DOCUMENT, UPDATE_DOCUMENT} from "../../queries/queries";
 
 
 const Note = () => {

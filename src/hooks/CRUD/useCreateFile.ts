@@ -1,6 +1,6 @@
 import {useMutation} from "@apollo/client";
-import {CREATE_NEW_DOCUMENT, CREATE_NEW_FOLDER} from "../../components/treeFiles/queries";
-import {GET_TREE} from "../../components/layout/queries";
+import {CREATE_NEW_DOCUMENT, CREATE_NEW_FOLDER} from "../../queries/treeFiles";
+import {GET_TREE} from "../../queries/layout";
 import useAlert from "../useAlert";
 
 const useCreateFile = () => {

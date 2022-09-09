@@ -1,7 +1,7 @@
 import useAlert from "../useAlert";
 import {useMutation} from "@apollo/client";
-import {DELETE_DOCUMENT, DELETE_FOLDER} from "../../components/treeFiles/queries";
-import {GET_TREE} from "../../components/layout/queries";
+import {DELETE_DOCUMENT, DELETE_FOLDER} from "../../queries/treeFiles";
+import {GET_TREE} from "../../queries/layout";
 
 const useDeleteFile = () => {
   const callAlert = useAlert();

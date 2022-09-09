@@ -10,7 +10,7 @@ import {
 import {useQuery} from "@apollo/client"
 import Header from "./Header/Header"
 import Footer from "./Footer"
-import {GET_TREE} from "./queries"
+import {GET_TREE} from "../../queries/layout"
 import {drawerWidth} from './items/LayoutContent'
 import MainAlert from "../alert/MainAlert";
 import {useDispatch, useSelector} from "react-redux";

@@ -1,0 +1,135 @@
+type Document {
+  _id: String
+  title: String
+  folderPathname: String
+  parentFolderId: String
+  content: String
+  typeFile: String
+}
+
+type Folder {
+  _id: String
+  title: String
+  pathname: String
+  parentFolderId: Folder
+  childFoldersIds: [Folder]
+  childDocsIds: [Document]
+}
+
+type Hobby {
+  _id: String!
+  name: String!
+}
+
+type Person {
+  _id: String!
+  name: String!
+  hobbies: [Hobby!]!
+}
+
+type Query {
+  person(_id: String!): Person!
+  persons(filters: ListPersonInput): [Person!]!
+  hobby(_id: String!): Hobby!
+  hobbies(filters: ListHobbyInput): [Hobby!]!
+  folder(_id: String!): Folder!
+  folders(filters: ListFolderInput): [Folder!]!
+  document(_id: String!): Document!
+  documents(filters: ListDocumentInput): [Document!]!
+}
+
+input ListPersonInput {
+  _id: String
+  name: String
+  hobbies: String
+}
+
+input ListHobbyInput {
+  _id: String
+  name: String
+}
+
+input ListFolderInput {
+  _id: String
+  title: String
+  pathname: String
+  childFoldersIds: String
+  childDocsIds: String
+}
+
+input ListDocumentInput {
+  _id: String
+  title: String
+  folderPathname: String
+  content: String
+  typeFile: String
+}
+
+type Mutation {
+  createPerson(payload: CreatePersonInput!): Person!
+  updatePerson(payload: UpdatePersonInput!): Person!
+  deletePerson(_id: String!): Person!
+  createHobby(payload: CreateHobbyInput!): Hobby!
+  updateHobby(payload: UpdateHobbyInput!): Hobby!
+  deleteHobby(_id: String!): Hobby!
+  createFolder(payload: CreateFolderInput!): Folder!
+  updateFolder(payload: UpdateFolderInput!): Folder!
+  deleteFolder(_id: String!): Folder!
+  changeFolderParent(payload: ChangeParentIdInput!): Folder!
+  createDocument(payload: CreateDocumentInput!): Document!
+  updateDocument(payload: UpdateDocumentInput!): Document!
+  deleteDocument(_id: String!): Document!
+  changeDocumentParent(payload: ChangeParentIdInput!): Document!
+}
+
+input CreatePersonInput {
+  name: String!
+  hobbies: [String!]!
+}
+
+input UpdatePersonInput {
+  _id: String!
+  name: String
+  hobbies: String
+}
+
+input CreateHobbyInput {
+  name: String!
+}
+
+input UpdateHobbyInput {
+  _id: String!
+  name: String
+}
+
+input CreateFolderInput {
+  title: String!
+  parentFolderId: String!
+}
+
+input UpdateFolderInput {
+  _id: String!
+  title: String
+  pathname: String
+  childFoldersIds: String
+  childDocsIds: String
+}
+
+input ChangeParentIdInput {
+  _id: String!
+  newParentId: String
+}
+
+input CreateDocumentInput {
+  title: String!
+  parentFolderId: String!
+  typeFile: String!
+}
+
+input UpdateDocumentInput {
+  _id: String!
+  title: String
+  folderPathname: String
+  content: String
+  typeFile: String
+}

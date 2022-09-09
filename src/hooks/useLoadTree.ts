@@ -1,5 +1,5 @@
 import {useQuery} from "@apollo/client";
-import {GET_TREE} from "../components/layout/queries";
+import {GET_TREE} from "../queries/layout";
 
 const useLoadTree = () => {
   const {loading, error, data} = useQuery(GET_TREE)
