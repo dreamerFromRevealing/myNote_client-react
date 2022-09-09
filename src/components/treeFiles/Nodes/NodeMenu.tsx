@@ -36,7 +36,10 @@ const NodeMenu: FC<NodeMenuProps> = ({isFolder, id}) => {
   const handleEdit = (e: React.MouseEvent<HTMLElement>) => {
     dispatch(openModal({
       modalType: 'edit',
-      modalProps: {id}
+      modalProps: {
+        id,
+        isFolder
+      }
     }))
     handleClose(e)
   };
