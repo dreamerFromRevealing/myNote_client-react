@@ -13,14 +13,15 @@ const useCreateFile = () => {
   });
 
 
-  return async (type: string, parenId: string, name: string) => {
+  return async (parenId: string, title: string, typeFile?: string) => {
     try {
-      if (type === 'Document') await createDocument({variables: {parentFolderId: parenId, title: name}})
-      if (type === 'Folder') await createFolder({variables: {parentFolderId: parenId, title: name}})
-      callAlert( 'File created successfully!', 'success');
+      if (typeFile === 'folder') await createFolder({variables: {parentFolderId: parenId, title}})
+      else await createDocument({variables: {parentFolderId: parenId, title, typeFile}})
+
+      callAlert( 'Файл успешно создан!', 'success');
     } catch (e) {
       console.log(e);
-      callAlert( 'File creation error, please try again later!', 'error');
+      callAlert( 'Ошибка создания файла!', 'error');
     }
   }
 }

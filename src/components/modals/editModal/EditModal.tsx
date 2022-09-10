@@ -7,7 +7,7 @@ import Button from "@mui/material/Button";
 import FormControl from "@mui/material/FormControl";
 import useHandleReqAlert from "../../../hooks/useHandleReqAlert";
 
-interface EditModalProps {
+export interface EditModalProps {
   id: string;
   isFolder: boolean;
 }
@@ -62,7 +62,7 @@ const EditModal: FC<EditModalProps> = ({id, isFolder}) => {
 
 
   return (
-    <div>
+    <>
       <Grid spacing={3} sx={{mb: 2}} container>
         <Grid item md={6} xs={12}>
           <FormControl sx={{width: 1}}>
@@ -74,7 +74,7 @@ const EditModal: FC<EditModalProps> = ({id, isFolder}) => {
       <Box sx={{display: 'flex', justifyContent: 'flex-end'}}>
         <Button onClick={handleSave} variant="outlined">Сохранить</Button>
       </Box>
-    </div>
+    </>
   );
 };
 
