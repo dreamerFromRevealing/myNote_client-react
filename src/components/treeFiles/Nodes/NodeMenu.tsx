@@ -3,7 +3,6 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 import {Menu, MenuItem} from "@mui/material";
 import useDeleteFile from "../../../hooks/CRUD/useDeleteFile";
 import {useDispatch} from "react-redux";
-import {setCreateComponent} from "../../../store/appSlice/appSlice";
 import Box from "@mui/material/Box";
 import {openModal} from "../../../store/modalSlice/modalSlice";
 
@@ -29,7 +28,10 @@ const NodeMenu: FC<NodeMenuProps> = ({isFolder, id}) => {
   };
 
   const handleCreateFile = (e: React.MouseEvent<HTMLElement>, type: string) => {
-    dispatch(setCreateComponent({type, parenId: id}))
+    dispatch(openModal({
+      modalType: 'create',
+      modalProps: {id}
+    }))
     handleClose(e);
   };
 
@@ -65,8 +67,7 @@ const NodeMenu: FC<NodeMenuProps> = ({isFolder, id}) => {
         }}
       >
 
-        {isFolder && <MenuItem onClick={e => handleCreateFile(e,'Document')}>Создать документ</MenuItem>}
-        {isFolder && <MenuItem onClick={e => handleCreateFile(e,'Folder')}>Создать папку</MenuItem>}
+        {isFolder && <MenuItem onClick={e => handleCreateFile(e,'Document')}>Создать</MenuItem>}
         <MenuItem onClick={handleEdit}>Редактировать</MenuItem>
         <MenuItem onClick={handleDelete}>Удалить</MenuItem>
       </Menu>
