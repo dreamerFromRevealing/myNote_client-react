@@ -20,6 +20,7 @@ import MainModal from "../modals/mainModal/MainModal";
 
 const MainLayout: FC<PropsWithChildren> = ({children}) => {
   const {loading, data} = useQuery(GET_TREE)
+
   const dispatch = useDispatch()
   const tree = useSelector((state: any) => state.file.tree)
   const [open, setOpen] = useState(true)

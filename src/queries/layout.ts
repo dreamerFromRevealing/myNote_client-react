@@ -23,3 +23,12 @@ export const GET_TREE = gql`
         }
     }
 `
+
+export const GET_WORKSPACES = gql`
+    query Workspaces  {
+  workspaces {
+    _id,
+		title
+  }
+}
+`
