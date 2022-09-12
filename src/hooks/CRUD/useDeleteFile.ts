@@ -1,15 +1,21 @@
 import useAlert from "../useAlert";
 import {useMutation} from "@apollo/client";
 import {DELETE_DOCUMENT, DELETE_FOLDER} from "../../queries/treeFiles";
-import {GET_TREE} from "../../queries/layout";
+import {GET_TREE, GET_TREE_BY_WORKSPACE_ID} from "../../queries/layout";
 
-const useDeleteFile = () => {
+const useDeleteFile = (parentWorkspaceId?: string) => {
   const callAlert = useAlert();
   const [deleteDocument] = useMutation(DELETE_DOCUMENT, {
-    refetchQueries: [GET_TREE]
+    refetchQueries: [{
+      query: GET_TREE_BY_WORKSPACE_ID,
+      variables: { parentWorkspaceId }
+    }]
   });
   const [deleteFolder] = useMutation(DELETE_FOLDER, {
-    refetchQueries: [GET_TREE]
+    refetchQueries: [{
+      query: GET_TREE_BY_WORKSPACE_ID,
+      variables: { parentWorkspaceId }
+    }]
   });
 
   return async (isFolder: boolean, id: string) => {

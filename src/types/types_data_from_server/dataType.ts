@@ -3,4 +3,5 @@ export type DATAType = {
   title?: string
   children?: DATAType[]
   __typename?: string
+  parentWorkspaceId?: {_id: string}
 }

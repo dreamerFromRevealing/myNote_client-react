@@ -5,17 +5,17 @@ import useDeleteFile from "../../../hooks/CRUD/useDeleteFile";
 import {useDispatch} from "react-redux";
 import Box from "@mui/material/Box";
 import {openModal} from "../../../store/modalSlice/modalSlice";
+import useDeleteWorkspace from "../../../hooks/WorkspaceCRUD/useDeleteWorkspace";
 
 
-interface NodeMenuProps {
-  isFolder?: boolean;
+interface WorkspaceNodeMenuProps {
   id: string;
 }
 
-const NodeMenu: FC<NodeMenuProps> = ({isFolder, id}) => {
+const WorkspaceNodeMenu: FC<WorkspaceNodeMenuProps> = ({id}) => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
-  const deleteFile = useDeleteFile()
+  const deleteWorkspace = useDeleteWorkspace()
   const dispatch = useDispatch()
 
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -23,38 +23,35 @@ const NodeMenu: FC<NodeMenuProps> = ({isFolder, id}) => {
     setAnchorEl(event.currentTarget);
   };
   const handleClose = (e: any) => {
-     e.stopPropagation()
+    e.stopPropagation()
     setAnchorEl(null);
   };
 
   const handleCreateFile = (e: React.MouseEvent<HTMLElement>, type: string) => {
     dispatch(openModal({
       modalType: 'create',
-      modalProps: {id}
+      modalProps: {id: null, parentWorkspaceId: id}
     }))
     handleClose(e);
   };
 
   const handleEdit = (e: React.MouseEvent<HTMLElement>) => {
     dispatch(openModal({
-      modalType: 'edit',
-      modalProps: {
-        id,
-        isFolder
-      }
+      modalType: 'edit-workspace',
+      modalProps: {id}
     }))
     handleClose(e)
   };
 
 
   const handleDelete = (e: React.MouseEvent<HTMLElement>) => {
-    deleteFile(!!isFolder, id)
+    deleteWorkspace(id)
     handleClose(e)
   };
 
   return (
     <div>
-      <Box sx={{display: 'flex', alignItems: 'center'}} onClick={handleClick}>
+      <Box sx={{display: 'flex', alignItems: 'center', mr: 1}} onClick={handleClick}>
         <MoreVertIcon/>
       </Box>
       <Menu
@@ -67,7 +64,7 @@ const NodeMenu: FC<NodeMenuProps> = ({isFolder, id}) => {
         }}
       >
 
-        {isFolder && <MenuItem onClick={e => handleCreateFile(e,'Document')}>Создать</MenuItem>}
+        <MenuItem onClick={e => handleCreateFile(e, 'Document')}>Создать</MenuItem>
         <MenuItem onClick={handleEdit}>Редактировать</MenuItem>
         <MenuItem onClick={handleDelete}>Удалить</MenuItem>
       </Menu>
@@ -75,4 +72,4 @@ const NodeMenu: FC<NodeMenuProps> = ({isFolder, id}) => {
   );
 };
 
-export default NodeMenu;
+export default WorkspaceNodeMenu;

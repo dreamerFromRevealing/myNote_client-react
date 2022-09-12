@@ -1,27 +1,44 @@
 import {useMutation} from "@apollo/client";
 import {CREATE_NEW_DOCUMENT, CREATE_NEW_FOLDER} from "../../queries/treeFiles";
-import {GET_TREE} from "../../queries/layout";
+import {GET_TREE, GET_TREE_BY_WORKSPACE_ID} from "../../queries/layout";
 import useAlert from "../useAlert";
 
-const useCreateFile = () => {
+type dataType = {
+  title: string,
+  typeFile?: string,
+  parentWorkspaceId?: string,
+  parentFolderId?: string
+}
+
+const useCreateFile = (parentWorkspaceId?: string) => {
   const callAlert = useAlert();
   const [createDocument] = useMutation(CREATE_NEW_DOCUMENT, {
-    refetchQueries: [GET_TREE]
+    refetchQueries: [{
+      query: GET_TREE_BY_WORKSPACE_ID,
+      variables: {parentWorkspaceId}
+    }]
   });
   const [createFolder] = useMutation(CREATE_NEW_FOLDER, {
-    refetchQueries: [GET_TREE]
+    refetchQueries: [{
+      query: GET_TREE_BY_WORKSPACE_ID,
+      variables: {parentWorkspaceId}
+    }]
   });
 
 
-  return async (parenId: string, title: string, typeFile?: string) => {
-    try {
-      if (typeFile === 'folder') await createFolder({variables: {parentFolderId: parenId, title}})
-      else await createDocument({variables: {parentFolderId: parenId, title, typeFile}})
+  return async (title: string, typeFile?: string, parentId?: string,) => {
 
-      callAlert( 'Файл успешно создан!', 'success');
+    let data:dataType  = {title, parentWorkspaceId, typeFile}
+    if (parentId) data.parentFolderId = parentId
+
+    try {
+      if (typeFile === 'folder') await createFolder({variables: data})
+      else await createDocument({variables: data})
+
+      callAlert('Файл успешно создан!', 'success');
     } catch (e) {
       console.log(e);
-      callAlert( 'Ошибка создания файла!', 'error');
+      callAlert('Ошибка создания файла!', 'error');
     }
   }
 }

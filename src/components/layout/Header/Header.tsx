@@ -7,7 +7,7 @@ import DesktopHeader from "./DesktopHeader";
 
 const pages = [
   {
-    name: 'File',
+    name: 'Файл',
     accordion: true
   },
 ];

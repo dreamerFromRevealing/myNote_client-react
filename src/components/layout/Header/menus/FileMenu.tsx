@@ -3,6 +3,7 @@ import {Divider, List, ListItem, Menu, MenuList, Paper, useMediaQuery} from "@mu
 import MenuItem from "@mui/material/MenuItem";
 import {switchSaveDocument} from "../../../../store/fileSlice/fileSlice";
 import {useDispatch} from "react-redux";
+import {openModal} from "../../../../store/modalSlice/modalSlice";
 
 interface FileMenuProps {
   anchorEl?: null | HTMLElement,
@@ -16,6 +17,10 @@ const FileMenu: FC<FileMenuProps> = ({anchorEl, open, handleClose}) => {
 
   const handleSaveDocument = () => {
     dispatch(switchSaveDocument())
+  }
+
+  const handleCreateWorkspace = () => {
+    dispatch(openModal({modalType: 'create-workspace'}))
   }
 
   return (
@@ -32,16 +37,16 @@ const FileMenu: FC<FileMenuProps> = ({anchorEl, open, handleClose}) => {
         >
           <Paper sx={{width: 320}}>
             <MenuList dense>
-              <MenuItem onClick={handleSaveDocument}>Save document</MenuItem>
-              <MenuItem>Create root folder</MenuItem>
+              <MenuItem onClick={handleSaveDocument}>Сохранить документ</MenuItem>
+              <MenuItem onClick={handleCreateWorkspace}>Создать рабочее пространство</MenuItem>
             </MenuList>
           </Paper>
         </Menu>
         :
         <List>
-          <ListItem button onClick={handleSaveDocument}>Save document</ListItem>
+          <ListItem button onClick={handleSaveDocument}>Сохранить документ</ListItem>
           <Divider />
-          <ListItem button >Create root folder</ListItem>
+          <ListItem onClick={handleCreateWorkspace} button >Создать рабочее пространство</ListItem>
           <Divider />
         </List>
       }

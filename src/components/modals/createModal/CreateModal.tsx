@@ -8,7 +8,8 @@ import MenuItem from "@mui/material/MenuItem";
 import useCreateFile from "../../../hooks/CRUD/useCreateFile";
 
 interface CreateModalProps {
-  parentId: string;
+  parentId?: string;
+  parentWorkspaceId: string;
 }
 
 type CreateModalFormType = {
@@ -16,13 +17,13 @@ type CreateModalFormType = {
   type: string;
 }
 
-const CreateModal: FC<CreateModalProps> = ({parentId}) => {
+const CreateModal: FC<CreateModalProps> = ({parentId, parentWorkspaceId}) => {
   const [values, setValues] = useState<CreateModalFormType>({
     title: '',
     type: 'folder'
   })
 
-  const createFile = useCreateFile()
+  const createFile = useCreateFile(parentWorkspaceId)
 
   const handleType = (event: SelectChangeEvent) => {
     setValues(prevState => ({...prevState, type: event.target.value as string}));
@@ -34,7 +35,7 @@ const CreateModal: FC<CreateModalProps> = ({parentId}) => {
 
   const handleSave = async () => {
     try {
-      await createFile(parentId, values.title, values.type)
+      await createFile(values.title, values.type, parentId)
     } catch (e) {
       console.error(e)
     }

@@ -1,16 +1,23 @@
 type Document {
   _id: String
   title: String
+  typeFile: String
   folderPathname: String
+  parentWorkspaceId: String
   parentFolderId: String
   content: String
-  typeFile: String
+}
+
+type Workspace {
+  _id: String
+  title: String
 }
 
 type Folder {
   _id: String
   title: String
   pathname: String
+  parentWorkspaceId: Workspace
   parentFolderId: Folder
   childFoldersIds: [Folder]
   childDocsIds: [Document]
@@ -28,14 +35,39 @@ type Person {
 }
 
 type Query {
+  workspace(_id: String!): Workspace!
+  workspaces(filters: ListWorkspacesInput): [Workspace!]!
+  document(_id: String!): Document!
+  documents(filters: ListDocumentInput): [Document!]!
+  folder(_id: String!): Folder!
+  folders(filters: ListFolderInput): [Folder!]!
   person(_id: String!): Person!
   persons(filters: ListPersonInput): [Person!]!
   hobby(_id: String!): Hobby!
   hobbies(filters: ListHobbyInput): [Hobby!]!
-  folder(_id: String!): Folder!
-  folders(filters: ListFolderInput): [Folder!]!
-  document(_id: String!): Document!
-  documents(filters: ListDocumentInput): [Document!]!
+}
+
+input ListWorkspacesInput {
+  _id: String
+  title: String
+}
+
+input ListDocumentInput {
+  _id: String
+  title: String
+  folderPathname: String
+  content: String
+  typeFile: String
+  parentWorkspaceId: String
+}
+
+input ListFolderInput {
+  _id: String
+  title: String
+  pathname: String
+  childFoldersIds: String
+  parentWorkspaceId: String
+  childDocsIds: String
 }
 
 input ListPersonInput {
@@ -49,37 +81,68 @@ input ListHobbyInput {
   name: String
 }
 
-input ListFolderInput {
-  _id: String
-  title: String
-  pathname: String
-  childFoldersIds: String
-  childDocsIds: String
-}
-
-input ListDocumentInput {
-  _id: String
-  title: String
-  folderPathname: String
-  content: String
-  typeFile: String
-}
-
 type Mutation {
+  createWorkspace(payload: CreateWorkspaceInput!): Workspace!
+  updateWorkspace(payload: UpdateWorkspaceInput!): Workspace!
+  deleteFolder(_id: String!): Folder!
+  createDocument(payload: CreateDocumentInput!): Document!
+  updateDocument(payload: UpdateDocumentInput!): Document!
+  deleteDocument(_id: String!): Document!
+  changeDocumentParent(payload: ChangeParentIdInput!): Document!
+  createFolder(payload: CreateFolderInput!): Folder!
+  updateFolder(payload: UpdateFolderInput!): Folder!
+  changeFolderParent(payload: ChangeParentIdInput!): Folder!
   createPerson(payload: CreatePersonInput!): Person!
   updatePerson(payload: UpdatePersonInput!): Person!
   deletePerson(_id: String!): Person!
   createHobby(payload: CreateHobbyInput!): Hobby!
   updateHobby(payload: UpdateHobbyInput!): Hobby!
   deleteHobby(_id: String!): Hobby!
-  createFolder(payload: CreateFolderInput!): Folder!
-  updateFolder(payload: UpdateFolderInput!): Folder!
-  deleteFolder(_id: String!): Folder!
-  changeFolderParent(payload: ChangeParentIdInput!): Folder!
-  createDocument(payload: CreateDocumentInput!): Document!
-  updateDocument(payload: UpdateDocumentInput!): Document!
-  deleteDocument(_id: String!): Document!
-  changeDocumentParent(payload: ChangeParentIdInput!): Document!
+}
+
+input CreateWorkspaceInput {
+  title: String!
+}
+
+input UpdateWorkspaceInput {
+  _id: String!
+  title: String
+}
+
+input CreateDocumentInput {
+  title: String!
+  parentFolderId: String!
+  typeFile: String!
+  parentWorkspaceId: String!
+}
+
+input UpdateDocumentInput {
+  _id: String!
+  title: String
+  folderPathname: String
+  content: String
+  typeFile: String
+  parentWorkspaceId: String
+}
+
+input ChangeParentIdInput {
+  _id: String!
+  newParentId: String
+}
+
+input CreateFolderInput {
+  title: String!
+  parentFolderId: String!
+  parentWorkspaceId: String!
+}
+
+input UpdateFolderInput {
+  _id: String!
+  title: String
+  pathname: String
+  childFoldersIds: String
+  childDocsIds: String
+  parentWorkspaceId: String
 }
 
 input CreatePersonInput {
@@ -100,36 +163,4 @@ input CreateHobbyInput {
 input UpdateHobbyInput {
   _id: String!
   name: String
-}
-
-input CreateFolderInput {
-  title: String!
-  parentFolderId: String!
-}
-
-input UpdateFolderInput {
-  _id: String!
-  title: String
-  pathname: String
-  childFoldersIds: String
-  childDocsIds: String
-}
-
-input ChangeParentIdInput {
-  _id: String!
-  newParentId: String
-}
-
-input CreateDocumentInput {
-  title: String!
-  parentFolderId: String!
-  typeFile: String!
-}
-
-input UpdateDocumentInput {
-  _id: String!
-  title: String
-  folderPathname: String
-  content: String
-  typeFile: String
 }
