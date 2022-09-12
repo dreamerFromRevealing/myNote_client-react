@@ -15,8 +15,11 @@ import Preloader from "./items/Preloader";
 import MainModal from "../modals/mainModal/MainModal";
 import Workspace from "../treeFiles/workspace/Workspace";
 import {GET_WORKSPACES} from "../../queries/workspace";
+import {Outlet} from "react-router-dom";
 
-const MainLayout: FC<PropsWithChildren> = ({children}) => {
+
+
+const MainLayout: FC<PropsWithChildren> = (props) => {
   const {loading, data} = useQuery(GET_WORKSPACES)
   const [open, setOpen] = useState(true)
 
@@ -42,7 +45,7 @@ const MainLayout: FC<PropsWithChildren> = ({children}) => {
         </MainLayoutLeftSide>
         <MainLayoutRightSide open={open}>
           <MainLayoutHideLeftSideBtn open={open} onClick={handleDrawerSwitch}/>
-          {children}
+          <Outlet />
         </MainLayoutRightSide>
       </MainLayoutRow>
       <Footer/>

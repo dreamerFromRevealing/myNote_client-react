@@ -6,10 +6,13 @@ import {HeaderProps} from "./Header";
 import FileMenu from "./menus/FileMenu";
 import LayoutViewSwitcher from "../items/LayoutViewSwitcher";
 import {Grid} from "@mui/material";
+import {useLocation} from "react-router-dom";
 
 const DesktopHeader: FC<HeaderProps> = ({pages}) => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
+  const {pathname} = useLocation();
+
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
@@ -58,7 +61,7 @@ const DesktopHeader: FC<HeaderProps> = ({pages}) => {
            container
            direction="row-reverse"
          >
-         <LayoutViewSwitcher/>
+           {pathname.includes('/doc/') && <LayoutViewSwitcher/>}
          </Grid>
        </Grid>
       </Grid>

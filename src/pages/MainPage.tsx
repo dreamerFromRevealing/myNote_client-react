@@ -5,9 +5,7 @@ import Note from "../components/note/Note";
 
 const MainPage = () => {
   return (
-      <MainLayout>
-        <Note/>
-      </MainLayout>
+      <></>
   );
 };
 
