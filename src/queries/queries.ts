@@ -7,6 +7,9 @@ export const GET_DOCUMENT = gql`
             title
             content
             typeFile
+            parentWorkspaceId {
+                _id
+            }
         }
     }
 `
@@ -17,6 +20,9 @@ export const GET_FOLDER = gql`
             _id
             title
             pathname
+            parentWorkspaceId {
+                _id
+            }
         }
     }
 `

@@ -10,12 +10,13 @@ import {openModal} from "../../../store/modalSlice/modalSlice";
 interface NodeMenuProps {
   isFolder?: boolean;
   id: string;
+  parentWorkspaceId?: string;
 }
 
-const NodeMenu: FC<NodeMenuProps> = ({isFolder, id}) => {
+const NodeMenu: FC<NodeMenuProps> = ({isFolder, id, parentWorkspaceId}) => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
-  const deleteFile = useDeleteFile()
+  const deleteFile = useDeleteFile(parentWorkspaceId)
   const dispatch = useDispatch()
 
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -30,7 +31,7 @@ const NodeMenu: FC<NodeMenuProps> = ({isFolder, id}) => {
   const handleCreateFile = (e: React.MouseEvent<HTMLElement>, type: string) => {
     dispatch(openModal({
       modalType: 'create',
-      modalProps: {id}
+      modalProps: {id, parentWorkspaceId}
     }))
     handleClose(e);
   };

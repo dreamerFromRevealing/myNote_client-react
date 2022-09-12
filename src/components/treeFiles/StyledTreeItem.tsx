@@ -3,17 +3,18 @@ import {FC} from 'react';
 import Box from '@mui/material/Box';
 import TreeItem, {TreeItemProps} from '@mui/lab/TreeItem';
 import {SvgIconProps} from '@mui/material/SvgIcon';
-import NodeIcon from "./Nodes/NodeIcon";
-import NodeMenu from "./Nodes/NodeMenu";
-import NodeText from "./Nodes/NodeText";
+import NodeIcon from "./nodes/NodeIcon";
+import NodeMenu from "./nodes/NodeMenu";
+import NodeText from "./nodes/NodeText";
 import {useNavigate} from "react-router-dom";
 
-type StyledTreeItemProps = TreeItemProps & {
+export type StyledTreeItemProps = TreeItemProps & {
   bgColor?: string;
   color?: string;
   labelIcon?: React.ElementType<SvgIconProps>;
   labelText: string;
   type?: string;
+  parentWorkspaceId?: string;
 };
 
 const StyledTreeItem: FC<StyledTreeItemProps> = (props) => {
@@ -22,6 +23,7 @@ const StyledTreeItem: FC<StyledTreeItemProps> = (props) => {
     color,
     labelText,
     type,
+    parentWorkspaceId,
     ...other
   } = props;
   const navigate = useNavigate();
@@ -39,7 +41,7 @@ const StyledTreeItem: FC<StyledTreeItemProps> = (props) => {
           <Box sx={{display: 'flex', alignItems: 'center', p: 0.5, pr: 0}}>
             <NodeIcon type={type}/>
             <NodeText labelText={labelText}/>
-            <NodeMenu id={other.nodeId} isFolder/>
+            <NodeMenu parentWorkspaceId={parentWorkspaceId} id={other.nodeId} isFolder/>
           </Box>
         }
         {...other}
@@ -54,7 +56,7 @@ const StyledTreeItem: FC<StyledTreeItemProps> = (props) => {
             <NodeIcon type={type}/>
             <NodeText  labelText={labelText}/>
             </Box>
-            <NodeMenu id={other.nodeId}/>
+            <NodeMenu parentWorkspaceId={parentWorkspaceId} id={other.nodeId}/>
           </Box>
         }
         {...other}

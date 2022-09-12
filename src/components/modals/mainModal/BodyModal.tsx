@@ -10,7 +10,7 @@ const BodyModal = () => {
       case 'edit':
         return <EditModal id={state.modalProps.id} isFolder={state.modalProps.isFolder}/>
       case 'create':
-        return <CreateModal parentId={state.modalProps.id}/>
+        return <CreateModal parentWorkspaceId={state.modalProps.parentWorkspaceId} parentId={state.modalProps.id}/>
       default:
         return null;
     }

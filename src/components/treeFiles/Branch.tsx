@@ -18,23 +18,25 @@ const Branch: FC<BranchProps>  = ({data, openWhenCreateNewNode}) => {
 
   if (Array.isArray(data)) {
     return (
-      <StyledTreeItem type={'Folder'} nodeId={'root'} labelText={'Parent'}>
+      <>
         {Array.isArray(data)
           ? data.map((node: any) => <Branch key={node._id} data={node}/>)
           : null}
-      </StyledTreeItem>
+      </>
     )
   }
+
   if (data.__typename === 'Folder') {
+
   return (
-    <StyledTreeItem type={data.__typename} nodeId={data._id} labelText={data.title || ''}>
+    <StyledTreeItem parentWorkspaceId={data?.parentWorkspaceId?._id} type={data.__typename} nodeId={data._id} labelText={data.title || ''}>
       {(Array.isArray(data.children) && data.children.length > 0)
         ? data.children.map((node: any) => (<Branch key={node._id} data={node}/>))
         : null}
     </StyledTreeItem>
   )} else {
     return (
-      <StyledTreeItem type={data.__typename} nodeId={data._id} labelText={data.title || ''}/>
+      <StyledTreeItem parentWorkspaceId={data?.parentWorkspaceId?._id} type={data.__typename} nodeId={data._id} labelText={data.title || ''}/>
     )
   }
 };

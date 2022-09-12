@@ -6,6 +6,7 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import FormControl from "@mui/material/FormControl";
 import useHandleReqAlert from "../../../hooks/useHandleReqAlert";
+import {GET_TREE_BY_WORKSPACE_ID} from "../../../queries/layout";
 
 export interface EditModalProps {
   id: string;
@@ -16,7 +17,15 @@ const EditModal: FC<EditModalProps> = ({id, isFolder}) => {
   const query = isFolder ? GET_FOLDER : GET_DOCUMENT;
   const mutation = isFolder ? UPDATE_FOLDER : UPDATE_DOCUMENT;
   const {loading, data} = useQuery(query, {variables: {_id: id}})
-  const [updateFile] = useMutation(mutation);
+  const [parentWorkspaceId, setParentWorkspaceId] = useState('')
+
+  const [updateFile] = useMutation(mutation,
+    {
+      refetchQueries: [{
+        query: GET_TREE_BY_WORKSPACE_ID,
+        variables: { parentWorkspaceId: parentWorkspaceId }
+      }]
+    });
   const {callSuccessAlert, callErrorAlert} = useHandleReqAlert()
   const [values, setValues] = useState<any>({
     title: '',
@@ -26,10 +35,12 @@ const EditModal: FC<EditModalProps> = ({id, isFolder}) => {
   useEffect(() => {
     if (!!data) {
       if (isFolder) {
+        setParentWorkspaceId(data.folder.parentWorkspaceId._id)
         setValues({
           title: data.folder.title
         })
       } else {
+        setParentWorkspaceId(data.document.parentWorkspaceId._id)
         setValues({
           title: data.document.title
         })

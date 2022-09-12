@@ -6,7 +6,7 @@ const fileSlice = createSlice({
   initialState: {
     saveDocument: false,
     status: 'Ожидание...',
-    tree: [],
+    tree: {},
   },
   reducers: {
     createFileTree: (state, action) => {
@@ -20,7 +20,8 @@ const fileSlice = createSlice({
       const parseResult = parseData.concat(action.payload.documents)
       // И все полученное отдаем функции для преобразования в дерево
       // тут результат будет банально записыватсья в хранилище
-      state.tree = arrayToTree(parseResult, {parentProperty: 'parentFolderId', customID: '_id'});
+      const tree = arrayToTree(parseResult, {parentProperty: 'parentFolderId', customID: '_id'});
+      state.tree = {...state.tree, [action.payload.title]: tree}
     },
     switchSaveDocument: (state) => {
       state.saveDocument = !state.saveDocument;

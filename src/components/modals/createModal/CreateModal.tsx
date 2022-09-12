@@ -9,6 +9,7 @@ import useCreateFile from "../../../hooks/CRUD/useCreateFile";
 
 interface CreateModalProps {
   parentId: string;
+  parentWorkspaceId: string;
 }
 
 type CreateModalFormType = {
@@ -16,13 +17,13 @@ type CreateModalFormType = {
   type: string;
 }
 
-const CreateModal: FC<CreateModalProps> = ({parentId}) => {
+const CreateModal: FC<CreateModalProps> = ({parentId, parentWorkspaceId}) => {
   const [values, setValues] = useState<CreateModalFormType>({
     title: '',
     type: 'folder'
   })
 
-  const createFile = useCreateFile()
+  const createFile = useCreateFile(parentWorkspaceId)
 
   const handleType = (event: SelectChangeEvent) => {
     setValues(prevState => ({...prevState, type: event.target.value as string}));
