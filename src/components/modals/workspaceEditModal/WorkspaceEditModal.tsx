@@ -1,51 +1,37 @@
 import React, {FC, useEffect, useState} from 'react';
-import {useMutation, useQuery} from "@apollo/client";
-import {GET_DOCUMENT, GET_FOLDER, UPDATE_DOCUMENT, UPDATE_FOLDER} from "../../../queries/queries";
 import {Grid, InputLabel, OutlinedInput} from "@mui/material";
+import FormControl from "@mui/material/FormControl";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import FormControl from "@mui/material/FormControl";
+import {useMutation, useQuery} from "@apollo/client";
+import {GET_WORKSPACE, GET_WORKSPACES, UPDATE_WORKSPACE} from "../../../queries/workspace";
 import useHandleReqAlert from "../../../hooks/useHandleReqAlert";
-import {GET_TREE_BY_WORKSPACE_ID} from "../../../queries/layout";
 
-export interface EditModalProps {
+interface WorkspaceEditModalProps {
   id: string;
-  isFolder: boolean;
 }
 
-const EditModal: FC<EditModalProps> = ({id, isFolder}) => {
-  const query = isFolder ? GET_FOLDER : GET_DOCUMENT;
-  const mutation = isFolder ? UPDATE_FOLDER : UPDATE_DOCUMENT;
-  const {loading, data} = useQuery(query, {variables: {_id: id}})
-  const [parentWorkspaceId, setParentWorkspaceId] = useState('')
+type WorkspaceEditModalFormType = {
+  title: string;
+}
 
-
-  const [updateFile] = useMutation(mutation,
-    {
-      refetchQueries: [{
-        query: GET_TREE_BY_WORKSPACE_ID,
-        variables: { parentWorkspaceId: parentWorkspaceId }
-      }]
-    });
+const WorkspaceEditModal: FC<WorkspaceEditModalProps> = ({id}) => {
   const {callSuccessAlert, callErrorAlert} = useHandleReqAlert()
-  const [values, setValues] = useState<any>({
+  const {data} = useQuery(GET_WORKSPACE, {variables: {_id: id}})
+
+  const [updateWorkspace] = useMutation(UPDATE_WORKSPACE,
+    {
+      refetchQueries: [{query: GET_WORKSPACES}]
+    });
+  const [values, setValues] = useState<WorkspaceEditModalFormType>({
     title: '',
   })
 
-
   useEffect(() => {
     if (!!data) {
-      if (isFolder) {
-        setParentWorkspaceId(data.folder.parentWorkspaceId._id)
-        setValues({
-          title: data.folder.title
-        })
-      } else {
-        setParentWorkspaceId(data.document.parentWorkspaceId._id)
-        setValues({
-          title: data.document.title
-        })
-      }
+      setValues({
+        title: data?.workspace?.title
+      })
     }
   }, [data])
 
@@ -56,10 +42,9 @@ const EditModal: FC<EditModalProps> = ({id, isFolder}) => {
     })
   }
 
-
   const handleSave = async () => {
     try {
-      await updateFile({
+      await updateWorkspace({
         variables: {
           _id: id,
           title: values.title
@@ -71,7 +56,6 @@ const EditModal: FC<EditModalProps> = ({id, isFolder}) => {
       console.error(e)
     }
   }
-
 
   return (
     <>
@@ -90,4 +74,4 @@ const EditModal: FC<EditModalProps> = ({id, isFolder}) => {
   );
 };
 
-export default EditModal;
+export default WorkspaceEditModal;

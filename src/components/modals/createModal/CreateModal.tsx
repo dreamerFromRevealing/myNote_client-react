@@ -8,7 +8,7 @@ import MenuItem from "@mui/material/MenuItem";
 import useCreateFile from "../../../hooks/CRUD/useCreateFile";
 
 interface CreateModalProps {
-  parentId: string;
+  parentId?: string;
   parentWorkspaceId: string;
 }
 
@@ -35,7 +35,7 @@ const CreateModal: FC<CreateModalProps> = ({parentId, parentWorkspaceId}) => {
 
   const handleSave = async () => {
     try {
-      await createFile(parentId, values.title, values.type)
+      await createFile(values.title, values.type, parentId)
     } catch (e) {
       console.error(e)
     }

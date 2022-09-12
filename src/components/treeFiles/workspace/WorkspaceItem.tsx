@@ -10,6 +10,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {createFileTree} from "../../../store/fileSlice/fileSlice";
 import Tree from "../Tree";
 import Preloader from "../../layout/items/Preloader";
+import WorkspaceNodeMenu from "./WorkspaceNodeMenu";
 
 export type WorkspaceItemProps = {
   workspace: {
@@ -42,6 +43,7 @@ const WorkspaceItem: FC<WorkspaceItemProps> = ({workspace, ...other}) => {
           <HexagonIcon sx={{color: '#3e6efc'}}/>
         </ListItemIcon>
         <ListItemText primary={workspace.title}/>
+        <WorkspaceNodeMenu id={workspace._id}/>
       </ListItemButton>
       <Collapse in={open} timeout="auto" unmountOnExit>
         {loading ? <Preloader/> : tree && <Tree data={tree}/>}

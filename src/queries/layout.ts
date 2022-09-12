@@ -56,11 +56,3 @@ export const GET_TREE_BY_WORKSPACE_ID = gql`
     }
 `
 
-export const GET_WORKSPACES = gql`
-    query Workspaces  {
-        workspaces {
-            _id,
-            title
-        }
-    }
-`
