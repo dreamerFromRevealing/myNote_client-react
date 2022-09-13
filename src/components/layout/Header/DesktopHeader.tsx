@@ -4,14 +4,12 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import {HeaderProps} from "./Header";
 import FileMenu from "./menus/FileMenu";
-import LayoutViewSwitcher from "../items/LayoutViewSwitcher";
 import {Grid} from "@mui/material";
-import {useLocation} from "react-router-dom";
+import {Link, useLocation} from "react-router-dom";
 
 const DesktopHeader: FC<HeaderProps> = ({pages}) => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
-  const {pathname} = useLocation();
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
@@ -22,14 +20,16 @@ const DesktopHeader: FC<HeaderProps> = ({pages}) => {
 
   return (
     <>
-      <Typography
-        variant="h6"
-        noWrap
-        component="div"
-        sx={{mr: 2, display: {xs: 'none', md: 'flex'}}}
-      >
-        <img src='/img/sun.svg' width={48} height={48} alt={'sun'}/>
-      </Typography>
+      <Link to='/'>
+        <Typography
+          variant="h6"
+          noWrap
+          component="div"
+          sx={{mr: 2, display: {xs: 'none', md: 'flex'}}}
+        >
+          <img src='/img/sun.svg' width={48} height={48} alt={'sun'}/>
+        </Typography>
+      </Link>
 
       <Grid container sx={{justifyContent: {xs: 'flex-end', sm: 'flex-start'}}}>
         <Grid item xs={6} sx={{display: {xs: 'none', sm: 'flex'}}}>
@@ -61,7 +61,7 @@ const DesktopHeader: FC<HeaderProps> = ({pages}) => {
            container
            direction="row-reverse"
          >
-           {pathname.includes('/doc/') && <LayoutViewSwitcher/>}
+
          </Grid>
        </Grid>
       </Grid>

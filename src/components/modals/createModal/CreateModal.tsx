@@ -56,6 +56,7 @@ const CreateModal: FC<CreateModalProps> = ({parentId, parentWorkspaceId}) => {
             >
               <MenuItem value={'folder'}>Папка</MenuItem>
               <MenuItem value={'default'}>Документ</MenuItem>
+              <MenuItem value={'todo'}>TODO</MenuItem>
             </Select>
           </FormControl>
         </Grid>

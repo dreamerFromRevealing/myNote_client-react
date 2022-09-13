@@ -65,15 +65,15 @@ export const LayoutViewSwitcherWrapper = styled(Grid)`
 
 export const LayoutViewSwitcherBtn = styled(Button)`
   min-width: auto;
-  border-color: #fff;
+  border-color: #556CD6;
   svg { 
-    fill: #fff;
+    fill: #556CD6;
   }
   
   &:hover {
-    background-color: #fff;
+    background-color: #556CD6;
     svg { 
-      fill: #556CD6;
+      fill: #fff;
     }
   }
   `

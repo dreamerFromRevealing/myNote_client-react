@@ -15,6 +15,7 @@ export type StyledTreeItemProps = TreeItemProps & {
   labelText: string;
   type?: string;
   parentWorkspaceId?: string;
+  typeFile?: string;
 };
 
 const StyledTreeItem: FC<StyledTreeItemProps> = (props) => {
@@ -22,6 +23,7 @@ const StyledTreeItem: FC<StyledTreeItemProps> = (props) => {
     bgColor,
     color,
     labelText,
+    typeFile,
     type,
     parentWorkspaceId,
     ...other
@@ -53,7 +55,7 @@ const StyledTreeItem: FC<StyledTreeItemProps> = (props) => {
         label={
           <Box sx={{display: 'flex', alignItems: 'center', p: 0.5, pr: 0}}>
             <Box sx={{display: 'flex', alignItems: 'center', width: 0.9}} onClick={getDocument}>
-            <NodeIcon type={type}/>
+            <NodeIcon typeFile={typeFile} type={type}/>
             <NodeText  labelText={labelText}/>
             </Box>
             <NodeMenu parentWorkspaceId={parentWorkspaceId} id={other.nodeId}/>

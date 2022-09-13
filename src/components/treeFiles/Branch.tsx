@@ -36,7 +36,7 @@ const Branch: FC<BranchProps>  = ({data, openWhenCreateNewNode}) => {
     </StyledTreeItem>
   )} else {
     return (
-      <StyledTreeItem parentWorkspaceId={data?.parentWorkspaceId?._id} type={data.__typename} nodeId={data._id} labelText={data.title || ''}/>
+      <StyledTreeItem typeFile={data.typeFile} parentWorkspaceId={data?.parentWorkspaceId?._id} type={data.__typename} nodeId={data._id} labelText={data.title || ''}/>
     )
   }
 };
