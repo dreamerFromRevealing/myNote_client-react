@@ -13,9 +13,8 @@ export type StyledTreeItemProps = TreeItemProps & {
   color?: string;
   labelIcon?: React.ElementType<SvgIconProps>;
   labelText: string;
-  type?: string;
+  type: string;
   parentWorkspaceId?: string;
-  typeFile?: string;
 };
 
 const StyledTreeItem: FC<StyledTreeItemProps> = (props) => {
@@ -23,7 +22,6 @@ const StyledTreeItem: FC<StyledTreeItemProps> = (props) => {
     bgColor,
     color,
     labelText,
-    typeFile,
     type,
     parentWorkspaceId,
     ...other
@@ -32,7 +30,15 @@ const StyledTreeItem: FC<StyledTreeItemProps> = (props) => {
 
   const getDocument = (e: React.MouseEvent<HTMLElement>) => {
     e.stopPropagation();
-    navigate('/doc/' + other.nodeId)
+    let url = ''
+    switch (type) {
+      case 'Document': url = '/doc/' + other.nodeId
+        break;
+      case 'TodoBoard': url = '/todo/' + other.nodeId
+        break;
+    }
+
+    navigate(url)
   }
 
 
@@ -43,7 +49,7 @@ const StyledTreeItem: FC<StyledTreeItemProps> = (props) => {
           <Box sx={{display: 'flex', alignItems: 'center', p: 0.5, pr: 0}}>
             <NodeIcon type={type}/>
             <NodeText labelText={labelText}/>
-            <NodeMenu parentWorkspaceId={parentWorkspaceId} id={other.nodeId} isFolder/>
+            <NodeMenu parentWorkspaceId={parentWorkspaceId} id={other.nodeId} type={type}/>
           </Box>
         }
         {...other}
@@ -55,10 +61,10 @@ const StyledTreeItem: FC<StyledTreeItemProps> = (props) => {
         label={
           <Box sx={{display: 'flex', alignItems: 'center', p: 0.5, pr: 0}}>
             <Box sx={{display: 'flex', alignItems: 'center', width: 0.9}} onClick={getDocument}>
-            <NodeIcon typeFile={typeFile} type={type}/>
+            <NodeIcon  type={type}/>
             <NodeText  labelText={labelText}/>
             </Box>
-            <NodeMenu parentWorkspaceId={parentWorkspaceId} id={other.nodeId}/>
+            <NodeMenu parentWorkspaceId={parentWorkspaceId} id={other.nodeId} type={type}/>
           </Box>
         }
         {...other}

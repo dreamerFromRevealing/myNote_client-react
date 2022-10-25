@@ -1,22 +1,43 @@
 import React from 'react';
 import {useSelector} from "react-redux";
-import EditModal from "../editModal/EditModal";
-import CreateModal from "../createModal/CreateModal";
-import WorkspaceEditModal from "../workspaceEditModal/WorkspaceEditModal";
-import WorkspaceCreateModal from "../workspaceCreateModal/WorkspaceCreateModal";
+import EditFileModal from "../editModals/editFileModal/EditFileModal";
+import CreateFileModal from "../createModals/createFileModal/CreateFileModal";
+import WorkspaceEditModal from "../editModals/workspaceEditModal/WorkspaceEditModal";
+import WorkspaceCreateModal from "../createModals/workspaceCreateModal/WorkspaceCreateModal";
+import TodoCreateModal from "../createModals/todoCreateModal/TodoCreateModal";
+import TodoEditModal from "../editModals/todoEditModal/TodoEditModal";
 
 
 const BodyModal = () => {
   const state = useSelector((state: any) => state.modal);
+
     switch (state.modalType) {
+      //Edit modals=====================================================================================================
       case 'edit':
-        return <EditModal id={state.modalProps.id} isFolder={state.modalProps.isFolder}/>
+        switch (state.subtype) {
+          case 'file':
+            return <EditFileModal id={state.modalProps.id} type={state.modalProps.type}/>
+          case 'workspace':
+            return <WorkspaceEditModal id={state.modalProps.id}/>
+          case 'todo':
+            return <TodoEditModal id={state.modalProps.id}/>
+          default:
+            return null;
+        }
+      //--------------------------------------------------------------------------------------------------------
+      //Create modals===================================================================================================
       case 'create':
-        return <CreateModal parentWorkspaceId={state.modalProps.parentWorkspaceId} parentId={state.modalProps.id}/>
-      case 'edit-workspace':
-        return <WorkspaceEditModal id={state.modalProps.id}/>
-      case 'create-workspace':
-        return <WorkspaceCreateModal/>
+        switch (state.subtype) {
+          case 'file':
+            return <CreateFileModal parentWorkspaceId={state.modalProps.parentWorkspaceId} parentId={state.modalProps.id}/>
+          case 'workspace':
+            return <WorkspaceCreateModal/>
+          case 'todo':
+            return <TodoCreateModal titleBoard={state.modalProps.title}/>
+          default:
+            return null;
+        }
+      //--------------------------------------------------------------------------------------------------------
       default:
         return null;
     }

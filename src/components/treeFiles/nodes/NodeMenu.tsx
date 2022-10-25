@@ -8,15 +8,15 @@ import {openModal} from "../../../store/modalSlice/modalSlice";
 
 
 interface NodeMenuProps {
-  isFolder?: boolean;
+  type: string;
   id: string;
   parentWorkspaceId?: string;
 }
 
-const NodeMenu: FC<NodeMenuProps> = ({isFolder, id, parentWorkspaceId}) => {
+const NodeMenu: FC<NodeMenuProps> = ({type, id, parentWorkspaceId}) => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
-  const deleteFile = useDeleteFile(parentWorkspaceId)
+  const deleteFile = useDeleteFile(type, parentWorkspaceId)
   const dispatch = useDispatch()
 
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -28,10 +28,11 @@ const NodeMenu: FC<NodeMenuProps> = ({isFolder, id, parentWorkspaceId}) => {
     setAnchorEl(null);
   };
 
-  const handleCreateFile = (e: React.MouseEvent<HTMLElement>, type: string) => {
+  const handleCreateFile = (e: React.MouseEvent<HTMLElement>) => {
     dispatch(openModal({
       modalType: 'create',
-      modalProps: {id, parentWorkspaceId}
+      subtype: 'file',
+      modalProps: {id, parentWorkspaceId, type}
     }))
     handleClose(e);
   };
@@ -39,17 +40,17 @@ const NodeMenu: FC<NodeMenuProps> = ({isFolder, id, parentWorkspaceId}) => {
   const handleEdit = (e: React.MouseEvent<HTMLElement>) => {
     dispatch(openModal({
       modalType: 'edit',
+      subtype: 'file',
       modalProps: {
         id,
-        isFolder
+        type
       }
     }))
     handleClose(e)
   };
 
-
   const handleDelete = (e: React.MouseEvent<HTMLElement>) => {
-    deleteFile(!!isFolder, id)
+    deleteFile(id)
     handleClose(e)
   };
 
@@ -68,7 +69,7 @@ const NodeMenu: FC<NodeMenuProps> = ({isFolder, id, parentWorkspaceId}) => {
         }}
       >
 
-        {isFolder && <MenuItem onClick={e => handleCreateFile(e,'Document')}>Создать</MenuItem>}
+        {type === 'Folder' && <MenuItem onClick={e => handleCreateFile(e)}>Создать</MenuItem>}
         <MenuItem onClick={handleEdit}>Редактировать</MenuItem>
         <MenuItem onClick={handleDelete}>Удалить</MenuItem>
       </Menu>

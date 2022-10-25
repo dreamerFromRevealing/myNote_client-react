@@ -10,11 +10,10 @@ export const UPDATE_DOCUMENT_TITLE = gql`
 `
 
 export const CREATE_NEW_DOCUMENT = gql`
-    mutation CreateDocument ($parentFolderId: String, $title: String!, $typeFile: String!, $parentWorkspaceId: String!){
-        createDocument (payload: {parentFolderId: $parentFolderId, title: $title, typeFile: $typeFile, parentWorkspaceId: $parentWorkspaceId}) {
+    mutation CreateDocument ($parentFolderId: String, $title: String!, $parentWorkspaceId: String!){
+        createDocument (payload: {parentFolderId: $parentFolderId, title: $title, parentWorkspaceId: $parentWorkspaceId}) {
             _id
             title
-            typeFile
         }
     }
 `
@@ -43,3 +42,20 @@ export const DELETE_FOLDER = gql`
         }
     }
 `
+
+export const CREATE_TODO_BOX = gql`
+    mutation CreateTodoBox($title: String!, $parentFolderId: String!, $parentWorkspaceId: String!) {
+        createTodoBox(payload: {title: $title, parentFolderId: $parentFolderId, parentWorkspaceId: $parentWorkspaceId}) {
+            _id
+            title
+        }
+    }
+    `
+
+export const DELETE_TODO_BOX = gql`
+    mutation DeleteTodoBox($_id: String!) {
+        deleteTodoBox(_id: $_id) {
+            _id
+        }
+    }
+    `

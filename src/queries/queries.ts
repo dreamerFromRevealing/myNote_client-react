@@ -6,7 +6,6 @@ export const GET_DOCUMENT = gql`
             _id
             title
             content
-            typeFile
             parentWorkspaceId {
                 _id
             }
@@ -28,12 +27,11 @@ export const GET_FOLDER = gql`
 `
 
 export const UPDATE_DOCUMENT = gql`
-    mutation UpdateDocument ($_id: String!, $content: String, $title: String, $typeFile: String){
-        updateDocument (payload: {_id: $_id, content: $content, title: $title, typeFile: $typeFile}) {
+    mutation UpdateDocument ($_id: String!, $content: String, $title: String){
+        updateDocument (payload: {_id: $_id, content: $content, title: $title}) {
             _id
             title
             content
-            typeFile
         }
     }
 `

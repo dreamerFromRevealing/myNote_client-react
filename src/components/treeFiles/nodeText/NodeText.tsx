@@ -1,27 +1,26 @@
 import React, {FC, useEffect, useRef} from 'react';
 import {NodeTextWrap} from "../styles";
 import {Tooltip} from "@mui/material";
-import useRenameFile from "../../../hooks/CRUD/useRenameFile";
+import useUpdateFile from "../../../hooks/CRUD/useUpdateFile";
 
 interface NodeTextProps {
   title: string,
   rename: boolean,
   onRename: (boolean: boolean) => void,
-  isFolder: boolean,
   id: string,
 }
 
-const NodeText: FC<NodeTextProps> = ({title, rename, onRename, isFolder, id}) => {
+const NodeText: FC<NodeTextProps> = ({title, rename, onRename, id}) => {
   const input = useRef<HTMLInputElement>(null);
   const [name, setName] = React.useState(title);
-  const renameFile = useRenameFile()
+  const renameFile = useUpdateFile('Document')
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setName(e.target.value);
   };
 
   const handleBlur = () => {
     onRename(false);
-    renameFile(isFolder, id, name)
+    renameFile({id, title: name})
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {

@@ -1,26 +1,41 @@
 import React, {FC, useEffect, useState} from 'react';
-import {useMutation, useQuery} from "@apollo/client";
-import {GET_DOCUMENT, GET_FOLDER, UPDATE_DOCUMENT, UPDATE_FOLDER} from "../../../queries/queries";
+import {useLazyQuery, useMutation} from "@apollo/client";
+import {GET_DOCUMENT, GET_FOLDER, UPDATE_DOCUMENT, UPDATE_FOLDER} from "../../../../queries/queries";
 import {Grid, InputLabel, OutlinedInput} from "@mui/material";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import FormControl from "@mui/material/FormControl";
-import useHandleReqAlert from "../../../hooks/useHandleReqAlert";
-import {GET_TREE_BY_WORKSPACE_ID} from "../../../queries/layout";
+import useHandleReqAlert from "../../../../hooks/useHandleReqAlert";
+import {GET_TREE_BY_WORKSPACE_ID} from "../../../../queries/layout";
 
 export interface EditModalProps {
   id: string;
-  isFolder: boolean;
+  type: string;
 }
 
-const EditModal: FC<EditModalProps> = ({id, isFolder}) => {
-  const query = isFolder ? GET_FOLDER : GET_DOCUMENT;
-  const mutation = isFolder ? UPDATE_FOLDER : UPDATE_DOCUMENT;
-  const {loading, data} = useQuery(query, {variables: {_id: id}})
+const EditFileModal: FC<EditModalProps> = ({id, type}) => {
+  const [query, setQuery] = useState<any>({
+    query: GET_FOLDER,
+    mutation: UPDATE_FOLDER
+  });
+
+  const [loadData, {data}] = useLazyQuery(query.query, {variables: {_id: id}})
   const [parentWorkspaceId, setParentWorkspaceId] = useState('')
 
+  useEffect(() => {
+    switch (type) {
+      case 'Document':
+        setQuery({
+          query: GET_DOCUMENT,
+          mutation: UPDATE_DOCUMENT
+        })
+        break;
+    }
 
-  const [updateFile] = useMutation(mutation,
+    loadData()
+  }, [])
+
+  const [updateFile] = useMutation(query.mutation,
     {
       refetchQueries: [{
         query: GET_TREE_BY_WORKSPACE_ID,
@@ -35,16 +50,18 @@ const EditModal: FC<EditModalProps> = ({id, isFolder}) => {
 
   useEffect(() => {
     if (!!data) {
-      if (isFolder) {
-        setParentWorkspaceId(data.folder.parentWorkspaceId._id)
-        setValues({
-          title: data.folder.title
-        })
-      } else {
-        setParentWorkspaceId(data.document.parentWorkspaceId._id)
-        setValues({
-          title: data.document.title
-        })
+      switch (type) {
+        case 'Folder':
+          setParentWorkspaceId(data.folder.parentWorkspaceId._id)
+          setValues({
+            title: data.folder.title
+          })
+          break;
+        case 'Document':
+          setParentWorkspaceId(data.document.parentWorkspaceId._id)
+          setValues({
+            title: data.document.title
+          })
       }
     }
   }, [data])
@@ -90,4 +107,4 @@ const EditModal: FC<EditModalProps> = ({id, isFolder}) => {
   );
 };
 
-export default EditModal;
+export default EditFileModal;

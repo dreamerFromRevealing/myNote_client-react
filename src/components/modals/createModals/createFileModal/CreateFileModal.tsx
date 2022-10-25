@@ -5,7 +5,7 @@ import Box from "@mui/material/Box";
 import {FormControl, InputLabel, OutlinedInput} from '@mui/material';
 import Select, {SelectChangeEvent} from '@mui/material/Select';
 import MenuItem from "@mui/material/MenuItem";
-import useCreateFile from "../../../hooks/CRUD/useCreateFile";
+import useCreateFile from "../../../../hooks/CRUD/useCreateFile";
 
 interface CreateModalProps {
   parentId?: string;
@@ -17,13 +17,13 @@ type CreateModalFormType = {
   type: string;
 }
 
-const CreateModal: FC<CreateModalProps> = ({parentId, parentWorkspaceId}) => {
+const CreateFileModal: FC<CreateModalProps> = ({parentId, parentWorkspaceId}) => {
   const [values, setValues] = useState<CreateModalFormType>({
     title: '',
-    type: 'folder'
+    type: 'Folder'
   })
 
-  const createFile = useCreateFile(parentWorkspaceId)
+  const createFile = useCreateFile(parentWorkspaceId, values.type)
 
   const handleType = (event: SelectChangeEvent) => {
     setValues(prevState => ({...prevState, type: event.target.value as string}));
@@ -35,7 +35,7 @@ const CreateModal: FC<CreateModalProps> = ({parentId, parentWorkspaceId}) => {
 
   const handleSave = async () => {
     try {
-      await createFile(values.title, values.type, parentId)
+      await createFile(values, parentId)
     } catch (e) {
       console.error(e)
     }
@@ -54,9 +54,9 @@ const CreateModal: FC<CreateModalProps> = ({parentId, parentWorkspaceId}) => {
               label="Age"
               onChange={handleType}
             >
-              <MenuItem value={'folder'}>Папка</MenuItem>
-              <MenuItem value={'default'}>Документ</MenuItem>
-              <MenuItem value={'todo'}>TODO</MenuItem>
+              <MenuItem value={'Folder'}>Папка</MenuItem>
+              <MenuItem value={'Document'}>Документ</MenuItem>
+              <MenuItem value={'TodoBox'}>TODO-Box</MenuItem>
             </Select>
           </FormControl>
         </Grid>
@@ -74,4 +74,4 @@ const CreateModal: FC<CreateModalProps> = ({parentId, parentWorkspaceId}) => {
   );
 };
 
-export default CreateModal;
+export default CreateFileModal;

@@ -1,39 +1,25 @@
-import React, {FC, useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {Grid, InputLabel, OutlinedInput} from "@mui/material";
 import FormControl from "@mui/material/FormControl";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import {useMutation, useQuery} from "@apollo/client";
-import {GET_WORKSPACE, GET_WORKSPACES, UPDATE_WORKSPACE} from "../../../queries/workspace";
-import useHandleReqAlert from "../../../hooks/useHandleReqAlert";
+import {useMutation} from "@apollo/client";
+import {CREATE_WORKSPACE, GET_WORKSPACES} from "../../../../queries/workspace";
+import useHandleReqAlert from "../../../../hooks/useHandleReqAlert";
 
-interface WorkspaceEditModalProps {
-  id: string;
-}
-
-type WorkspaceEditModalFormType = {
+type WorkspaceCreateModalFormType = {
   title: string;
 }
 
-const WorkspaceEditModal: FC<WorkspaceEditModalProps> = ({id}) => {
+const WorkspaceCreateModal = () => {
   const {callSuccessAlert, callErrorAlert} = useHandleReqAlert()
-  const {data} = useQuery(GET_WORKSPACE, {variables: {_id: id}})
-
-  const [updateWorkspace] = useMutation(UPDATE_WORKSPACE,
+  const [createWorkspace] = useMutation(CREATE_WORKSPACE,
     {
       refetchQueries: [{query: GET_WORKSPACES}]
     });
-  const [values, setValues] = useState<WorkspaceEditModalFormType>({
+  const [values, setValues] = useState<WorkspaceCreateModalFormType>({
     title: '',
   })
-
-  useEffect(() => {
-    if (!!data) {
-      setValues({
-        title: data?.workspace?.title
-      })
-    }
-  }, [data])
 
   const handleTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
     setValues({
@@ -44,9 +30,8 @@ const WorkspaceEditModal: FC<WorkspaceEditModalProps> = ({id}) => {
 
   const handleSave = async () => {
     try {
-      await updateWorkspace({
+      await createWorkspace({
         variables: {
-          _id: id,
           title: values.title
         }
       })
@@ -68,10 +53,10 @@ const WorkspaceEditModal: FC<WorkspaceEditModalProps> = ({id}) => {
         </Grid>
       </Grid>
       <Box sx={{display: 'flex', justifyContent: 'flex-end'}}>
-        <Button onClick={handleSave} variant="outlined">Сохранить</Button>
+        <Button onClick={handleSave} variant="outlined">Создать</Button>
       </Box>
     </>
   );
 };
 
-export default WorkspaceEditModal;
+export default WorkspaceCreateModal;

@@ -8,6 +8,7 @@ import { Provider } from 'react-redux'
 import store from "./store/store";
 import {ThemeProvider} from "@mui/material";
 import theme from "./theme";
+import 'swiper/css';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
