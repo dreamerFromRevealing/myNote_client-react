@@ -1,11 +1,9 @@
-import React, {FC} from 'react';
-import MoreVertIcon from "@mui/icons-material/MoreVert";
-import {Menu, MenuItem} from "@mui/material";
+import React, {FC, useState} from 'react';
+import {MenuItem} from "@mui/material";
 import useDeleteFile from "../../../hooks/CRUD/useDeleteFile";
 import {useDispatch} from "react-redux";
-import Box from "@mui/material/Box";
 import {openModal} from "../../../store/modalSlice/modalSlice";
-
+import LayoutNodeMenu from "../../layout/layoutNodeMenu/LayoutNodeMenu";
 
 interface NodeMenuProps {
   type: string;
@@ -14,19 +12,9 @@ interface NodeMenuProps {
 }
 
 const NodeMenu: FC<NodeMenuProps> = ({type, id, parentWorkspaceId}) => {
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-  const open = Boolean(anchorEl);
   const deleteFile = useDeleteFile(type, parentWorkspaceId)
   const dispatch = useDispatch()
-
-  const handleClick = (event: React.MouseEvent<HTMLElement>) => {
-    event.stopPropagation()
-    setAnchorEl(event.currentTarget);
-  };
-  const handleClose = (e: any) => {
-     e.stopPropagation()
-    setAnchorEl(null);
-  };
+  const [close, setClose] = useState<any>(false)
 
   const handleCreateFile = (e: React.MouseEvent<HTMLElement>) => {
     dispatch(openModal({
@@ -34,7 +22,7 @@ const NodeMenu: FC<NodeMenuProps> = ({type, id, parentWorkspaceId}) => {
       subtype: 'file',
       modalProps: {id, parentWorkspaceId, type}
     }))
-    handleClose(e);
+    setClose(e);
   };
 
   const handleEdit = (e: React.MouseEvent<HTMLElement>) => {
@@ -46,34 +34,21 @@ const NodeMenu: FC<NodeMenuProps> = ({type, id, parentWorkspaceId}) => {
         type
       }
     }))
-    handleClose(e)
+    setClose(e)
   };
 
   const handleDelete = (e: React.MouseEvent<HTMLElement>) => {
     deleteFile(id)
-    handleClose(e)
+    setClose(e)
   };
 
   return (
-    <div>
-      <Box sx={{display: 'flex', alignItems: 'center'}} onClick={handleClick}>
-        <MoreVertIcon/>
-      </Box>
-      <Menu
-        id="basic-menu"
-        anchorEl={anchorEl}
-        open={open}
-        onClose={e => handleClose(e)}
-        MenuListProps={{
-          'aria-labelledby': 'basic-button',
-        }}
-      >
+    <LayoutNodeMenu close={close}>
+      {type === 'Folder'  && <MenuItem onClick={e => handleCreateFile(e)}>Создать</MenuItem>}
+      <MenuItem onClick={handleEdit}>Редактировать</MenuItem>
+      <MenuItem onClick={handleDelete}>Удалить</MenuItem>
+    </LayoutNodeMenu>
 
-        {type === 'Folder'  && <MenuItem onClick={e => handleCreateFile(e)}>Создать</MenuItem>}
-        <MenuItem onClick={handleEdit}>Редактировать</MenuItem>
-        <MenuItem onClick={handleDelete}>Удалить</MenuItem>
-      </Menu>
-    </div>
   );
 };
 
