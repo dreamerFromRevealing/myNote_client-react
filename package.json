@@ -56,7 +56,8 @@
     ]
   },
   "devDependencies": {
-    "@craco/craco": "latest",
+    "@craco/craco": "^7.0.0-alpha.0",
+    "@svgr/webpack": "^6.5.0",
     "@types/node": "latest",
     "@types/react": "latest",
     "@types/react-dom": "latest",
@@ -64,6 +65,9 @@
     "craco-alias": "^3.0.1",
     "react-scripts": "^5.0.1",
     "typescript": "latest"
+  },
+  "overrides": {
+    "@svgr/webpack": "$@svgr/webpack"
   },
   "eslintConfig": {
     "extends": [

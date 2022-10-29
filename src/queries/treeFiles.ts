@@ -44,7 +44,7 @@ export const DELETE_FOLDER = gql`
 `
 
 export const CREATE_TODO_BOX = gql`
-    mutation CreateTodoBox($title: String!, $parentFolderId: String!, $parentWorkspaceId: String!) {
+    mutation CreateTodoBox($title: String!, $parentFolderId: String, $parentWorkspaceId: String!) {
         createTodoBox(payload: {title: $title, parentFolderId: $parentFolderId, parentWorkspaceId: $parentWorkspaceId}) {
             _id
             title

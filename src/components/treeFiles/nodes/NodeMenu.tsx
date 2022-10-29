@@ -69,7 +69,7 @@ const NodeMenu: FC<NodeMenuProps> = ({type, id, parentWorkspaceId}) => {
         }}
       >
 
-        {type === 'Folder' && <MenuItem onClick={e => handleCreateFile(e)}>Создать</MenuItem>}
+        {type === 'Folder'  && <MenuItem onClick={e => handleCreateFile(e)}>Создать</MenuItem>}
         <MenuItem onClick={handleEdit}>Редактировать</MenuItem>
         <MenuItem onClick={handleDelete}>Удалить</MenuItem>
       </Menu>
