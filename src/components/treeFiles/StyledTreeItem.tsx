@@ -4,7 +4,7 @@ import Box from '@mui/material/Box';
 import TreeItem, {TreeItemProps} from '@mui/lab/TreeItem';
 import {SvgIconProps} from '@mui/material/SvgIcon';
 import NodeIcon from "./nodes/NodeIcon";
-import NodeMenu from "./nodes/NodeMenu";
+import NodeMenu from "./nodes/nodeMenu/NodeMenu";
 import NodeText from "./nodes/NodeText";
 import {useNavigate} from "react-router-dom";
 

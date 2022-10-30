@@ -1,9 +1,8 @@
 import React, {FC, useState} from 'react';
-import {MenuItem} from "@mui/material";
-import useDeleteFile from "../../../hooks/CRUD/useDeleteFile";
+import useDeleteFile from "../../../../hooks/CRUD/useDeleteFile";
 import {useDispatch} from "react-redux";
-import {openModal} from "../../../store/modalSlice/modalSlice";
-import LayoutNodeMenu from "../../layout/layoutNodeMenu/LayoutNodeMenu";
+import {openModal} from "../../../../store/modalSlice/modalSlice";
+import ItemsNodeMenu from "./ItemsNodeMenu";
 
 interface NodeMenuProps {
   type: string;
@@ -39,16 +38,18 @@ const NodeMenu: FC<NodeMenuProps> = ({type, id, parentWorkspaceId}) => {
 
   const handleDelete = (e: React.MouseEvent<HTMLElement>) => {
     deleteFile(id)
-    setClose(e)
+      .then(() => setClose(e))
+      .catch(e => console.log(e))
   };
 
   return (
-    <LayoutNodeMenu close={close}>
-      {type === 'Folder'  && <MenuItem onClick={e => handleCreateFile(e)}>Создать</MenuItem>}
-      <MenuItem onClick={handleEdit}>Редактировать</MenuItem>
-      <MenuItem onClick={handleDelete}>Удалить</MenuItem>
-    </LayoutNodeMenu>
-
+    <ItemsNodeMenu
+      close={close}
+      type={type}
+      handleCreateFile={handleCreateFile}
+      handleEdit={handleEdit}
+      handleDelete={handleDelete}
+    />
   );
 };
 
