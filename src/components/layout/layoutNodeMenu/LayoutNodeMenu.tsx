@@ -4,7 +4,7 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 import {Menu} from "@mui/material";
 
 interface LayoutNodeMenuProps {
-  children: JSX.Element | JSX.Element[] | false
+  children: React.ReactNode[] | false
   close: any
 }
 
