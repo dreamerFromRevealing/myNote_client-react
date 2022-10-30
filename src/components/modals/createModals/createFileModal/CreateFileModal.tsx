@@ -6,6 +6,7 @@ import {FormControl, InputLabel, OutlinedInput} from '@mui/material';
 import Select, {SelectChangeEvent} from '@mui/material/Select';
 import MenuItem from "@mui/material/MenuItem";
 import useCreateFile from "../../../../hooks/CRUD/useCreateFile";
+import Preloader from "../../../layout/items/Preloader";
 
 interface CreateModalProps {
   parentId?: string;
@@ -23,7 +24,7 @@ const CreateFileModal: FC<CreateModalProps> = ({parentId, parentWorkspaceId}) =>
     type: 'Folder'
   })
 
-  const createFile = useCreateFile(parentWorkspaceId, values.type)
+  const [createFile, loading] = useCreateFile(parentWorkspaceId, values.type)
 
   const handleType = (event: SelectChangeEvent) => {
     setValues(prevState => ({...prevState, type: event.target.value as string}));
@@ -40,7 +41,7 @@ const CreateFileModal: FC<CreateModalProps> = ({parentId, parentWorkspaceId}) =>
       console.error(e)
     }
   }
-
+  if (loading) return <Preloader/>
   return (
     <>
       <Grid spacing={3} sx={{mb: 2}} container>

@@ -29,7 +29,7 @@ const WorkspaceNodeMenu: FC<WorkspaceNodeMenuProps> = ({id}) => {
   const handleCreateFile = (e: React.MouseEvent<HTMLElement>, type: string) => {
     dispatch(openModal({
       modalType: 'create',
-      subtype: 'file',
+      subtype: 'Document',
       modalProps: {id: null, parentWorkspaceId: id}
     }))
     handleClose(e);
@@ -38,7 +38,7 @@ const WorkspaceNodeMenu: FC<WorkspaceNodeMenuProps> = ({id}) => {
   const handleEdit = (e: React.MouseEvent<HTMLElement>) => {
     dispatch(openModal({
       modalType: 'edit',
-      subtype: 'workspace',
+      subtype: 'Workspace',
       modalProps: {id}
     }))
     handleClose(e)

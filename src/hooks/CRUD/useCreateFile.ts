@@ -10,7 +10,7 @@ type dataType = {
   parentFolderId?: string
 }
 
-const useCreateFile = (parentWorkspaceId?: string, type?: string) => {
+const useCreateFile = (parentWorkspaceId?: string, type?: string): [Function, boolean] => {
   const callAlert = useAlert();
   const [mutation, setMutation] = useState<any>(CREATE_NEW_FOLDER);
 
@@ -31,7 +31,7 @@ const useCreateFile = (parentWorkspaceId?: string, type?: string) => {
     }
   }, [type])
 
-  const [createHandler] = useMutation(mutation, {
+  const [createHandler, {loading}] = useMutation(mutation, {
     refetchQueries: [{
       query: GET_TREE_BY_WORKSPACE_ID,
       variables: {parentWorkspaceId}
@@ -41,7 +41,7 @@ const useCreateFile = (parentWorkspaceId?: string, type?: string) => {
   /**
    * Надо сдлеать более универсальной получения данных здесь
    */
-  return async (payload: any, parentId?: string,) => {
+  const createFile = async (payload: any, parentId?: string,) => {
 
     let data: dataType = {...payload}
     if (parentId) data.parentFolderId = parentId
@@ -53,6 +53,9 @@ const useCreateFile = (parentWorkspaceId?: string, type?: string) => {
       callAlert('Ошибка создания файла!', 'error');
     }
   }
+
+
+  return [createFile, loading]
 }
 
 export default useCreateFile

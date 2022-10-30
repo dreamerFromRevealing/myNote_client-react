@@ -60,6 +60,9 @@ export const GET_TREE_BY_WORKSPACE_ID = gql`
         todoBoxes(filters: {parentWorkspaceId: $parentWorkspaceId}){
             _id
             title
+            parentWorkspaceId {
+                _id
+            }
             childTodoBoardIds {
                 _id
                 title

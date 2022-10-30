@@ -7,6 +7,7 @@ import Button from "@mui/material/Button";
 import FormControl from "@mui/material/FormControl";
 import useHandleReqAlert from "../../../../hooks/useHandleReqAlert";
 import {GET_TREE_BY_WORKSPACE_ID} from "../../../../queries/layout";
+import Preloader from "../../../layout/items/Preloader";
 
 export interface EditModalProps {
   id: string;
@@ -35,7 +36,7 @@ const EditFileModal: FC<EditModalProps> = ({id, type}) => {
     loadData()
   }, [])
 
-  const [updateFile] = useMutation(query.mutation,
+  const [updateFile, {loading}] = useMutation(query.mutation,
     {
       refetchQueries: [{
         query: GET_TREE_BY_WORKSPACE_ID,
@@ -89,6 +90,7 @@ const EditFileModal: FC<EditModalProps> = ({id, type}) => {
     }
   }
 
+  if (loading) return <Preloader/>
 
   return (
     <>

@@ -18,7 +18,11 @@ const Tree: FC<TreeProps> = ({data}) => {
   const [expanded, setExpanded] = React.useState<string[]>([]);
 
   const handleToggle = (event: React.SyntheticEvent, nodeIds: string[]) => {
-    setExpanded(nodeIds);
+    const target = event.target as Element;
+
+    if (target.nodeName !== 'LI' ) {
+      setExpanded(nodeIds);
+    }
   };
 
   const openWhenCreateNewNode = (id: string) => {

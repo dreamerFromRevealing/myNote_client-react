@@ -6,6 +6,7 @@ import Button from "@mui/material/Button";
 import {useMutation, useQuery} from "@apollo/client";
 import {GET_WORKSPACE, GET_WORKSPACES, UPDATE_WORKSPACE} from "../../../../queries/workspace";
 import useHandleReqAlert from "../../../../hooks/useHandleReqAlert";
+import Preloader from "../../../layout/items/Preloader";
 
 interface WorkspaceEditModalProps {
   id: string;
@@ -19,7 +20,7 @@ const WorkspaceEditModal: FC<WorkspaceEditModalProps> = ({id}) => {
   const {callSuccessAlert, callErrorAlert} = useHandleReqAlert()
   const {data} = useQuery(GET_WORKSPACE, {variables: {_id: id}})
 
-  const [updateWorkspace] = useMutation(UPDATE_WORKSPACE,
+  const [updateWorkspace, {loading}] = useMutation(UPDATE_WORKSPACE,
     {
       refetchQueries: [{query: GET_WORKSPACES}]
     });
@@ -57,6 +58,7 @@ const WorkspaceEditModal: FC<WorkspaceEditModalProps> = ({id}) => {
     }
   }
 
+  if (loading) return <Preloader/>
   return (
     <>
       <Grid spacing={3} sx={{mb: 2}} container>

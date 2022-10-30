@@ -4,7 +4,7 @@ import {CREATE_NEW_FOLDER, DELETE_DOCUMENT, DELETE_FOLDER, DELETE_TODO_BOX} from
 import {GET_TREE, GET_TREE_BY_WORKSPACE_ID} from "../../queries/layout";
 import {useEffect, useState} from "react";
 
-const useDeleteFile = (type: string, parentWorkspaceId?: string) => {
+const useDeleteFile = (type: string, parentWorkspaceId?: string): [Function, boolean, any] => {
   const callAlert = useAlert();
   const [mutation, setMutation] = useState<any>(DELETE_FOLDER);
 
@@ -22,14 +22,15 @@ const useDeleteFile = (type: string, parentWorkspaceId?: string) => {
     }
   }, [type])
 
-  const [deleteHandler] = useMutation(mutation, {
+  const [deleteHandler, {loading, data}] = useMutation(mutation, {
     refetchQueries: [{
       query: GET_TREE_BY_WORKSPACE_ID,
       variables: {parentWorkspaceId}
     }]
   });
 
-  return async (id: string) => {
+
+  const deleteFile = async (id: string) => {
     try {
       await deleteHandler({variables: {_id: id}});
       callAlert('File deleted successfully', 'success');
@@ -38,6 +39,8 @@ const useDeleteFile = (type: string, parentWorkspaceId?: string) => {
       callAlert('Error deleting file, please try again later!', 'error')
     }
   }
+
+  return [deleteFile, loading, data]
 }
 
 export default useDeleteFile

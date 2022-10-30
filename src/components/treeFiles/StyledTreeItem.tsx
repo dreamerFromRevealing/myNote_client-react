@@ -49,7 +49,7 @@ const StyledTreeItem: FC<StyledTreeItemProps> = (props) => {
           <Box sx={{display: 'flex', alignItems: 'center', p: 0.5, pr: 0}}>
             <NodeIcon type={type}/>
             <NodeText labelText={labelText}/>
-            <NodeMenu parentWorkspaceId={parentWorkspaceId} id={other.nodeId} type={type}/>
+            <NodeMenu name={labelText} parentWorkspaceId={parentWorkspaceId} id={other.nodeId} type={type}/>
           </Box>
         }
         {...other}
@@ -64,7 +64,7 @@ const StyledTreeItem: FC<StyledTreeItemProps> = (props) => {
             <NodeIcon  type={type}/>
             <NodeText  labelText={labelText}/>
             </Box>
-            <NodeMenu parentWorkspaceId={parentWorkspaceId} id={other.nodeId} type={type}/>
+            <NodeMenu name={labelText} parentWorkspaceId={parentWorkspaceId} id={other.nodeId} type={type}/>
           </Box>
         }
         {...other}

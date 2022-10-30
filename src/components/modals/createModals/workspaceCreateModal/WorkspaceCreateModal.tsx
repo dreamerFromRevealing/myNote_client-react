@@ -6,6 +6,7 @@ import Button from "@mui/material/Button";
 import {useMutation} from "@apollo/client";
 import {CREATE_WORKSPACE, GET_WORKSPACES} from "../../../../queries/workspace";
 import useHandleReqAlert from "../../../../hooks/useHandleReqAlert";
+import Preloader from "../../../layout/items/Preloader";
 
 type WorkspaceCreateModalFormType = {
   title: string;
@@ -13,7 +14,7 @@ type WorkspaceCreateModalFormType = {
 
 const WorkspaceCreateModal = () => {
   const {callSuccessAlert, callErrorAlert} = useHandleReqAlert()
-  const [createWorkspace] = useMutation(CREATE_WORKSPACE,
+  const [createWorkspace, {loading}] = useMutation(CREATE_WORKSPACE,
     {
       refetchQueries: [{query: GET_WORKSPACES}]
     });
@@ -42,6 +43,7 @@ const WorkspaceCreateModal = () => {
     }
   }
 
+  if (loading) return <Preloader/>
   return (
     <>
       <Grid spacing={3} sx={{mb: 2}} container>
