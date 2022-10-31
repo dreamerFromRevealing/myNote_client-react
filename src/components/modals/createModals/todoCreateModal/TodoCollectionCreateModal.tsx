@@ -5,21 +5,26 @@ import {FormControl, InputLabel, OutlinedInput} from "@mui/material";
 import MenuItem from "@mui/material/MenuItem";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import {TodoCreateModalFormType} from "../../createModals/todoCreateModal/TodoCreateModal";
 
-interface TodoEditModalProps {
-  id: string;
+interface TodoCreateModalProps {
+  titleBoard: string;
 }
 
-const TodoEditModal: FC<TodoEditModalProps> = ({id}) => {
+export type TodoCreateModalFormType = {
+  titleBoard: string;
+  title: string;
+  description: string;
+}
+
+const TodoCollectionCreateModal: FC<TodoCreateModalProps> = ({titleBoard}) => {
   const [values, setValues] = useState<TodoCreateModalFormType>({
-  titleBoard: '',
-  title: '',
-  description: ''
-})
+    titleBoard: '',
+    title: '',
+    description: ''
+  })
 
   useEffect(() => {
-  // инициализация полученой по id задачи в values
+    setValues(prevState => ({...prevState, titleBoard}))
   }, [])
 
   const handleType = (event: SelectChangeEvent) => {
@@ -86,4 +91,4 @@ const TodoEditModal: FC<TodoEditModalProps> = ({id}) => {
   );
 };
 
-export default TodoEditModal;
+export default TodoCollectionCreateModal;

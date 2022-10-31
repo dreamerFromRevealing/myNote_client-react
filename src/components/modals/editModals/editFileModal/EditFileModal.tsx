@@ -15,6 +15,7 @@ export interface EditModalProps {
 }
 
 const EditFileModal: FC<EditModalProps> = ({id, type}) => {
+  //Это значения по умолчанию
   const [query, setQuery] = useState<any>({
     query: GET_FOLDER,
     mutation: UPDATE_FOLDER
@@ -23,6 +24,7 @@ const EditFileModal: FC<EditModalProps> = ({id, type}) => {
   const [loadData, {data}] = useLazyQuery(query.query, {variables: {_id: id}})
   const [parentWorkspaceId, setParentWorkspaceId] = useState('')
 
+  // А это они меняються если приходит другой тип
   useEffect(() => {
     switch (type) {
       case 'Document':

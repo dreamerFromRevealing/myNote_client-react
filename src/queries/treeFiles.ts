@@ -50,7 +50,7 @@ export const CREATE_TODO_BOX = gql`
             title
         }
     }
-    `
+`
 
 export const DELETE_TODO_BOX = gql`
     mutation DeleteTodoBox($_id: String!) {
@@ -58,4 +58,13 @@ export const DELETE_TODO_BOX = gql`
             _id
         }
     }
-    `
+`
+
+export const UPDATE_TODO_BOX = gql`
+    mutation UpdateTodoBox($_id: String!, $title: String, $parentWorkspaceId: String, $parentFolderId: String, $childTodoBoardIds: String) {
+        updateTodoBox(payload: {_id: $_id, title: $title, parentWorkspaceId: $parentWorkspaceId, parentFolderId: $parentFolderId, childTodoBoardIds: $childTodoBoardIds}) {
+            _id
+        }
+    }
+`
+

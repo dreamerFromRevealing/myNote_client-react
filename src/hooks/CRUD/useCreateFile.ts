@@ -4,12 +4,6 @@ import {GET_TREE, GET_TREE_BY_WORKSPACE_ID} from "../../queries/layout";
 import useAlert from "../useAlert";
 import {useEffect, useState } from "react";
 
-type dataType = {
-  title: string,
-  parentWorkspaceId?: string,
-  parentFolderId?: string
-}
-
 const useCreateFile = (parentWorkspaceId?: string, type?: string): [Function, boolean] => {
   const callAlert = useAlert();
   const [mutation, setMutation] = useState<any>(CREATE_NEW_FOLDER);
@@ -43,7 +37,7 @@ const useCreateFile = (parentWorkspaceId?: string, type?: string): [Function, bo
    */
   const createFile = async (payload: any, parentId?: string,) => {
 
-    let data: dataType = {...payload}
+    let data: any = {...payload}
     if (parentId) data.parentFolderId = parentId
     try {
       await createHandler({variables: {...data, parentWorkspaceId}});
