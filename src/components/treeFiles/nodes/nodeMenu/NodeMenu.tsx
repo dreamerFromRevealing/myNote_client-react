@@ -29,7 +29,8 @@ const NodeMenu: FC<NodeMenuProps> = ({type, id, parentWorkspaceId, name}) => {
       subtype: type,
       modalProps: {
         id,
-        type
+        type,
+        parentWorkspaceId
       }
     }))
     setClose(e)

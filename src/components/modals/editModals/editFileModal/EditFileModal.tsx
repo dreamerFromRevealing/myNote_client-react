@@ -1,73 +1,44 @@
 import React, {FC, useEffect, useState} from 'react';
-import {useLazyQuery, useMutation} from "@apollo/client";
-import {GET_DOCUMENT, GET_FOLDER, UPDATE_DOCUMENT, UPDATE_FOLDER} from "../../../../queries/queries";
 import {Grid, InputLabel, OutlinedInput} from "@mui/material";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import FormControl from "@mui/material/FormControl";
-import useHandleReqAlert from "../../../../hooks/useHandleReqAlert";
-import {GET_TREE_BY_WORKSPACE_ID} from "../../../../queries/layout";
 import Preloader from "../../../layout/items/Preloader";
+import useUpdateFile from "../../../../hooks/CRUD/useUpdateFile";
 
 export interface EditModalProps {
   id: string;
   type: string;
+  parentWorkspaceId: string;
 }
 
-const EditFileModal: FC<EditModalProps> = ({id, type}) => {
-  //Это значения по умолчанию
-  const [query, setQuery] = useState<any>({
-    query: GET_FOLDER,
-    mutation: UPDATE_FOLDER
-  });
-
-  const [loadData, {data}] = useLazyQuery(query.query, {variables: {_id: id}})
-  const [parentWorkspaceId, setParentWorkspaceId] = useState('')
-
-  // А это они меняються если приходит другой тип
-  useEffect(() => {
-    switch (type) {
-      case 'Document':
-        setQuery({
-          query: GET_DOCUMENT,
-          mutation: UPDATE_DOCUMENT
-        })
-        break;
-    }
-
-    loadData()
-  }, [])
-
-  const [updateFile, {loading}] = useMutation(query.mutation,
-    {
-      refetchQueries: [{
-        query: GET_TREE_BY_WORKSPACE_ID,
-        variables: { parentWorkspaceId: parentWorkspaceId }
-      }]
-    });
-  const {callSuccessAlert, callErrorAlert} = useHandleReqAlert()
+const EditFileModal: FC<EditModalProps> = ({id, type, parentWorkspaceId}) => {
+  const [handleUpdate, loading, currentData] = useUpdateFile(id, type, parentWorkspaceId)
   const [values, setValues] = useState<any>({
     title: '',
   })
 
 
   useEffect(() => {
-    if (!!data) {
+    if (!!currentData) {
       switch (type) {
         case 'Folder':
-          setParentWorkspaceId(data.folder.parentWorkspaceId._id)
           setValues({
-            title: data.folder.title
+            title: currentData.folder.title
           })
           break;
         case 'Document':
-          setParentWorkspaceId(data.document.parentWorkspaceId._id)
           setValues({
-            title: data.document.title
+            title: currentData.document.title
+          })
+          break;
+          case 'TodoBox':
+          setValues({
+            title: currentData.todoBox.title
           })
       }
     }
-  }, [data])
+  }, [currentData])
 
   const handleTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
     setValues({
@@ -76,21 +47,10 @@ const EditFileModal: FC<EditModalProps> = ({id, type}) => {
     })
   }
 
-
-  const handleSave = async () => {
-    try {
-      await updateFile({
-        variables: {
-          _id: id,
-          title: values.title
-        }
-      })
-      callSuccessAlert('Изменения сохранены')
-    } catch (e) {
-      callErrorAlert('Ошибка при сохранении')
-      console.error(e)
-    }
+  const handleSave = () => {
+    handleUpdate(values)
   }
+
 
   if (loading) return <Preloader/>
 

@@ -8,7 +8,7 @@ import MenuItem from "@mui/material/MenuItem";
 import useCreateFile from "../../../../hooks/CRUD/useCreateFile";
 import Preloader from "../../../layout/items/Preloader";
 
-interface CreateModalProps {
+export interface CreateModalProps {
   parentId?: string;
   parentWorkspaceId: string;
 }

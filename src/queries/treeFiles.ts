@@ -68,3 +68,11 @@ export const UPDATE_TODO_BOX = gql`
     }
 `
 
+export const CREATE_TODO_BOARD = gql`
+    mutation CreateTodoBoard($title: String!, $parentTodoBoxId: String!) {
+        createTodoBoard(payload: {title: $title, parentTodoBoxId: $parentTodoBoxId}) {
+            _id
+            title
+        }
+    }
+`

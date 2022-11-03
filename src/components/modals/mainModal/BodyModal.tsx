@@ -5,7 +5,7 @@ import CreateFileModal from "../createModals/createFileModal/CreateFileModal";
 import WorkspaceEditModal from "../editModals/workspaceEditModal/WorkspaceEditModal";
 import WorkspaceCreateModal from "../createModals/workspaceCreateModal/WorkspaceCreateModal";
 import DeleteModal from "../deleteModal/DeleteModal";
-import {TodoBoxCreateModal} from '../createModals/todoCreateModal/TodoBoxCreateModal';
+import TodoBoardCreateModal from "../createModals/todoCreateModal/TodoBoardCreateModal";
 
 const BodyModal = () => {
   const state = useSelector((state: any) => state.modal);
@@ -14,9 +14,10 @@ const BodyModal = () => {
     //Edit modals=====================================================================================================
     case 'edit':
       switch (state.subtype) {
+        case 'TodoBox':
         case 'Folder':
         case 'Document':
-          return <EditFileModal id={state.modalProps.id} type={state.modalProps.type}/>
+          return <EditFileModal parentWorkspaceId={state.modalProps.parentWorkspaceId} id={state.modalProps.id} type={state.modalProps.type}/>
         case 'Workspace':
           return <WorkspaceEditModal id={state.modalProps.id}/>
         default:
@@ -32,7 +33,8 @@ const BodyModal = () => {
         case 'Workspace':
           return <WorkspaceCreateModal/>
         case 'TodoBox':
-          return <TodoBoxCreateModal/>
+          return  <TodoBoardCreateModal parentWorkspaceId={state.modalProps.parentWorkspaceId}
+                                        parentId={state.modalProps.id}/>
         default:
           return null;
       }

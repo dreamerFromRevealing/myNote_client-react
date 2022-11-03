@@ -44,3 +44,21 @@ export const UPDATE_FOLDER = gql`
         }
     }
 `
+
+export const GET_TODO_BOX = gql`
+      query TodoBox ($_id: String!){
+        todoBox (_id: $_id) {
+       _id
+        title
+        parentWorkspaceId {
+          _id
+        }
+        parentFolderId {
+          _id
+        }
+        childTodoBoardIds {
+          _id
+        }
+      }
+    }
+  `
