@@ -14,7 +14,7 @@ const TodoBoardCreateModal  = ({parentId, parentWorkspaceId}: CreateModalProps) 
     parentTodoBoxId: parentId
   })
 
-  const [createFile, loading] = useCreateFile(parentWorkspaceId, 'TodoBoard', CREATE_TODO_BOARD)
+  const [createFile, loading] = useCreateFile(CREATE_TODO_BOARD, parentWorkspaceId)
 
   const handleTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
     setValues(prevState => ({...prevState, title: event.target.value}));

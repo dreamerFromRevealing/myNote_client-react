@@ -1,5 +1,5 @@
 import Grid from '@mui/material/Grid/Grid';
-import React, {FC, useState} from 'react';
+import React, {FC, useEffect, useState} from 'react';
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 import {FormControl, InputLabel, OutlinedInput} from '@mui/material';
@@ -7,6 +7,8 @@ import Select, {SelectChangeEvent} from '@mui/material/Select';
 import MenuItem from "@mui/material/MenuItem";
 import useCreateFile from "../../../../hooks/CRUD/useCreateFile";
 import Preloader from "../../../layout/items/Preloader";
+import {CREATE_NEW_DOCUMENT, CREATE_NEW_FOLDER, CREATE_TODO_BOX} from "../../../../queries/treeFiles";
+import {DocumentNode} from "graphql/language";
 
 export interface CreateModalProps {
   parentId?: string;
@@ -16,15 +18,32 @@ export interface CreateModalProps {
 type CreateModalFormType = {
   title: string;
   type: string;
+  parentWorkspaceId: string;
 }
 
 const CreateFileModal: FC<CreateModalProps> = ({parentId, parentWorkspaceId}) => {
   const [values, setValues] = useState<CreateModalFormType>({
     title: '',
-    type: 'Folder'
+    type: 'Folder',
+    parentWorkspaceId
   })
+  const [mutation, setMutation] = useState<DocumentNode>(CREATE_NEW_FOLDER)
 
-  const [createFile, loading] = useCreateFile(parentWorkspaceId, values.type)
+  useEffect(() => {
+    switch (values.type) {
+      case 'Folder':
+        setMutation(CREATE_NEW_FOLDER);
+        break;
+      case 'Document':
+        setMutation(CREATE_NEW_DOCUMENT);
+        break;
+      case 'TodoBox':
+        setMutation(CREATE_TODO_BOX);
+        break;
+    }
+  }, [values.type])
+
+  const [createFile, loading] = useCreateFile(mutation, parentWorkspaceId)
 
   const handleType = (event: SelectChangeEvent) => {
     setValues(prevState => ({...prevState, type: event.target.value as string}));
