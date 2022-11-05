@@ -65,17 +65,6 @@ export const GET_TREE_BY_WORKSPACE_ID = gql`
             }
             childTodoBoardIds {
                 _id
-                title
-                childrenTodoCollectionIds {
-                    _id
-                    title
-                    color
-                    childrenTodoTaskIds {
-                        _id
-                        title
-                        description
-                    }
-                }
             }
             parentFolderId {
                 _id
