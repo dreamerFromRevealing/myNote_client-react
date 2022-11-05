@@ -11,6 +11,7 @@ const fileSlice = createSlice({
   reducers: {
     createFileTree: (state, action) => {
       // Тут идет обработка папок, для определения есть ли у них родительская папка или дети
+      console.log('fileSlice', action.payload)
       const parseData = action.payload.folders.map((folders: any) => ({
         ...folders,
         children: folders.children ? folders.children : []

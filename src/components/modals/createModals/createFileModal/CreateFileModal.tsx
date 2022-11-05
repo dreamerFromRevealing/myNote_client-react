@@ -19,13 +19,15 @@ type CreateModalFormType = {
   title: string;
   type: string;
   parentWorkspaceId: string;
+  parentFolderId?: string;
 }
 
 const CreateFileModal: FC<CreateModalProps> = ({parentId, parentWorkspaceId}) => {
   const [values, setValues] = useState<CreateModalFormType>({
     title: '',
     type: 'Folder',
-    parentWorkspaceId
+    parentWorkspaceId,
+    parentFolderId: parentId
   })
   const [mutation, setMutation] = useState<DocumentNode>(CREATE_NEW_FOLDER)
 
