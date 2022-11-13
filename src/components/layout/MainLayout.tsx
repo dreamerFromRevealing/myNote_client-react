@@ -55,10 +55,8 @@ const MainLayout: FC<PropsWithChildren> = (props) => {
           }
         </MainLayoutLeftSide>
         <MainLayoutRightSide open={open}>
-          <Box sx={{position: 'relative'}}>
             <MainLayoutHideLeftSideBtn open={open} onClick={handleDrawerSwitch}/>
             <Outlet />
-          </Box>
         </MainLayoutRightSide>
       </MainLayoutRow>
       <Footer/>

@@ -1,5 +1,5 @@
 import styled from "styled-components"
-import {TextCustomScroll} from "../../styles/styled-components/CustomScroll";
+import {CustomScroll, TextCustomScroll} from "../../styles/styled-components/CustomScroll";
 import {Drawer, Grid} from "@mui/material";
 import LayoutContent from "./items/LayoutContent";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
@@ -32,8 +32,11 @@ export const MainLayoutLeftSide = styled(Drawer)`
 
 export const MainLayoutRightSide = styled(LayoutContent)`
   flex: 1;
-  position: relative;
   padding: 0;
+  position: relative;
+  overflow: auto;
+  min-height: 100%;
+  ${TextCustomScroll}
 `
 
 export const MainLayoutFooter = styled.div`
@@ -51,7 +54,7 @@ export const MainLayoutHideLeftSideBtn = styled(ArrowBackIcon)`
   position: absolute;
   top: 0;
   border-radius: 50%;
-  left: '5px';
+  left: 5px;
   z-index: 1201;
   cursor: pointer;
   transform: ${({open}: {open: boolean}) => open ? '' : 'rotate(180deg)'};
