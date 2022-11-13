@@ -25,7 +25,6 @@ export const GET_TREE = gql`
 `
 
 
-
 export const GET_TREE_BY_WORKSPACE_ID = gql`
     query FoldersDocuments($parentWorkspaceId: String!){
         folders(filters: {parentWorkspaceId: $parentWorkspaceId}){
@@ -63,12 +62,20 @@ export const GET_TREE_BY_WORKSPACE_ID = gql`
             parentWorkspaceId {
                 _id
             }
-            childTodoBoardIds {
-                _id
-            }
             parentFolderId {
                 _id
             }
+        }
+        
+        todoBoards(filters: {parentWorkspaceId: $parentWorkspaceId}){
+            _id
+            title
+            parentWorkspaceId {
+                _id
+            }
+            parentTodoBoxId {
+                _id
+                }
         }
     }
 `

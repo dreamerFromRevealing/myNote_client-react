@@ -34,7 +34,6 @@ export const MainLayoutRightSide = styled(LayoutContent)`
   flex: 1;
   position: relative;
   padding: 0;
-  overflow: hidden;
 `
 
 export const MainLayoutFooter = styled.div`

@@ -6,6 +6,7 @@ export const TodoBoardWrapper = styled.div`
   border-radius: 10px;
   padding: 20px;
   margin: 5px;
+  width: 300px;
   box-shadow: ${({borderColor}: {borderColor: string}) => '0 0 5px 0 ' + borderColor};
   transition: all 0.3s ease-in-out;
   

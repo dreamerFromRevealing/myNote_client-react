@@ -1,4 +1,4 @@
-import React, {FC, PropsWithChildren, useState} from 'react'
+import React, {FC, PropsWithChildren, useEffect, useState} from 'react'
 import {
   MainLayoutHideLeftSideBtn,
   MainLayoutLeftSide,
@@ -15,13 +15,24 @@ import Preloader from "./items/Preloader";
 import MainModal from "../modals/mainModal/MainModal";
 import Workspace from "../treeFiles/workspace/Workspace";
 import {GET_WORKSPACES} from "../../queries/workspace";
-import {Outlet} from "react-router-dom";
+import {Outlet, useParams} from "react-router-dom";
+import Box from "@mui/material/Box";
 
 
 
 const MainLayout: FC<PropsWithChildren> = (props) => {
   const {loading, data} = useQuery(GET_WORKSPACES)
   const [open, setOpen] = useState(true)
+  const params = useParams();
+  const [isOverflowHidden, setIsOverflowHidden] = useState(true)
+
+  useEffect(() => {
+      if (params.hasOwnProperty('todoId')) {
+        setIsOverflowHidden(false)
+      }
+    },
+    [])
+
 
   const handleDrawerSwitch = () => {
     setOpen(prevOpen => !prevOpen)
@@ -44,8 +55,10 @@ const MainLayout: FC<PropsWithChildren> = (props) => {
           }
         </MainLayoutLeftSide>
         <MainLayoutRightSide open={open}>
-          <MainLayoutHideLeftSideBtn open={open} onClick={handleDrawerSwitch}/>
-          <Outlet />
+          <Box sx={{position: 'relative'}}>
+            <MainLayoutHideLeftSideBtn open={open} onClick={handleDrawerSwitch}/>
+            <Outlet />
+          </Box>
         </MainLayoutRightSide>
       </MainLayoutRow>
       <Footer/>
