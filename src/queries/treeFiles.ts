@@ -76,3 +76,19 @@ export const CREATE_TODO_BOARD = gql`
         }
     }
 `
+
+export const DELETE_TODO_COLLECTION = gql`
+  mutation DeleteTodoCollection($_id: String!) {
+    deleteTodoCollection(_id: $_id) {
+      _id
+    }
+  }
+`
+
+export const CREATE_TODO_COLLECTION = gql`
+  mutation CreateTodoCollection ($title: String!, $color: String, $parentTodoBoardParentId: String!) {
+  createTodoCollection (payload: {title: $title, color: $color, parentTodoBoardParentId: $parentTodoBoardParentId}) {
+   _id 
+  }
+}
+`

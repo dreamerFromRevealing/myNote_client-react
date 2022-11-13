@@ -16,23 +16,11 @@ import MainModal from "../modals/mainModal/MainModal";
 import Workspace from "../treeFiles/workspace/Workspace";
 import {GET_WORKSPACES} from "../../queries/workspace";
 import {Outlet, useParams} from "react-router-dom";
-import Box from "@mui/material/Box";
-
 
 
 const MainLayout: FC<PropsWithChildren> = (props) => {
   const {loading, data} = useQuery(GET_WORKSPACES)
   const [open, setOpen] = useState(true)
-  const params = useParams();
-  const [isOverflowHidden, setIsOverflowHidden] = useState(true)
-
-  useEffect(() => {
-      if (params.hasOwnProperty('todoId')) {
-        setIsOverflowHidden(false)
-      }
-    },
-    [])
-
 
   const handleDrawerSwitch = () => {
     setOpen(prevOpen => !prevOpen)

@@ -6,6 +6,7 @@ import WorkspaceEditModal from "../editModals/workspaceEditModal/WorkspaceEditMo
 import WorkspaceCreateModal from "../createModals/workspaceCreateModal/WorkspaceCreateModal";
 import DeleteModal from "../deleteModal/DeleteModal";
 import TodoBoardCreateModal from "../createModals/todoCreateModal/TodoBoardCreateModal";
+import CreateTodoCollectionModal from "../createModals/createTODOCollectionModal/CreateTODOCollectionModal";
 
 const BodyModal = () => {
   const state = useSelector((state: any) => state.modal);
@@ -35,6 +36,8 @@ const BodyModal = () => {
         case 'TodoBox':
           return  <TodoBoardCreateModal parentWorkspaceId={state.modalProps.parentWorkspaceId}
                                         parentId={state.modalProps.id}/>
+        case 'TodoCollection':
+          return <CreateTodoCollectionModal parentTodoBoardParentId={state.modalProps.parentTodoBoardParentId}/>
         default:
           return null;
       }

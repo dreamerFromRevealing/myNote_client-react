@@ -1,7 +1,7 @@
 import useAlert from "../useAlert";
 import {useMutation} from "@apollo/client";
-import {CREATE_NEW_FOLDER, DELETE_DOCUMENT, DELETE_FOLDER, DELETE_TODO_BOX} from "../../queries/treeFiles";
-import {GET_TREE, GET_TREE_BY_WORKSPACE_ID} from "../../queries/layout";
+import {DELETE_DOCUMENT, DELETE_FOLDER, DELETE_TODO_BOX} from "../../queries/treeFiles";
+import {GET_TREE_BY_WORKSPACE_ID} from "../../queries/layout";
 import {useEffect, useState} from "react";
 
 const useDeleteFile = (type: string, parentWorkspaceId?: string): [Function, boolean, any] => {

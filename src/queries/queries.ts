@@ -62,3 +62,16 @@ export const GET_TODO_BOX = gql`
       }
     }
   `
+
+export const GET_TODO_COLLECTIONS = gql`
+  query TodoCollections($parentTodoBoardParentId: String) {
+  todoCollections(filters: {parentTodoBoardParentId: $parentTodoBoardParentId}){
+    _id
+    title
+    color
+    childrenTodoTaskIds {
+      _id
+    }
+  }
+}
+`

@@ -1,13 +1,14 @@
 import styled from "styled-components"
-import {CustomScroll, TextCustomScroll} from "../../styles/styled-components/CustomScroll";
+import CloseIcon from "@mui/icons-material/Close";
 
-export const TodoBoardWrapper = styled.div`
+export const TodoCollectionWrapper = styled.div`
   background-color: #f5f9fa;
   min-height: 100%;
   border-radius: 10px;
   padding: 20px;
   margin: 5px;
   width: 300px;
+  position: relative;
   box-shadow: ${({borderColor}: {borderColor: string}) => '0 0 5px 0 ' + borderColor};
   transition: all 0.3s ease-in-out;
   
@@ -16,11 +17,19 @@ export const TodoBoardWrapper = styled.div`
   }
 `
 
-export const TodoBoardHeader = styled.div`
+export const TodoCollectionHeader = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 20px;
+`
+
+
+export const TodoCollectionDeleteBtn = styled(CloseIcon)`
+  cursor: pointer;
+  position: absolute;
+  right: 3px;
+  top: 3px;
 `
 
 export const TodoAddTaskBtn = styled.div`
