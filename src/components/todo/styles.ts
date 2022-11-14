@@ -25,11 +25,22 @@ export const TodoCollectionHeader = styled.div`
 `
 
 
-export const TodoCollectionDeleteBtn = styled(CloseIcon)`
+export const TodoCollectionMenuBtn = styled.div`
   cursor: pointer;
   position: absolute;
   right: 3px;
-  top: 3px;
+  top: 5px;
+  width: 25px;
+  height: 22px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all .3s;
+  
+  &:hover {
+    background-color: rgba(0,0,0,0.04);
+  }
 `
 
 export const TodoAddTaskBtn = styled.div`

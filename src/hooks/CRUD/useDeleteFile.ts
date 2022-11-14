@@ -1,12 +1,17 @@
 import useAlert from "../useAlert";
 import {useMutation} from "@apollo/client";
-import {DELETE_DOCUMENT, DELETE_FOLDER, DELETE_TODO_BOX} from "../../queries/treeFiles";
+import {DELETE_DOCUMENT, DELETE_FOLDER, DELETE_TODO_BOX, DELETE_TODO_COLLECTION} from "../../queries/treeFiles";
 import {GET_TREE_BY_WORKSPACE_ID} from "../../queries/layout";
 import {useEffect, useState} from "react";
+import {GET_TODO_COLLECTIONS} from "../../queries/queries";
 
-const useDeleteFile = (type: string, parentWorkspaceId?: string): [Function, boolean, any] => {
+const useDeleteFile = (type: string, parentId?: string): [Function, boolean, any] => {
   const callAlert = useAlert();
   const [mutation, setMutation] = useState<any>(DELETE_FOLDER);
+  const [refetch, setRefetch] = useState({
+    refetchQuery: GET_TREE_BY_WORKSPACE_ID,
+    refetchVariables: {parentWorkspaceId: parentId}
+  })
 
   useEffect(() => {
     switch (type) {
@@ -19,13 +24,19 @@ const useDeleteFile = (type: string, parentWorkspaceId?: string): [Function, boo
       case 'TodoBox':
         setMutation(DELETE_TODO_BOX);
         break;
+      case 'TodoCollection':
+        setMutation(DELETE_TODO_COLLECTION)
+        setRefetch({
+          refetchQuery: GET_TODO_COLLECTIONS,
+          refetchVariables: {parentTodoBoardParentId: parentId || null}
+        })
     }
   }, [type])
 
   const [deleteHandler, {loading, data}] = useMutation(mutation, {
     refetchQueries: [{
-      query: GET_TREE_BY_WORKSPACE_ID,
-      variables: {parentWorkspaceId}
+      query: refetch.refetchQuery,
+      variables: {...refetch.refetchVariables}
     }]
   });
 
