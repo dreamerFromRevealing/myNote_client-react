@@ -7,13 +7,15 @@ import Preloader from "../../layout/items/Preloader";
 import {closeModal} from "../../../store/modalSlice/modalSlice";
 import {useDispatch} from "react-redux";
 
-interface DeleteModalProps extends EditModalProps {
-  parentWorkspaceId: string;
+interface DeleteModalProps {
+  id: string;
+  type: string;
+  parentId: string;
   name: string;
 }
 
-const DeleteModal = ({id, type, parentWorkspaceId, name}: DeleteModalProps) => {
-  const [deleteFile, loading, data] = useDeleteFile(type, parentWorkspaceId)
+const DeleteModal = ({id, type, parentId, name}: DeleteModalProps) => {
+  const [deleteFile, loading, data] = useDeleteFile(type, parentId)
   const dispatch = useDispatch()
 
   const handleDelete = () => {

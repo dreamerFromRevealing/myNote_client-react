@@ -43,7 +43,7 @@ const NodeMenu: FC<NodeMenuProps> = ({type, id, parentWorkspaceId, name}) => {
       modalProps: {
         id,
         type,
-        parentWorkspaceId,
+        parentId: parentWorkspaceId,
         name
       }
     }))

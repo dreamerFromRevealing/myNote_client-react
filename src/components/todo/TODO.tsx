@@ -23,7 +23,7 @@ const TODO = () => {
           key={'tc' + index}
           color={item.color}
           title={item.title}
-          parentTodoBoardParentId={todoId}
+          parentTodoBoardParentId={todoId || ''}
           id={item._id}
         />
       ))}

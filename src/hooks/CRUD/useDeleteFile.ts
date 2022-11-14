@@ -8,7 +8,7 @@ import {GET_TODO_COLLECTIONS} from "../../queries/queries";
 const useDeleteFile = (type: string, parentId?: string): [Function, boolean, any] => {
   const callAlert = useAlert();
   const [mutation, setMutation] = useState<any>(DELETE_FOLDER);
-  const [refetch, setRefetch] = useState({
+  const [refetch, setRefetch] = useState<any>({
     refetchQuery: GET_TREE_BY_WORKSPACE_ID,
     refetchVariables: {parentWorkspaceId: parentId}
   })
@@ -28,7 +28,7 @@ const useDeleteFile = (type: string, parentId?: string): [Function, boolean, any
         setMutation(DELETE_TODO_COLLECTION)
         setRefetch({
           refetchQuery: GET_TODO_COLLECTIONS,
-          refetchVariables: {parentTodoBoardParentId: parentId || null}
+          refetchVariables: {parentTodoBoardParentId: parentId}
         })
     }
   }, [type])

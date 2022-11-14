@@ -6,14 +6,10 @@ import TodoTasksCollection from "./TODOTasksCollection";
 import {TodoCollectionFuncProps} from "./TodoCollectionFunc";
 import TodoCollectionMenu from "./TODOCollectionMenu";
 
-interface TODOCollectionProps extends TodoCollectionFuncProps{
-  handleDelete: () => void
-}
-
-const TODOCollection = ({title, color, handleDelete}: TODOCollectionProps) => (
+const TODOCollection = ({title, color, id, parentTodoBoardParentId}: TodoCollectionFuncProps) => (
     <TodoCollectionWrapper borderColor={color}>
       <TodoCollectionMenuBtn>
-        <TodoCollectionMenu/>
+        <TodoCollectionMenu color={color} id={id} parentId={parentTodoBoardParentId} name={title}/>
       </TodoCollectionMenuBtn>
       <TodoCollectionHeader>
         <Typography variant="h6">

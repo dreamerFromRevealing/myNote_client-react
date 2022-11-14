@@ -7,6 +7,7 @@ import WorkspaceCreateModal from "../createModals/workspaceCreateModal/Workspace
 import DeleteModal from "../deleteModal/DeleteModal";
 import TodoBoardCreateModal from "../createModals/todoCreateModal/TodoBoardCreateModal";
 import CreateTodoCollectionModal from "../createModals/createTODOCollectionModal/CreateTODOCollectionModal";
+import TodoCollectionEditModal from "../editModals/todoCollectionEditModal/TodoCollectionEditModal";
 
 const BodyModal = () => {
   const state = useSelector((state: any) => state.modal);
@@ -21,6 +22,12 @@ const BodyModal = () => {
           return <EditFileModal parentWorkspaceId={state.modalProps.parentWorkspaceId} id={state.modalProps.id} type={state.modalProps.type}/>
         case 'Workspace':
           return <WorkspaceEditModal id={state.modalProps.id}/>
+        case 'TodoCollection':
+          return <TodoCollectionEditModal
+            id={state.modalProps.id}
+            parentId={state.modalProps.parentId}
+            title={state.modalProps.name}
+            color={state.modalProps.color}/>
         default:
           return null;
       }
@@ -47,7 +54,7 @@ const BodyModal = () => {
       return <DeleteModal
         id={state.modalProps.id}
         type={state.modalProps.type}
-        parentWorkspaceId={state.modalProps.parentWorkspaceId}
+        parentId={state.modalProps.parentId}
         name={state.modalProps.name}
       />
     //--------------------------------------------------------------------------------------------------------
