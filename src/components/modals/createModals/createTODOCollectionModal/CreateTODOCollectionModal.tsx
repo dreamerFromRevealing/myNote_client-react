@@ -8,12 +8,14 @@ import {useMutation} from "@apollo/client";
 import {CREATE_TODO_COLLECTION} from "../../../../queries/treeFiles";
 import {GET_TODO_COLLECTIONS} from "../../../../queries/queries";
 import useHandleReqAlert from "../../../../hooks/useHandleReqAlert";
+import {ColorResult, SliderPicker} from "react-color";
+
 
 const CreateTodoCollectionModal = ({parentTodoBoardParentId}: {parentTodoBoardParentId: string}) => {
   const {callSuccessAlert, callErrorAlert} = useHandleReqAlert()
   const [variables, setVariables] = useState({
     title: '',
-    color: 'red',
+    color: 'blue',
     parentTodoBoardParentId
   })
   const [createCollection, {loading}] = useMutation(CREATE_TODO_COLLECTION, {
@@ -29,14 +31,24 @@ const CreateTodoCollectionModal = ({parentTodoBoardParentId}: {parentTodoBoardPa
       .catch(err => callErrorAlert('Ошибка создания TODO коллекции', err))
   }
 
+  const handleChangeColorComplete = (color: ColorResult) => {
+    setVariables(prevState => ({...prevState, color: color.hex}));
+  };
+
   const handleTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
     setVariables(prevState => ({...prevState, title: event.target.value}));
   }
-  console.log('CreateTodoCollectionModal', parentTodoBoardParentId)
+
   if (loading) return <Preloader/>
   return (
     <>
       <Grid spacing={3} sx={{mb: 2}} container>
+        <Grid item xs={12}>
+            <SliderPicker
+              color={variables.color}
+              onChange={handleChangeColorComplete}
+            />
+        </Grid>
         <Grid item md={6} xs={12}>
           <FormControl sx={{width: 1}}>
             <InputLabel htmlFor="title">Title</InputLabel>
