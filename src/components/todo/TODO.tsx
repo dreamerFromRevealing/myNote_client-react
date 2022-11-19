@@ -27,7 +27,7 @@ const TODO = () => {
           id={item._id}
         />
       ))}
-      <TODONewCollection parentTodoBoardParentId={todoId}/>
+      <TODONewCollection parentTodoBoardParentId={todoId} countItems={data?.todoCollections.length || 0}/>
     </TodoWrapper>
   );
 };

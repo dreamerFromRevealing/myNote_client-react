@@ -69,6 +69,7 @@ export const GET_TODO_COLLECTIONS = gql`
     _id
     title
     color
+    position
     childrenTodoTaskIds {
       _id
     }

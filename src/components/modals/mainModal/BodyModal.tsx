@@ -44,7 +44,10 @@ const BodyModal = () => {
           return  <TodoBoardCreateModal parentWorkspaceId={state.modalProps.parentWorkspaceId}
                                         parentId={state.modalProps.id}/>
         case 'TodoCollection':
-          return <CreateTodoCollectionModal parentTodoBoardParentId={state.modalProps.parentTodoBoardParentId}/>
+          return <CreateTodoCollectionModal
+            parentTodoBoardParentId={state.modalProps.parentTodoBoardParentId}
+            countItems={state.modalProps.countItems}
+          />
         default:
           return null;
       }

@@ -4,14 +4,14 @@ import React from "react";
 import {openModal} from "../../store/modalSlice/modalSlice";
 import {useDispatch} from "react-redux";
 
-export const TODONewCollection = ({parentTodoBoardParentId}: {parentTodoBoardParentId?: string}) => {
+export const TODONewCollection = ({parentTodoBoardParentId, countItems}: {parentTodoBoardParentId?: string, countItems: number}) => {
 const dispatch = useDispatch()
 
   const handleCallCreateCollectionModal = () => {
     dispatch(openModal({
       modalType: 'create',
       subtype: 'TodoCollection',
-      modalProps: {parentTodoBoardParentId}
+      modalProps: {parentTodoBoardParentId, countItems}
     }))
   }
 

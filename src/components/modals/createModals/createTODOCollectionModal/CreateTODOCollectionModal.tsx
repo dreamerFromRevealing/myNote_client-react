@@ -11,11 +11,12 @@ import useHandleReqAlert from "../../../../hooks/useHandleReqAlert";
 import {ColorResult, SliderPicker} from "react-color";
 
 
-const CreateTodoCollectionModal = ({parentTodoBoardParentId}: {parentTodoBoardParentId: string}) => {
+const CreateTodoCollectionModal = ({parentTodoBoardParentId, countItems}: {parentTodoBoardParentId: string, countItems: number}) => {
   const {callSuccessAlert, callErrorAlert} = useHandleReqAlert()
   const [variables, setVariables] = useState({
     title: '',
     color: 'blue',
+    position: countItems,
     parentTodoBoardParentId
   })
   const [createCollection, {loading}] = useMutation(CREATE_TODO_COLLECTION, {
