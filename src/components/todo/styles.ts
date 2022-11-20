@@ -1,6 +1,6 @@
 import styled from "styled-components"
 
-export const TodoCollectionWrapper = styled.div`
+export const TodoCollectionWrapper  = styled.div`
   background-color: #f5f9fa;
   min-height: 100%;
   border-radius: 10px;

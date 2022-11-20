@@ -26,6 +26,7 @@
     "lodash.keyby": "^4.6.0",
     "nested-property": "^0.0.7",
     "react": "latest",
+    "react-beautiful-dnd": "^13.1.1",
     "react-color": "^2.19.3",
     "react-dom": "latest",
     "react-icons": "^4.3.1",
@@ -60,8 +61,10 @@
   "devDependencies": {
     "@craco/craco": "^7.0.0-alpha.0",
     "@svgr/webpack": "^6.5.0",
+    "@types/lodash": "^4.14.189",
     "@types/node": "latest",
     "@types/react": "latest",
+    "@types/react-beautiful-dnd": "^13.1.2",
     "@types/react-color": "^3.0.6",
     "@types/react-dom": "latest",
     "@types/styled-components": "latest",
