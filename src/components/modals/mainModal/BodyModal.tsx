@@ -8,6 +8,8 @@ import DeleteModal from "../deleteModal/DeleteModal";
 import TodoBoardCreateModal from "../createModals/todoCreateModal/TodoBoardCreateModal";
 import CreateTodoCollectionModal from "../createModals/createTODOCollectionModal/CreateTODOCollectionModal";
 import TodoCollectionEditModal from "../editModals/todoCollectionEditModal/TodoCollectionEditModal";
+import CreateTodoTaskModal from "../createModals/createTODOTaskModal/CreateTODOTaskModal";
+import EditTODOTaskModal from "../editModals/editTODOTaskModal/EditTODOTaskModal";
 
 const BodyModal = () => {
   const state = useSelector((state: any) => state.modal);
@@ -28,6 +30,8 @@ const BodyModal = () => {
             parentId={state.modalProps.parentId}
             title={state.modalProps.name}
             color={state.modalProps.color}/>
+        case 'TodoTask':
+          return <EditTODOTaskModal parentTodoCollectionId={state.modalProps.parentTodoCollectionId} id={state.modalProps.id}/>
         default:
           return null;
       }
@@ -48,6 +52,8 @@ const BodyModal = () => {
             parentTodoBoardParentId={state.modalProps.parentTodoBoardParentId}
             countItems={state.modalProps.countItems}
           />
+        case 'TodoTask':
+          return <CreateTodoTaskModal parentTodoCollectionId={state.modalProps.parentTodoCollectionId}/>
         default:
           return null;
       }

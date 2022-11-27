@@ -26,8 +26,8 @@ const TODOCollection = ({
         {title}
       </Typography>
     </TodoCollectionHeader>
-    <TodoAddTask title={title}/>
-    <TodoTasksCollection/>
+    <TodoAddTask parentTodoCollectionId={id}/>
+    <TodoTasksCollection parentTodoCollectionId={id}/>
   </TodoCollectionWrapper>
 
 );

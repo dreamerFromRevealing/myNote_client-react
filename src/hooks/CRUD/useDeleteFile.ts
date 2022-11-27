@@ -1,9 +1,15 @@
 import useAlert from "../useAlert";
 import {useMutation} from "@apollo/client";
-import {DELETE_DOCUMENT, DELETE_FOLDER, DELETE_TODO_BOX, DELETE_TODO_COLLECTION} from "../../queries/treeFiles";
+import {
+  DELETE_DOCUMENT,
+  DELETE_FOLDER,
+  DELETE_TODO_BOX,
+  DELETE_TODO_COLLECTION,
+  DELETE_TODO_TASK
+} from "../../queries/treeFiles";
 import {GET_TREE_BY_WORKSPACE_ID} from "../../queries/layout";
 import {useEffect, useState} from "react";
-import {GET_TODO_COLLECTIONS} from "../../queries/queries";
+import {GET_TODO_COLLECTIONS, GET_TODO_TASKS} from "../../queries/queries";
 
 const useDeleteFile = (type: string, parentId?: string): [Function, boolean, any] => {
   const callAlert = useAlert();
@@ -30,8 +36,15 @@ const useDeleteFile = (type: string, parentId?: string): [Function, boolean, any
           refetchQuery: GET_TODO_COLLECTIONS,
           refetchVariables: {parentTodoBoardParentId: parentId}
         })
+        break;
+      case 'TodoTask':
+        setMutation(DELETE_TODO_TASK)
+        setRefetch({
+          refetchQuery: GET_TODO_TASKS,
+          refetchVariables: {parentTodoCollectionId: parentId}
+        })
     }
-  }, [type])
+  }, [type, parentId])
 
   const [deleteHandler, {loading, data}] = useMutation(mutation, {
     refetchQueries: [{

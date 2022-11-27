@@ -6,29 +6,36 @@ import {useDispatch} from "react-redux";
 import {openModal} from "../../store/modalSlice/modalSlice";
 import Button from "@mui/material/Button";
 
-const TodoTask = () => {
+interface TodoCollectionProps {
+  title: string;
+  description?: string;
+  _id: string;
+  parentTodoCollectionId: string;
+}
+
+const TodoTask = ({title, _id, description, parentTodoCollectionId}: TodoCollectionProps) => {
   const dispatch = useDispatch()
 
   const handleEdit = () => {
     dispatch(openModal({
       modalType: 'edit',
-      subtype: 'todo',
-      modalProps: {id: ''}
+      subtype: 'TodoTask',
+      modalProps: {id: _id, parentTodoCollectionId}
     }))
   }
 
   return (
-    <Box sx={{backgroundColor: '#fff', p: 1}}>
+    <Box sx={{backgroundColor: '#fff', p: 1, mb: 1}}>
       <Box sx={{display: 'flex', justifyContent: 'space-between', mb: 1}}>
         <Typography sx={{fontSize: '1.2em'}} variant="subtitle2">
-          Title
+          {title}
         </Typography>
         <Button size="small" onClick={handleEdit}>
           <EditIcon  sx={{ color: '#60226f' }}/>
         </Button>
       </Box>
       <Typography>
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus, quae.
+        {description}
       </Typography>
     </Box>
   );

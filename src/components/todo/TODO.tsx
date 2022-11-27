@@ -22,7 +22,6 @@ const TODO = () => {
 
   useEffect(() => {
     if (!!data) {
-      // copy data?.todoCollections use lodash
       const copyTodoCollections = _.cloneDeep(data?.todoCollections);
       const sortArray = sortCollections(copyTodoCollections)
       setCollections(sortArray)
@@ -44,7 +43,6 @@ const TODO = () => {
     items.splice(result.destination.index, 0, reorderedItem);
     setCollections(items);
 
-    //Терь тут после перстановки надо что бы колекции поменялись порядковыми номерами и после обновленные о них данные отправились на сервер
     updateCollection({
       variables: {
         _id: collections[result.destination.index]._id,

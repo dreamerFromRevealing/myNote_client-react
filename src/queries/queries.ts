@@ -46,33 +46,53 @@ export const UPDATE_FOLDER = gql`
 `
 
 export const GET_TODO_BOX = gql`
-      query TodoBox ($_id: String!){
+    query TodoBox ($_id: String!){
         todoBox (_id: $_id) {
-       _id
-        title
-        parentWorkspaceId {
-          _id
+            _id
+            title
+            parentWorkspaceId {
+                _id
+            }
+            parentFolderId {
+                _id
+            }
+            childTodoBoardIds {
+                _id
+            }
         }
-        parentFolderId {
-          _id
-        }
-        childTodoBoardIds {
-          _id
-        }
-      }
     }
-  `
+`
 
 export const GET_TODO_COLLECTIONS = gql`
-  query TodoCollections($parentTodoBoardParentId: String) {
-  todoCollections(filters: {parentTodoBoardParentId: $parentTodoBoardParentId}){
-    _id
-    title
-    color
-    position
-    childrenTodoTaskIds {
-      _id
+    query TodoCollections($parentTodoBoardParentId: String) {
+        todoCollections(filters: {parentTodoBoardParentId: $parentTodoBoardParentId}){
+            _id
+            title
+            color
+            position
+            childrenTodoTaskIds {
+                _id
+            }
+        }
     }
-  }
-}
+`
+
+export const GET_TODO_TASKS = gql`
+    query TodoTasks($parentTodoCollectionId: String) {
+        todoTasks(filters: {parentTodoCollectionId: $parentTodoCollectionId}){
+            _id
+            title
+            description
+        }
+    }
+`
+
+export const GET_TODO_TASK = gql`
+    query TodoTask ($_id: String!){
+        todoTask (_id: $_id) {
+            _id
+            title
+            description
+        }
+    }
 `
