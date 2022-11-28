@@ -82,6 +82,7 @@ export const GET_TODO_TASKS = gql`
         todoTasks(filters: {parentTodoCollectionId: $parentTodoCollectionId}){
             _id
             title
+            position
             description
         }
     }
@@ -92,6 +93,7 @@ export const GET_TODO_TASK = gql`
         todoTask (_id: $_id) {
             _id
             title
+            position
             description
         }
     }

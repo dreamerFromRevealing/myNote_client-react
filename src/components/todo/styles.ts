@@ -6,6 +6,7 @@ export const TodoCollectionWrapper  = styled.div`
   padding: 20px;
   margin: 5px;
   width: 300px;
+  min-height: 100px;
   position: relative;
   box-shadow: ${({borderColor}: {borderColor: string}) => '0 0 5px 0 ' + borderColor};
   transition: box-shadow 0.3s ease-in-out, margin-left 0.3s ease-in-out, opacity 0.3s ease-in-out;

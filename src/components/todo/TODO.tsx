@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import {TodoWrapper} from './styles';
 import {TODONewCollection} from "./TODONewCollection";
 import {useParams} from "react-router-dom";
@@ -8,61 +8,22 @@ import Preloader from "../layout/items/Preloader";
 import TodoCollectionFunc from "./TodoCollectionFunc";
 import {DragDropContext, Droppable, DropResult} from 'react-beautiful-dnd';
 import {UPDATE_TODO_COLLECTION} from "../../queries/treeFiles";
-import _ from "lodash";
+import useFormatPositionElement from "../../hooks/useFormatPositionElement";
+import TodoDnDWrapper from "./TODODnDWrapper";
 
 const TODO = () => {
-  const [collections, setCollections] = useState<any>([]);
   const {todoId} = useParams();
-  const {data, loading} = useQuery(GET_TODO_COLLECTIONS, {
-    variables: {
-      parentTodoBoardParentId: todoId
-    }
-  })
-  const [updateCollection] = useMutation(UPDATE_TODO_COLLECTION);
+  const [arrState, setArrState, loading] = useFormatPositionElement(GET_TODO_COLLECTIONS, {
+    parentTodoBoardParentId: todoId
+  }, 'todoCollections')
 
-  useEffect(() => {
-    if (!!data) {
-      const copyTodoCollections = _.cloneDeep(data?.todoCollections);
-      const sortArray = sortCollections(copyTodoCollections)
-      setCollections(sortArray)
-    }
-  }, [data])
-
-  const sortCollections = (collections: any) => collections.sort((a: any, b: any) => {
-    return a.position - b.position
-  })
-
-  const onDragEnd = (result: DropResult) => {
-    if (!result.destination || result.destination.index === result.source.index) {
-      return;
-    }
-    const items:any = Array.from(collections);
-    items[result.source.index].position = +result.destination.index;
-    items[result.destination.index].position = +result.source.index;
-    const [reorderedItem] = items.splice(result.source.index, 1);
-    items.splice(result.destination.index, 0, reorderedItem);
-    setCollections(items);
-
-    updateCollection({
-      variables: {
-        _id: collections[result.destination.index]._id,
-        position: collections[result.destination.index].position
-      }
-    })
-    updateCollection({
-      variables: {
-        _id: collections[result.source.index]._id,
-        position: collections[result.source.index].position
-      }
-    })
-  }
   if (loading) return <Preloader/>
   return (
-    <DragDropContext onDragEnd={onDragEnd}>
-      <Droppable droppableId="wrapper" type="WRAPPER" direction="horizontal">
+    <TodoDnDWrapper todoId={todoId} arrState={arrState} setArrState={setArrState}>
+      <Droppable droppableId="wrapper" type="WRAPPERTodoCollection" direction="horizontal">
         {(provided) => (
           <TodoWrapper ref={provided.innerRef} {...provided.droppableProps}>
-            {collections && collections.map((item: any, index: number) => (
+            {arrState && arrState.map((item: any, index: number) => (
               <TodoCollectionFunc
                 key={item._id}
                 color={item.color}
@@ -73,13 +34,11 @@ const TODO = () => {
               />
             ))}
             {provided.placeholder}
-            <TODONewCollection parentTodoBoardParentId={todoId} countItems={data?.todoCollections.length || 0}/>
+            <TODONewCollection parentTodoBoardParentId={todoId} countItems={arrState.length || 0}/>
           </TodoWrapper>
         )}
       </Droppable>
-    </DragDropContext>
-
-
+    </TodoDnDWrapper>
   );
 };
 

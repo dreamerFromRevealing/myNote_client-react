@@ -6,16 +6,20 @@ import {openModal} from "../../store/modalSlice/modalSlice";
 
 interface TodoAddTaskProps {
   parentTodoCollectionId: string;
+  countItems: number;
 }
 
-const TodoAddTask = ({parentTodoCollectionId}: TodoAddTaskProps) => {
+const TodoAddTask = ({parentTodoCollectionId, countItems}: TodoAddTaskProps) => {
   const dispatch = useDispatch()
 
   const handleAddTask = () => {
     dispatch(openModal({
       modalType: 'create',
       subtype: 'TodoTask',
-      modalProps: {parentTodoCollectionId}
+      modalProps: {
+        parentTodoCollectionId,
+        countItems
+      }
     }))
   }
 

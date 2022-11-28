@@ -102,16 +102,16 @@ export const UPDATE_TODO_COLLECTION = gql`
 `
 
 export const CREATE_TODO_TASK = gql`
-    mutation CreateTodoTask ($parentTodoCollectionId: String!, $title: String!, $description: String) {
-        createTodoTask(payload: {parentTodoCollectionId: $parentTodoCollectionId, title: $title, description: $description}) {
+    mutation CreateTodoTask ($parentTodoCollectionId: String!, $title: String!, $description: String, $position: Float!) {
+        createTodoTask(payload: {parentTodoCollectionId: $parentTodoCollectionId, title: $title, description: $description, position: $position}) {
             _id
         }
     }
 `
 
 export const UPDATE_TODO_TASK = gql`
-    mutation UpdateTodoTask($_id: String!, $title: String, $description: String, $parentTodoCollectionId: String) {
-        updateTodoTask(payload: {_id: $_id, title: $title, description: $description, parentTodoCollectionId: $parentTodoCollectionId}) {
+    mutation UpdateTodoTask($_id: String!, $title: String, $description: String, $parentTodoCollectionId: String, $position: Float) {
+        updateTodoTask(payload: {_id: $_id, title: $title, description: $description, parentTodoCollectionId: $parentTodoCollectionId, position: $position}) {
             _id
         }
     }

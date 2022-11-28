@@ -53,7 +53,7 @@ const BodyModal = () => {
             countItems={state.modalProps.countItems}
           />
         case 'TodoTask':
-          return <CreateTodoTaskModal parentTodoCollectionId={state.modalProps.parentTodoCollectionId}/>
+          return <CreateTodoTaskModal parentTodoCollectionId={state.modalProps.parentTodoCollectionId} countItems={state.modalProps.countItems}/>
         default:
           return null;
       }

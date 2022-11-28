@@ -10,13 +10,15 @@ import Preloader from "../../../layout/items/Preloader";
 
 interface CreateTODOTaskModalProps {
   parentTodoCollectionId: string
+  countItems: number
 }
 
-const CreateTodoTaskModal = ({parentTodoCollectionId}: CreateTODOTaskModalProps) => {
+const CreateTodoTaskModal = ({parentTodoCollectionId, countItems}: CreateTODOTaskModalProps) => {
   const [values, setValues] = useState({
     title: '',
     parentTodoCollectionId,
-    description: ''
+    description: '',
+    position: countItems
   })
 
   const [createTodoTask, {loading}] = useMutation(CREATE_TODO_TASK, {
