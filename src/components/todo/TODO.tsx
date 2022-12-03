@@ -7,7 +7,7 @@ import {GET_TODO_COLLECTIONS} from "../../queries/queries";
 import Preloader from "../layout/items/Preloader";
 import TodoCollectionFunc from "./TodoCollectionFunc";
 import {Droppable} from 'react-beautiful-dnd';
-import TodoDnDWrapper from "./TODODnDWrapper";
+
 
 const TODO = () => {
   const {todoId} = useParams();
@@ -17,8 +17,7 @@ const TODO = () => {
 
   if (loading) return <Preloader/>
   return (
-    <TodoDnDWrapper todoId={todoId} currentArray={data.todoCollections}>
-      <Droppable droppableId="wrapper" type="WRAPPERTodoCollection" direction="horizontal">
+      <Droppable droppableId={todoId || ''} type="todoCollections" direction="horizontal">
         {(provided) => (
           <TodoWrapper ref={provided.innerRef} {...provided.droppableProps}>
             {data.todoCollections && data.todoCollections.map((item: any, index: number) => (
@@ -36,7 +35,6 @@ const TODO = () => {
           </TodoWrapper>
         )}
       </Droppable>
-    </TodoDnDWrapper>
   );
 };
 

@@ -8,6 +8,7 @@ import {Provider} from 'react-redux'
 import store from "./store/store";
 import {ThemeProvider} from "@mui/material";
 import theme from "./theme";
+import DnDWrapper from "./components/DnDWrapper/DnDWrapper";
 
 
 ReactDOM.render(
@@ -15,7 +16,9 @@ ReactDOM.render(
     <Provider store={store}>
       <BrowserRouter>
         <ThemeProvider theme={theme}>
-          <App/>
+          <DnDWrapper client={client}>
+            <App/>
+          </DnDWrapper>
         </ThemeProvider>
       </BrowserRouter>
     </Provider>
