@@ -20,6 +20,7 @@ const useFormatPositionElement = (query: DocumentNode | TypedDocumentNode, varia
   const {data, loading} = useQuery(query, {
     variables
   })
+  // console.log('useFormatPositionElement', data)
   useEffect(() => {
     if (!!data) {
       const copyTodoCollections = _.cloneDeep(data[itemName]);

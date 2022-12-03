@@ -101,6 +101,12 @@ export const UPDATE_TODO_COLLECTION = gql`
     }
 `
 
+export const MULTIPLE_DnD_UPDATE_TODO_COLLECTION = gql`
+    mutation UpdatePositionTodoCollection($firstId: String!, $firstPosition: Float!, $secondId: String!, $secondPosition: Float!) {
+        updatePositionTodoCollection(payload: {firstId: $firstId, firstPosition: $firstPosition, secondId: $secondId, secondPosition: $secondPosition}) 
+    }
+`
+
 export const CREATE_TODO_TASK = gql`
     mutation CreateTodoTask ($parentTodoCollectionId: String!, $title: String!, $description: String, $position: Float!) {
         createTodoTask(payload: {parentTodoCollectionId: $parentTodoCollectionId, title: $title, description: $description, position: $position}) {

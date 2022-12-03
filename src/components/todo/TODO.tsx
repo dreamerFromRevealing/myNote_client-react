@@ -2,28 +2,26 @@ import React from 'react';
 import {TodoWrapper} from './styles';
 import {TODONewCollection} from "./TODONewCollection";
 import {useParams} from "react-router-dom";
-import {useMutation, useQuery} from "@apollo/client";
+import {useQuery} from "@apollo/client";
 import {GET_TODO_COLLECTIONS} from "../../queries/queries";
 import Preloader from "../layout/items/Preloader";
 import TodoCollectionFunc from "./TodoCollectionFunc";
-import {DragDropContext, Droppable, DropResult} from 'react-beautiful-dnd';
-import {UPDATE_TODO_COLLECTION} from "../../queries/treeFiles";
-import useFormatPositionElement from "../../hooks/useFormatPositionElement";
+import {Droppable} from 'react-beautiful-dnd';
 import TodoDnDWrapper from "./TODODnDWrapper";
 
 const TODO = () => {
   const {todoId} = useParams();
-  const [arrState, setArrState, loading] = useFormatPositionElement(GET_TODO_COLLECTIONS, {
-    parentTodoBoardParentId: todoId
-  }, 'todoCollections')
+  const {data, loading} = useQuery(GET_TODO_COLLECTIONS, {
+    variables:{parentTodoBoardParentId: todoId}
+  })
 
   if (loading) return <Preloader/>
   return (
-    <TodoDnDWrapper todoId={todoId} arrState={arrState} setArrState={setArrState}>
+    <TodoDnDWrapper todoId={todoId} currentArray={data.todoCollections}>
       <Droppable droppableId="wrapper" type="WRAPPERTodoCollection" direction="horizontal">
         {(provided) => (
           <TodoWrapper ref={provided.innerRef} {...provided.droppableProps}>
-            {arrState && arrState.map((item: any, index: number) => (
+            {data.todoCollections && data.todoCollections.map((item: any, index: number) => (
               <TodoCollectionFunc
                 key={item._id}
                 color={item.color}
@@ -34,7 +32,7 @@ const TODO = () => {
               />
             ))}
             {provided.placeholder}
-            <TODONewCollection parentTodoBoardParentId={todoId} countItems={arrState.length || 0}/>
+            <TODONewCollection parentTodoBoardParentId={todoId} countItems={data.todoCollections.length || 0}/>
           </TodoWrapper>
         )}
       </Droppable>

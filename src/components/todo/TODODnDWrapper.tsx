@@ -3,54 +3,73 @@ import {DragDropContext, DropResult} from "react-beautiful-dnd";
 import Preloader from "../layout/items/Preloader";
 import {GET_TODO_COLLECTIONS} from "../../queries/queries";
 import {useMutation} from "@apollo/client";
-import {UPDATE_TODO_COLLECTION} from "../../queries/treeFiles";
+import {MULTIPLE_DnD_UPDATE_TODO_COLLECTION, UPDATE_TODO_COLLECTION} from "../../queries/treeFiles";
 
 interface TODODnDWrapperProps {
   children: React.ReactNode;
-  arrState: any;
-  setArrState: any;
+  currentArray: any;
   todoId?: string;
 }
 
-const TodoDnDWrapper = ({children, arrState, setArrState, todoId}: TODODnDWrapperProps) => {
+const parsePosition = (arr: any, sourceIndex: number, destinationIndex: number) => {
+  const items: any = arr.map((item: any, index: number) => {
+    if (index == sourceIndex) {
+      return {
+        ...item,
+        position: +destinationIndex
+      }
+    }
+    if (index == destinationIndex) {
+      return {
+        ...item,
+        position: +sourceIndex
+      }
+    }
+    return item
+  });
 
-  const [updateCollection] = useMutation(UPDATE_TODO_COLLECTION);
+  const [reorderedItem] = items.splice(sourceIndex, 1);
+  items.splice(destinationIndex, 0, reorderedItem);
+  return items;
+}
+
+const TodoDnDWrapper = ({children, currentArray, todoId}: TODODnDWrapperProps) => {
+
+  const [updateCollection] = useMutation(MULTIPLE_DnD_UPDATE_TODO_COLLECTION);
 
   const onDragEnd = (result: DropResult) => {
     const { destination, source, type, draggableId } = result
     if (!destination || destination.index === result.source.index) {
       return;
     }
-
+    // Надо добавить измения кеша  переде мутацией посредством объекта cache
+    //Надо закинуть оптимистичный ответ
     if (type === "WRAPPERTodoCollection") {
-      const items: any = Array.from(arrState);
-      items[result.source.index].position = +destination.index;
-      items[destination.index].position = +result.source.index;
-      const [reorderedItem] = items.splice(result.source.index, 1);
-      items.splice(destination.index, 0, reorderedItem);
-      setArrState(items);
-
+     const newArray = parsePosition(currentArray, source.index, destination.index)
       updateCollection({
         variables: {
-          _id: arrState[destination.index]._id,
-          position: arrState[destination.index].position
-        }
-      })
-      updateCollection({
-        variables: {
-          _id: arrState[result.source.index]._id,
-          position: arrState[result.source.index].position
+          firstId: newArray[destination.index]._id,
+          firstPosition: newArray[destination.index].position,
+          secondId: newArray[source.index]._id,
+          secondPosition: newArray[source.index].position
         },
         update(cache) {
           cache.writeQuery({
             query: GET_TODO_COLLECTIONS,
             variables: {parentTodoBoardParentId: todoId},
             data: {
-              todoCollections: [...arrState]
+              todoCollections: [...newArray]
             }
           })
         }
       })
+      // updateCollection({
+      //   variables: {
+      //     _id: newArray[source.index]._id,
+      //     position: newArray[source.index].position
+      //   },
+      //
+      // })
     }
   }
 

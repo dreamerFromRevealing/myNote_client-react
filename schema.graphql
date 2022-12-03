@@ -1,16 +1,19 @@
-type Document {
-  _id: String
-  title: String
-  typeFile: String
-  folderPathname: String
-  parentWorkspaceId: String
-  parentFolderId: String
-  content: String
-}
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
 
 type Workspace {
   _id: String
   title: String
+}
+
+type Document {
+  _id: String
+  title: String
+  folderPathname: String
+  parentWorkspaceId: Workspace
+  parentFolderId: Folder
+  content: String
 }
 
 type Folder {
@@ -34,6 +37,39 @@ type Person {
   hobbies: [Hobby!]!
 }
 
+type TodoTask {
+  _id: String
+  title: String
+  position: Float
+  description: String
+  parentTodoCollectionId: TodoCollection!
+}
+
+type TodoCollection {
+  _id: String
+  title: String
+  color: String
+  position: String!
+  parentTodoBoardParentId: TodoBoard!
+  childrenTodoTaskIds: TodoTask
+}
+
+type TodoBoard {
+  _id: String
+  title: String
+  parentWorkspaceId: Workspace
+  parentTodoBoxId: TodoBox
+  childrenTodoCollectionIds: TodoCollection
+}
+
+type TodoBox {
+  _id: String
+  title: String
+  parentWorkspaceId: Workspace
+  parentFolderId: Folder
+  childTodoBoardIds: [TodoBoard]
+}
+
 type Query {
   workspace(_id: String!): Workspace!
   workspaces(filters: ListWorkspacesInput): [Workspace!]!
@@ -45,6 +81,14 @@ type Query {
   persons(filters: ListPersonInput): [Person!]!
   hobby(_id: String!): Hobby!
   hobbies(filters: ListHobbyInput): [Hobby!]!
+  todoBox(_id: String!): TodoBox!
+  todoBoxes(filters: ListTodoBoxInput): [TodoBox!]!
+  todoBoard(_id: String!): TodoBoard!
+  todoBoards(filters: ListTodoBoardInput): [TodoBoard!]!
+  todoCollection(_id: String!): TodoCollection!
+  todoCollections(filters: ListTodoCollectionInput): [TodoCollection!]!
+  todoTask(_id: String!): TodoTask!
+  todoTasks(filters: ListTodoTaskInput): [TodoTask!]!
 }
 
 input ListWorkspacesInput {
@@ -57,7 +101,6 @@ input ListDocumentInput {
   title: String
   folderPathname: String
   content: String
-  typeFile: String
   parentWorkspaceId: String
 }
 
@@ -81,16 +124,50 @@ input ListHobbyInput {
   name: String
 }
 
+input ListTodoBoxInput {
+  _id: String
+  title: String
+  parentWorkspaceId: String
+  parentFolderId: String
+  childTodoBoardIds: String
+}
+
+input ListTodoBoardInput {
+  _id: String
+  title: String
+  parentTodoBoxId: String
+  childrenTodoCollectionIds: String
+  parentWorkspaceId: String
+}
+
+input ListTodoCollectionInput {
+  _id: String
+  title: String
+  color: String
+  position: Float
+  parentTodoBoardParentId: String
+  childrenTodoTaskIds: String
+}
+
+input ListTodoTaskInput {
+  _id: String
+  title: String
+  description: String
+  position: Float
+  parentTodoCollectionId: String
+}
+
 type Mutation {
   createWorkspace(payload: CreateWorkspaceInput!): Workspace!
   updateWorkspace(payload: UpdateWorkspaceInput!): Workspace!
-  deleteFolder(_id: String!): Folder!
+  deleteWorkspace(_id: String!): Workspace!
   createDocument(payload: CreateDocumentInput!): Document!
   updateDocument(payload: UpdateDocumentInput!): Document!
   deleteDocument(_id: String!): Document!
   changeDocumentParent(payload: ChangeParentIdInput!): Document!
   createFolder(payload: CreateFolderInput!): Folder!
   updateFolder(payload: UpdateFolderInput!): Folder!
+  deleteFolder(_id: String!): Folder!
   changeFolderParent(payload: ChangeParentIdInput!): Folder!
   createPerson(payload: CreatePersonInput!): Person!
   updatePerson(payload: UpdatePersonInput!): Person!
@@ -98,6 +175,19 @@ type Mutation {
   createHobby(payload: CreateHobbyInput!): Hobby!
   updateHobby(payload: UpdateHobbyInput!): Hobby!
   deleteHobby(_id: String!): Hobby!
+  createTodoBox(payload: CreateTodoBoxInput!): TodoBox!
+  updateTodoBox(payload: UpdateTodoBoxInput!): TodoBox!
+  deleteTodoBox(_id: String!): TodoBox!
+  createTodoBoard(payload: CreateTodoBoardInput!): TodoBoard!
+  updateTodoBoard(payload: UpdateTodoBoardInput!): TodoBoard!
+  deleteTodoBoard(_id: String!): TodoBoard!
+  createTodoCollection(payload: CreateTodoCollectionInput!): TodoCollection!
+  updateTodoCollection(payload: UpdateTodoCollectionInput!): TodoCollection!
+  deleteTodoCollection(_id: String!): TodoCollection!
+  updatePositionTodoCollection(payload: UpdatePositionTodoCollectionInput!): Boolean!
+  createTodoTask(payload: CreateTodoTaskInput!): TodoTask!
+  updateTodoTask(payload: UpdateTodoTaskInput!): TodoTask!
+  deleteTodoTask(_id: String!): TodoTask!
 }
 
 input CreateWorkspaceInput {
@@ -111,8 +201,7 @@ input UpdateWorkspaceInput {
 
 input CreateDocumentInput {
   title: String!
-  parentFolderId: String!
-  typeFile: String!
+  parentFolderId: String
   parentWorkspaceId: String!
 }
 
@@ -121,7 +210,6 @@ input UpdateDocumentInput {
   title: String
   folderPathname: String
   content: String
-  typeFile: String
   parentWorkspaceId: String
 }
 
@@ -132,7 +220,7 @@ input ChangeParentIdInput {
 
 input CreateFolderInput {
   title: String!
-  parentFolderId: String!
+  parentFolderId: String
   parentWorkspaceId: String!
 }
 
@@ -163,4 +251,69 @@ input CreateHobbyInput {
 input UpdateHobbyInput {
   _id: String!
   name: String
+}
+
+input CreateTodoBoxInput {
+  title: String!
+  parentFolderId: String
+  parentWorkspaceId: String!
+}
+
+input UpdateTodoBoxInput {
+  _id: String!
+  title: String
+  parentWorkspaceId: String
+  parentFolderId: String
+  childTodoBoardIds: String
+}
+
+input CreateTodoBoardInput {
+  title: String!
+  parentTodoBoxId: String!
+}
+
+input UpdateTodoBoardInput {
+  _id: String!
+  title: String
+  parentTodoBoxId: String
+  childrenTodoCollectionIds: String
+  parentWorkspaceId: String
+}
+
+input CreateTodoCollectionInput {
+  title: String!
+  color: String
+  position: Float!
+  parentTodoBoardParentId: String!
+}
+
+input UpdateTodoCollectionInput {
+  _id: String!
+  title: String
+  color: String
+  position: Float
+  parentTodoBoardParentId: String
+  childrenTodoTaskIds: String
+}
+
+input UpdatePositionTodoCollectionInput {
+  firstId: String!
+  secondId: String!
+  firstPosition: Float!
+  secondPosition: Float!
+}
+
+input CreateTodoTaskInput {
+  title: String!
+  position: Float!
+  description: String
+  parentTodoCollectionId: String!
+}
+
+input UpdateTodoTaskInput {
+  _id: String!
+  title: String
+  description: String
+  position: Float
+  parentTodoCollectionId: String
 }
