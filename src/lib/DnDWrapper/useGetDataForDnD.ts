@@ -1,6 +1,7 @@
 import {useRef} from "react";
 import {useLazyQuery} from "@apollo/client";
-import DnDConfig from "./DnDConfig";
+import {DnDConfig} from "./DnDConfig";
+
 
 const useGetDataForDnD = () => {
   let queryState = useRef({...DnDConfig.todoCollections})

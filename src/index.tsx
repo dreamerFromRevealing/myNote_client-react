@@ -8,7 +8,8 @@ import {Provider} from 'react-redux'
 import store from "./store/store";
 import {ThemeProvider} from "@mui/material";
 import theme from "./theme";
-import DnDWrapper from "./components/DnDWrapper/DnDWrapper";
+import {DnDWrapper} from "./lib/DnDWrapper/DnDWrapper";
+
 
 
 ReactDOM.render(

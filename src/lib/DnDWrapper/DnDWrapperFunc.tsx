@@ -13,7 +13,7 @@ interface DnDWrapperProps {
   client: ApolloClient<any>;
 }
 
-const DnDWrapper = ({children, client}: DnDWrapperProps) => {
+const DnDWrapperFunc = ({children, client}: DnDWrapperProps) => {
   console.log('DnDWrapper render', client)
 
   const getCurrentArray = useGetDataForDnD()
@@ -37,4 +37,4 @@ const DnDWrapper = ({children, client}: DnDWrapperProps) => {
   );
 };
 
-export default DnDWrapper;
+export default DnDWrapperFunc;
