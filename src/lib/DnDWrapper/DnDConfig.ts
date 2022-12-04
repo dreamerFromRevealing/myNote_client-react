@@ -1,6 +1,6 @@
 import {DocumentNode} from "graphql";
 import {GET_TODO_COLLECTIONS, GET_TODO_TASKS} from "../../queries/queries";
-import {MULTIPLE_DnD_UPDATE_TODO_COLLECTION} from "./Reducers/TODOCollectionReducer/mutation";
+import {MULTIPLE_DnD_UPDATE_TODO_COLLECTION} from "./mutation";
 
 export type DnDConfigItemType = {
   query: DocumentNode,
