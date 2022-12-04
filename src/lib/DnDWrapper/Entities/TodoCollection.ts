@@ -30,9 +30,9 @@ export default class TodoCollection extends Base {
         mutation: this.mutation,
         variables: {
           firstId: this.modifiedState[this.resultDrop.destination.index]._id,
-          firstPosition: this.modifiedState[this.resultDrop.destination.index].position,
+          firstPosition: +this.modifiedState[this.resultDrop.destination.index].position,
           secondId: this.modifiedState[this.resultDrop.source.index]._id,
-          secondPosition: this.modifiedState[this.resultDrop.source.index].position
+          secondPosition: +this.modifiedState[this.resultDrop.source.index].position
         },
         optimisticResponse: {},
         update(cache,) {
