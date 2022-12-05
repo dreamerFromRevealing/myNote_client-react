@@ -1,7 +1,4 @@
-import Base, {BasePropsInterface} from "./Base";
-import {ApolloClient} from "@apollo/client";
-import {DocumentNode} from "graphql/language";
-import {DropResult} from "react-beautiful-dnd";
+import Base from "./Base";
 import {DnDDefaultProps} from "../DnDWrapper";
 
 export default class TodoCollection extends Base {
@@ -23,16 +20,36 @@ export default class TodoCollection extends Base {
   }
 
   updateState(): any {
-   const context = this
+    const context = this
 
     if (this.resultDrop.destination) {
+      // Теперь тут меняем кеш и после этого отправляем запрос на сервер используя fetch
+      //1 - меняем кеш
+      // this.client.cache.modify({
+      //   fields: {
+      //     todoCollections(existingTodoCollections = [], {readField}) {
+      //       console.log(readField('position', existingTodoCollections[0]))
+      //       const newTodoCollections = [...existingTodoCollections];
+      //       if (context.resultDrop.destination) {
+      //         newTodoCollections.splice(context.resultDrop.destination.index, 0, newTodoCollections.splice(context.resultDrop.source.index, 1)[0]);
+      //       }
+      //       return newTodoCollections;
+      //     }
+      //
+      //   }
+      // })
+      const variables = this.modifiedState.map((item: any) => {
+        return {
+          _id: item._id,
+          position: item.position
+        }
+      })
       this.client.mutate({
         mutation: this.mutation,
         variables: {
-          firstId: this.modifiedState[this.resultDrop.destination.index]._id,
-          firstPosition: +this.modifiedState[this.resultDrop.destination.index].position,
-          secondId: this.modifiedState[this.resultDrop.source.index]._id,
-          secondPosition: +this.modifiedState[this.resultDrop.source.index].position
+          arrCollections: {
+            arrCollections: variables
+          }
         },
         optimisticResponse: {},
         update(cache,) {

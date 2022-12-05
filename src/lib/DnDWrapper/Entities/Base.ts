@@ -27,7 +27,9 @@ export default abstract class Base {
 
 
   abstract getCurrentState(): any;
+
   abstract modifyState(): any;
+
   abstract updateState(): any;
 
   protected parsePosition(arr: any, sourceIndex: number, destinationIndex: number): any {
@@ -37,18 +39,30 @@ export default abstract class Base {
           ...item,
           position: +destinationIndex
         }
-      }
-      if (index == destinationIndex) {
+      } else if (index == destinationIndex) {
         return {
           ...item,
           position: +sourceIndex
         }
       }
-      return item
+      return {
+        ...item,
+        position: index
+      }
     });
+    return this.move(items, sourceIndex, destinationIndex);
+  }
 
-    const [reorderedItem] = items.splice(sourceIndex, 1);
-    items.splice(destinationIndex, 0, reorderedItem);
-    return items;
+
+  protected move(arr: any[], oldIndex: number, newIndex: number) {
+    if (newIndex >= arr.length) {
+      let i = newIndex - arr.length + 1;
+      while (i--) {
+        arr.push(undefined);
+      }
+    }
+    arr.splice(newIndex, 0, arr.splice(oldIndex, 1)[0]);
+    return arr;
   }
 }
+

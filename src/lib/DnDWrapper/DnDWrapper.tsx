@@ -5,6 +5,7 @@ import {ApolloClient} from "@apollo/client";
 import Base from "./Entities/Base";
 import TodoCollection from "./Entities/TodoCollection";
 import {DnDConfig, DnDConfigItemType} from "./DnDConfig";
+import { TodoTask } from "./Entities/TodoTask";
 
 interface DnDWrapperProps {
   children: ReactElement;
@@ -28,8 +29,12 @@ export class DnDWrapper extends Component<DnDWrapperProps> {
    //И тут в зависимости от типа должна происходить инициализация того или ного типа
     let initEntity: Base | null = null;
     switch (result.type) {
-      case "todoCollections":
+      case "TodoCollections":
         initEntity = new TodoCollection(defaultProps);
+        break
+      case "todoTasks":
+        initEntity = new TodoTask(defaultProps)
+        break
     }
 
     if (initEntity) {

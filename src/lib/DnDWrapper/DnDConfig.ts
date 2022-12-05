@@ -1,6 +1,7 @@
 import {DocumentNode} from "graphql";
 import {GET_TODO_COLLECTIONS, GET_TODO_TASKS} from "../../queries/queries";
 import { MULTIPLE_DnD_UPDATE_TODO_COLLECTION } from "./mutations";
+import {gql} from "@apollo/client";
 
 export type DnDConfigItemType = {
   query: DocumentNode,
@@ -16,7 +17,7 @@ export type DnDConfigType = {
  * Набор конфигурация для работы с Drag and Drop
  */
 export const DnDConfig: DnDConfigType = {
-  todoCollections: {
+  TodoCollections: {
     query: GET_TODO_COLLECTIONS,
     parentVariable: 'parentTodoBoardParentId',
     mutation: MULTIPLE_DnD_UPDATE_TODO_COLLECTION,

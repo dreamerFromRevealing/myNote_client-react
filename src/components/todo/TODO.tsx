@@ -17,7 +17,7 @@ const TODO = () => {
 
   if (loading) return <Preloader/>
   return (
-      <Droppable droppableId={todoId || ''} type="todoCollections" direction="horizontal">
+      <Droppable droppableId={todoId || ''} type="TodoCollections" direction="horizontal">
         {(provided) => (
           <TodoWrapper ref={provided.innerRef} {...provided.droppableProps}>
             {data.todoCollections && data.todoCollections.map((item: any, index: number) => (
