@@ -32,7 +32,7 @@ export class DnDWrapper extends Component<DnDWrapperProps> {
       case "TodoCollections":
         initEntity = new TodoCollection(defaultProps);
         break
-      case "todoTasks":
+      case "TodoTasks":
         initEntity = new TodoTask(defaultProps)
         break
     }

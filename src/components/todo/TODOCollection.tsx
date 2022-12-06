@@ -16,7 +16,7 @@ const TODOCollection = ({title, color, id, parentTodoBoardParentId,}: TODOCollec
 
   if (!data) return null
   return (
-    <Droppable droppableId={id} type="todoTask" ignoreContainerClipping>
+    <Droppable droppableId={id} type="TodoTasks" ignoreContainerClipping>
       {(provided, snapshot) => {
         return (
           <TodoCollectionWrapper ref={provided.innerRef} {...provided.droppableProps} borderColor={color}>

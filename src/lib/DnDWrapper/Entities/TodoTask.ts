@@ -17,7 +17,7 @@ export class TodoTask extends Base {
           variables: {[this.parentVariable]: this.resultDrop.source.droppableId}
         })
       } else {
-        const data = {
+        this.currentState = {
           sourceCollection: this.client.readQuery({
             query: this.query,
             variables: {[this.parentVariable]: this.resultDrop.source.droppableId}
@@ -27,7 +27,6 @@ export class TodoTask extends Base {
             variables: {[this.parentVariable]: this.resultDrop.destination?.droppableId}
           }).todoTasks
         }
-        this.currentState = data
       }
     }
   }
@@ -37,22 +36,114 @@ export class TodoTask extends Base {
       if (this.resultDrop.source.droppableId === this.resultDrop.destination?.droppableId) {
         this.modifiedState = this.parsePosition(this.currentState.todoTasks, this.resultDrop.source.index, this.resultDrop.destination.index)
       } else {
-        // с одной части нам надо удалить, а вот как бывставить в о вторую нато конечную цель внимательнее посмотреть
-        // тут мы удаляем с предыдущей часи (при этом всем надо после удаления из масива правильно скоректировать позиции)
-        console.log('before', this.currentState.sourceCollection)
-        this.currentState.sourceCollection.splice(this.resultDrop.source.index)
-        console.log('after', this.currentState.sourceCollection)
-        // ==============================================
-        // тут мы интегрируем в следющую часть
+        const moveElement = {
+          ...this.currentState.sourceCollection[this.resultDrop.source.index],
+          position: this.resultDrop.destination.index,
+          parentTodoCollectionId: this.resultDrop.destination?.droppableId
+        }
+        const copySourceCollection = [...this.currentState.sourceCollection]
+        const copyDestinationCollection = [...this.currentState.destinationCollection]
 
-        //===================================
-        console.log('modifyState', this.resultDrop)
+        copySourceCollection.splice(this.resultDrop.source.index, 1)
+        copyDestinationCollection.splice(this.resultDrop.destination.index, 0, moveElement)
+
+        this.modifiedState = {
+          sourceCollection: copySourceCollection,
+          destinationCollection: copyDestinationCollection
+        }
+
       }
     }
   }
 
   updateState(): any {
+    if (!!this.resultDrop?.destination) {
+      const context = this
+      if (this.resultDrop.source.droppableId === this.resultDrop.destination?.droppableId) {
+        this.mutationForMoveInParentCollection(context)
+      } else {
+        this.mutationForMoveInNewCollection(context)
+      }
+    }
+
   }
 
+  mutationForMoveInParentCollection(context: this) {
+    const variables = this.modifiedState.map((item: any) => {
+      return {
+        _id: item._id,
+        position: item.position
+      }
+    })
+    this.client.mutate({
+      mutation: this.mutation,
+      variables: {
+        todoTasks: {
+          todoTasks: variables
+        }
+      },
+      optimisticResponse: {},
+      update(cache,) {
+        cache.writeQuery({
+          query: context.query,
+          variables: {[context.parentVariable]: context.resultDrop.source.droppableId},
+          data: {
+            todoTasks: [...context.modifiedState]
+          }
+        })
+      }
+    })
+  }
 
+  mutationForMoveInNewCollection(context: this) {
+    const firstCollectionVariable = this.modifiedState.sourceCollection.map((item: any) => {
+      return {
+        _id: item._id,
+        position: item.position
+      }
+    })
+
+    const secondCollectionVariable = this.modifiedState.destinationCollection.map((item: any, index: number) => {
+      if (index === context.resultDrop.destination?.index) {
+        return {
+          _id: item._id,
+          position: item.position,
+          parentTodoCollectionId: this.resultDrop.destination?.droppableId
+        }
+      }
+      return {
+        _id: item._id,
+        position: item.position
+      }
+    })
+
+    const variables = [...firstCollectionVariable, ...secondCollectionVariable]
+
+    this.client.mutate({
+      mutation: this.mutation,
+      variables: {
+        todoTasks: {
+          todoTasks: variables
+        }
+      },
+      optimisticResponse: {},
+      update(cache,) {
+        cache.writeQuery({
+          query: context.query,
+          variables: {[context.parentVariable]: context.resultDrop.source.droppableId},
+          data: {
+            todoTasks: [...context.modifiedState.sourceCollection]
+          }
+        })
+
+        cache.writeQuery({
+          query: context.query,
+          variables: {[context.parentVariable]: context.resultDrop.destination?.droppableId},
+          data: {
+            todoTasks: [...context.modifiedState.destinationCollection]
+          }
+        })
+      }
+    })
+  }
 }

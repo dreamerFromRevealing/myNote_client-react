@@ -11,3 +11,15 @@ export const MULTIPLE_DnD_UPDATE_TODO_COLLECTION = gql`
         }
     }
 `
+
+export const MULTIPLE_DnD_UPDATE_TODO_TASK = gql`
+    mutation UpdatePositionTodoTask($todoTasks: UpdatePositionArrTodoTasksInput!) {
+        updatePositionTodoTask(payload: $todoTasks) {
+            _id
+            position
+            parentTodoCollectionId {
+                _id
+            }
+        }
+    }
+`
