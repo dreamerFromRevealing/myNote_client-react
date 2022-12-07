@@ -1,4 +1,4 @@
-import {TodoAddCollectionBtn, TodoCollectionWrapper} from "./styles";
+import {TodoAddCollectionBtn, TodoNewCollectionWrapper} from "./styles";
 import AddIcon from "@mui/icons-material/Add";
 import React from "react";
 import {openModal} from "../../store/modalSlice/modalSlice";
@@ -16,10 +16,10 @@ const dispatch = useDispatch()
   }
 
   return (
-    <TodoCollectionWrapper borderColor={'#30d5c8'}>
+    <TodoNewCollectionWrapper borderColor={'#30d5c8'}>
       <TodoAddCollectionBtn onClick={handleCallCreateCollectionModal}>
         <AddIcon color="success"/>
       </TodoAddCollectionBtn>
-    </TodoCollectionWrapper>
+    </TodoNewCollectionWrapper>
   )
 }

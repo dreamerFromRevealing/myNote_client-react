@@ -12,17 +12,27 @@ interface TodoTasksCollectionProps {
 }
 
 const TodoTasksCollection = ({parentTodoCollectionId, todoTasks, provided}: TodoTasksCollectionProps) => {
+  function getStyle(style: any, snapshot: any) {
+    if (!snapshot.isDropAnimating) {
+      return style;
+    }
+    return {
+      ...style,
+      transitionDuration: `0.001s`,
+    };
+  }
 
 
   return (
-    <div >
+    <div style={{minHeight: '50px'}}>
       {todoTasks && todoTasks.map((task: any, index: number) => (
         <Draggable key={task._id} draggableId={"drag-id-" + task._id} index={index}>
-          {provided => (
+          {(provided, snapshot) => (
             <div
               ref={provided.innerRef}
               {...provided.draggableProps}
               {...provided.dragHandleProps}
+              style={getStyle(provided.draggableProps.style, snapshot)}
             >
               <TodoTask
                 key={task._id}

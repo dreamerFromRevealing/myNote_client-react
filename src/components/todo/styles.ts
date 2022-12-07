@@ -17,6 +17,10 @@ export const TodoCollectionWrapper  = styled.div`
   }
 `
 
+export const TodoNewCollectionWrapper = styled(TodoCollectionWrapper)`
+  height: 156px;
+`
+
 export const TodoCollectionHeader = styled.div`
   display: flex;
   justify-content: space-between;
