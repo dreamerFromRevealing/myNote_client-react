@@ -3,6 +3,7 @@ import {Route, Routes} from "react-router-dom";
 import MainPage from "./pages/MainPage";
 import DocPage from "./pages/DocPage";
 import MainLayout from "./components/layout/MainLayout";
+import TODO from "./components/todo/TODO";
 
 
 function App() {
@@ -11,6 +12,7 @@ function App() {
       <Route element={<MainLayout/>}>
         <Route index element={<MainPage/>}/>
         <Route path="/doc/:docId" element={<DocPage/>}/>
+        <Route path="/todo/:todoId" element={<TODO/>}/>
       </Route>
     </Routes>
   );

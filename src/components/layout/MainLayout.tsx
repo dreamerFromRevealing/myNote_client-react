@@ -1,4 +1,4 @@
-import React, {FC, PropsWithChildren, useState} from 'react'
+import React, {FC, PropsWithChildren, useEffect, useState} from 'react'
 import {
   MainLayoutHideLeftSideBtn,
   MainLayoutLeftSide,
@@ -15,8 +15,7 @@ import Preloader from "./items/Preloader";
 import MainModal from "../modals/mainModal/MainModal";
 import Workspace from "../treeFiles/workspace/Workspace";
 import {GET_WORKSPACES} from "../../queries/workspace";
-import {Outlet} from "react-router-dom";
-
+import {Outlet, useParams} from "react-router-dom";
 
 
 const MainLayout: FC<PropsWithChildren> = (props) => {
@@ -44,8 +43,8 @@ const MainLayout: FC<PropsWithChildren> = (props) => {
           }
         </MainLayoutLeftSide>
         <MainLayoutRightSide open={open}>
-          <MainLayoutHideLeftSideBtn open={open} onClick={handleDrawerSwitch}/>
-          <Outlet />
+            <MainLayoutHideLeftSideBtn open={open} onClick={handleDrawerSwitch}/>
+            <Outlet />
         </MainLayoutRightSide>
       </MainLayoutRow>
       <Footer/>

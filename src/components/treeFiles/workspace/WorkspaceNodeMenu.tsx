@@ -1,7 +1,6 @@
 import React, {FC} from 'react';
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import {Menu, MenuItem} from "@mui/material";
-import useDeleteFile from "../../../hooks/CRUD/useDeleteFile";
 import {useDispatch} from "react-redux";
 import Box from "@mui/material/Box";
 import {openModal} from "../../../store/modalSlice/modalSlice";
@@ -30,6 +29,7 @@ const WorkspaceNodeMenu: FC<WorkspaceNodeMenuProps> = ({id}) => {
   const handleCreateFile = (e: React.MouseEvent<HTMLElement>, type: string) => {
     dispatch(openModal({
       modalType: 'create',
+      subtype: 'Document',
       modalProps: {id: null, parentWorkspaceId: id}
     }))
     handleClose(e);
@@ -37,7 +37,8 @@ const WorkspaceNodeMenu: FC<WorkspaceNodeMenuProps> = ({id}) => {
 
   const handleEdit = (e: React.MouseEvent<HTMLElement>) => {
     dispatch(openModal({
-      modalType: 'edit-workspace',
+      modalType: 'edit',
+      subtype: 'Workspace',
       modalProps: {id}
     }))
     handleClose(e)

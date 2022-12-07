@@ -23,7 +23,11 @@
     "deepmerge": "^4.2.2",
     "graphql": "^16.5.0",
     "lodash": "^4.17.21",
+    "lodash.keyby": "^4.6.0",
+    "nested-property": "^0.0.7",
     "react": "latest",
+    "react-beautiful-dnd": "^13.1.1",
+    "react-color": "^2.19.3",
     "react-dom": "latest",
     "react-icons": "^4.3.1",
     "react-markdown": "^7.1.0",
@@ -55,14 +59,21 @@
     ]
   },
   "devDependencies": {
-    "react-scripts": "^5.0.1",
-    "@craco/craco": "latest",
+    "@craco/craco": "^7.0.0-alpha.0",
+    "@svgr/webpack": "^6.5.0",
+    "@types/lodash": "^4.14.189",
     "@types/node": "latest",
     "@types/react": "latest",
+    "@types/react-beautiful-dnd": "^13.1.2",
+    "@types/react-color": "^3.0.6",
     "@types/react-dom": "latest",
     "@types/styled-components": "latest",
     "craco-alias": "^3.0.1",
+    "react-scripts": "^5.0.1",
     "typescript": "latest"
+  },
+  "overrides": {
+    "@svgr/webpack": "$@svgr/webpack"
   },
   "eslintConfig": {
     "extends": [

@@ -4,7 +4,7 @@ import Box from '@mui/material/Box';
 import TreeItem, {TreeItemProps} from '@mui/lab/TreeItem';
 import {SvgIconProps} from '@mui/material/SvgIcon';
 import NodeIcon from "./nodes/NodeIcon";
-import NodeMenu from "./nodes/NodeMenu";
+import NodeMenu from "./nodes/nodeMenu/NodeMenu";
 import NodeText from "./nodes/NodeText";
 import {useNavigate} from "react-router-dom";
 
@@ -13,7 +13,7 @@ export type StyledTreeItemProps = TreeItemProps & {
   color?: string;
   labelIcon?: React.ElementType<SvgIconProps>;
   labelText: string;
-  type?: string;
+  type: string;
   parentWorkspaceId?: string;
 };
 
@@ -30,7 +30,15 @@ const StyledTreeItem: FC<StyledTreeItemProps> = (props) => {
 
   const getDocument = (e: React.MouseEvent<HTMLElement>) => {
     e.stopPropagation();
-    navigate('/doc/' + other.nodeId)
+    let url = ''
+    switch (type) {
+      case 'Document': url = '/doc/' + other.nodeId
+        break;
+      case 'TodoBoard': url = '/todo/' + other.nodeId
+        break;
+    }
+
+    navigate(url)
   }
 
 
@@ -41,7 +49,7 @@ const StyledTreeItem: FC<StyledTreeItemProps> = (props) => {
           <Box sx={{display: 'flex', alignItems: 'center', p: 0.5, pr: 0}}>
             <NodeIcon type={type}/>
             <NodeText labelText={labelText}/>
-            <NodeMenu parentWorkspaceId={parentWorkspaceId} id={other.nodeId} isFolder/>
+            <NodeMenu name={labelText} parentWorkspaceId={parentWorkspaceId} id={other.nodeId} type={type}/>
           </Box>
         }
         {...other}
@@ -53,10 +61,10 @@ const StyledTreeItem: FC<StyledTreeItemProps> = (props) => {
         label={
           <Box sx={{display: 'flex', alignItems: 'center', p: 0.5, pr: 0}}>
             <Box sx={{display: 'flex', alignItems: 'center', width: 0.9}} onClick={getDocument}>
-            <NodeIcon type={type}/>
+            <NodeIcon  type={type}/>
             <NodeText  labelText={labelText}/>
             </Box>
-            <NodeMenu parentWorkspaceId={parentWorkspaceId} id={other.nodeId}/>
+            <NodeMenu name={labelText} parentWorkspaceId={parentWorkspaceId} id={other.nodeId} type={type}/>
           </Box>
         }
         {...other}

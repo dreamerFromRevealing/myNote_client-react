@@ -1,5 +1,5 @@
 import {createSlice} from "@reduxjs/toolkit";
-import arrayToTree from "array-to-tree";
+import arrayToTree from "../../assets/customArrayToTree";
 
 const fileSlice = createSlice({
   name: 'file',
@@ -10,17 +10,16 @@ const fileSlice = createSlice({
   },
   reducers: {
     createFileTree: (state, action) => {
-      // Тут идет обработка папок, для определения есть ли у них родительская папка или дети
-      const parseData = action.payload.folders.map((folders: any) => ({
-        ...folders,
-        parentFolderId: folders.parentFolderId ? folders.parentFolderId._id : null,
-        children: folders.children ? folders.children : []
-      }))
       // После полученное обновленного объекта папок объединяют с объектом документов
-      const parseResult = parseData.concat(action.payload.documents)
+      const parseResult = action.payload.folders.concat(
+        action.payload.documents,
+        action.payload.todoBoxes,
+        action.payload.todoBoards
+      )
       // И все полученное отдаем функции для преобразования в дерево
       // тут результат будет банально записыватсья в хранилище
-      const tree = arrayToTree(parseResult, {parentProperty: 'parentFolderId', customID: '_id'});
+
+      const tree = arrayToTree(parseResult, {parentProperty: 'parentFolderId._id', customID: '_id'});
       state.tree = {...state.tree, [action.payload.title]: tree}
     },
     switchSaveDocument: (state) => {

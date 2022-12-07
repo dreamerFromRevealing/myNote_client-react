@@ -7,8 +7,9 @@ const useHandleReqAlert = () => {
     callAlert(message, "success");
   }
 
-  const callErrorAlert = (message: string) => {
+  const callErrorAlert = (message: string, err?: any) => {
     callAlert(message, "error");
+    console.error(err)
   }
 
   return {callSuccessAlert, callErrorAlert};

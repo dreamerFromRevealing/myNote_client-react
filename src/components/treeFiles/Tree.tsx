@@ -3,7 +3,7 @@ import {DATAType} from "../../types/types_data_from_server/dataType";
 import TreeView from "@mui/lab/TreeView";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-import Branch from "./Branch";
+import Branch from "./branches/Branch";
 
 const style = {
   width: '100%',
@@ -18,7 +18,11 @@ const Tree: FC<TreeProps> = ({data}) => {
   const [expanded, setExpanded] = React.useState<string[]>([]);
 
   const handleToggle = (event: React.SyntheticEvent, nodeIds: string[]) => {
-    setExpanded(nodeIds);
+    const target = event.target as Element;
+
+    if (target.nodeName !== 'LI' ) {
+      setExpanded(nodeIds);
+    }
   };
 
   const openWhenCreateNewNode = (id: string) => {

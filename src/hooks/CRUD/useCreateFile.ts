@@ -1,46 +1,37 @@
 import {useMutation} from "@apollo/client";
-import {CREATE_NEW_DOCUMENT, CREATE_NEW_FOLDER} from "../../queries/treeFiles";
-import {GET_TREE, GET_TREE_BY_WORKSPACE_ID} from "../../queries/layout";
+import {CREATE_NEW_DOCUMENT, CREATE_NEW_FOLDER, CREATE_TODO_BOARD, CREATE_TODO_BOX} from "../../queries/treeFiles";
+import {GET_TREE_BY_WORKSPACE_ID} from "../../queries/layout";
 import useAlert from "../useAlert";
+import {useEffect, useState} from "react";
+import {DocumentNode} from "graphql/language";
 
-type dataType = {
-  title: string,
-  typeFile?: string,
-  parentWorkspaceId?: string,
-  parentFolderId?: string
-}
-
-const useCreateFile = (parentWorkspaceId?: string) => {
+const useCreateFile = (mutation: DocumentNode, parentWorkspaceId: string): [Function, boolean] => {
   const callAlert = useAlert();
-  const [createDocument] = useMutation(CREATE_NEW_DOCUMENT, {
+
+  const [createHandler, {loading}] = useMutation(mutation, {
     refetchQueries: [{
       query: GET_TREE_BY_WORKSPACE_ID,
       variables: {parentWorkspaceId}
     }]
   });
-  const [createFolder] = useMutation(CREATE_NEW_FOLDER, {
-    refetchQueries: [{
-      query: GET_TREE_BY_WORKSPACE_ID,
-      variables: {parentWorkspaceId}
-    }]
-  });
 
-
-  return async (title: string, typeFile?: string, parentId?: string,) => {
-
-    let data:dataType  = {title, parentWorkspaceId, typeFile}
-    if (parentId) data.parentFolderId = parentId
+  /**
+   * Надо сдлеать более универсальной получения данных здесь
+   */
+  const createFile = async (payload: any) => {
+    let data: any = {...payload}
 
     try {
-      if (typeFile === 'folder') await createFolder({variables: data})
-      else await createDocument({variables: data})
-
+      await createHandler({variables: {...data}});
       callAlert('Файл успешно создан!', 'success');
     } catch (e) {
       console.log(e);
       callAlert('Ошибка создания файла!', 'error');
     }
   }
+
+
+  return [createFile, loading]
 }
 
 export default useCreateFile

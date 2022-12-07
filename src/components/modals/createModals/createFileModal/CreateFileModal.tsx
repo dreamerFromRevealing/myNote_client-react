@@ -1,13 +1,16 @@
 import Grid from '@mui/material/Grid/Grid';
-import React, {FC, useState} from 'react';
+import React, {FC, useEffect, useState} from 'react';
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 import {FormControl, InputLabel, OutlinedInput} from '@mui/material';
 import Select, {SelectChangeEvent} from '@mui/material/Select';
 import MenuItem from "@mui/material/MenuItem";
-import useCreateFile from "../../../hooks/CRUD/useCreateFile";
+import useCreateFile from "../../../../hooks/CRUD/useCreateFile";
+import Preloader from "../../../layout/items/Preloader";
+import {CREATE_NEW_DOCUMENT, CREATE_NEW_FOLDER, CREATE_TODO_BOX} from "../../../../queries/treeFiles";
+import {DocumentNode} from "graphql/language";
 
-interface CreateModalProps {
+export interface CreateModalProps {
   parentId?: string;
   parentWorkspaceId: string;
 }
@@ -15,15 +18,34 @@ interface CreateModalProps {
 type CreateModalFormType = {
   title: string;
   type: string;
+  parentWorkspaceId: string;
+  parentFolderId?: string;
 }
 
-const CreateModal: FC<CreateModalProps> = ({parentId, parentWorkspaceId}) => {
+const CreateFileModal: FC<CreateModalProps> = ({parentId, parentWorkspaceId}) => {
   const [values, setValues] = useState<CreateModalFormType>({
     title: '',
-    type: 'folder'
+    type: 'Folder',
+    parentWorkspaceId,
+    parentFolderId: parentId
   })
+  const [mutation, setMutation] = useState<DocumentNode>(CREATE_NEW_FOLDER)
 
-  const createFile = useCreateFile(parentWorkspaceId)
+  useEffect(() => {
+    switch (values.type) {
+      case 'Folder':
+        setMutation(CREATE_NEW_FOLDER);
+        break;
+      case 'Document':
+        setMutation(CREATE_NEW_DOCUMENT);
+        break;
+      case 'TodoBox':
+        setMutation(CREATE_TODO_BOX);
+        break;
+    }
+  }, [values.type])
+
+  const [createFile, loading] = useCreateFile(mutation, parentWorkspaceId)
 
   const handleType = (event: SelectChangeEvent) => {
     setValues(prevState => ({...prevState, type: event.target.value as string}));
@@ -35,12 +57,12 @@ const CreateModal: FC<CreateModalProps> = ({parentId, parentWorkspaceId}) => {
 
   const handleSave = async () => {
     try {
-      await createFile(values.title, values.type, parentId)
+      await createFile(values, parentId)
     } catch (e) {
       console.error(e)
     }
   }
-
+  if (loading) return <Preloader/>
   return (
     <>
       <Grid spacing={3} sx={{mb: 2}} container>
@@ -54,8 +76,9 @@ const CreateModal: FC<CreateModalProps> = ({parentId, parentWorkspaceId}) => {
               label="Age"
               onChange={handleType}
             >
-              <MenuItem value={'folder'}>Папка</MenuItem>
-              <MenuItem value={'default'}>Документ</MenuItem>
+              <MenuItem value={'Folder'}>Папка</MenuItem>
+              <MenuItem value={'Document'}>Документ</MenuItem>
+              <MenuItem value={'TodoBox'}>TODO-Box</MenuItem>
             </Select>
           </FormControl>
         </Grid>
@@ -73,4 +96,4 @@ const CreateModal: FC<CreateModalProps> = ({parentId, parentWorkspaceId}) => {
   );
 };
 
-export default CreateModal;
+export default CreateFileModal;

@@ -1,25 +1,40 @@
-import React, {useState} from 'react';
+import React, {FC, useEffect, useState} from 'react';
 import {Grid, InputLabel, OutlinedInput} from "@mui/material";
 import FormControl from "@mui/material/FormControl";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import {useMutation} from "@apollo/client";
-import {CREATE_WORKSPACE, GET_WORKSPACES} from "../../../queries/workspace";
-import useHandleReqAlert from "../../../hooks/useHandleReqAlert";
+import {useMutation, useQuery} from "@apollo/client";
+import {GET_WORKSPACE, GET_WORKSPACES, UPDATE_WORKSPACE} from "../../../../queries/workspace";
+import useHandleReqAlert from "../../../../hooks/useHandleReqAlert";
+import Preloader from "../../../layout/items/Preloader";
 
-type WorkspaceCreateModalFormType = {
+interface WorkspaceEditModalProps {
+  id: string;
+}
+
+type WorkspaceEditModalFormType = {
   title: string;
 }
 
-const WorkspaceCreateModal = () => {
+const WorkspaceEditModal: FC<WorkspaceEditModalProps> = ({id}) => {
   const {callSuccessAlert, callErrorAlert} = useHandleReqAlert()
-  const [createWorkspace] = useMutation(CREATE_WORKSPACE,
+  const {data} = useQuery(GET_WORKSPACE, {variables: {_id: id}})
+
+  const [updateWorkspace, {loading}] = useMutation(UPDATE_WORKSPACE,
     {
       refetchQueries: [{query: GET_WORKSPACES}]
     });
-  const [values, setValues] = useState<WorkspaceCreateModalFormType>({
+  const [values, setValues] = useState<WorkspaceEditModalFormType>({
     title: '',
   })
+
+  useEffect(() => {
+    if (!!data) {
+      setValues({
+        title: data?.workspace?.title
+      })
+    }
+  }, [data])
 
   const handleTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
     setValues({
@@ -30,8 +45,9 @@ const WorkspaceCreateModal = () => {
 
   const handleSave = async () => {
     try {
-      await createWorkspace({
+      await updateWorkspace({
         variables: {
+          _id: id,
           title: values.title
         }
       })
@@ -42,6 +58,7 @@ const WorkspaceCreateModal = () => {
     }
   }
 
+  if (loading) return <Preloader/>
   return (
     <>
       <Grid spacing={3} sx={{mb: 2}} container>
@@ -53,10 +70,10 @@ const WorkspaceCreateModal = () => {
         </Grid>
       </Grid>
       <Box sx={{display: 'flex', justifyContent: 'flex-end'}}>
-        <Button onClick={handleSave} variant="outlined">Создать</Button>
+        <Button onClick={handleSave} variant="outlined">Сохранить</Button>
       </Box>
     </>
   );
 };
 
-export default WorkspaceCreateModal;
+export default WorkspaceEditModal;

@@ -1,33 +1,70 @@
 import useAlert from "../useAlert";
 import {useMutation} from "@apollo/client";
-import {DELETE_DOCUMENT, DELETE_FOLDER} from "../../queries/treeFiles";
-import {GET_TREE, GET_TREE_BY_WORKSPACE_ID} from "../../queries/layout";
+import {
+  DELETE_DOCUMENT,
+  DELETE_FOLDER,
+  DELETE_TODO_BOX,
+  DELETE_TODO_COLLECTION,
+  DELETE_TODO_TASK
+} from "../../queries/treeFiles";
+import {GET_TREE_BY_WORKSPACE_ID} from "../../queries/layout";
+import {useEffect, useState} from "react";
+import {GET_TODO_COLLECTIONS, GET_TODO_TASKS} from "../../queries/queries";
 
-const useDeleteFile = (parentWorkspaceId?: string) => {
+const useDeleteFile = (type: string, parentId?: string): [Function, boolean, any] => {
   const callAlert = useAlert();
-  const [deleteDocument] = useMutation(DELETE_DOCUMENT, {
+  const [mutation, setMutation] = useState<any>(DELETE_FOLDER);
+  const [refetch, setRefetch] = useState<any>({
+    refetchQuery: GET_TREE_BY_WORKSPACE_ID,
+    refetchVariables: {parentWorkspaceId: parentId}
+  })
+
+  useEffect(() => {
+    switch (type) {
+      case 'Folder':
+        setMutation(DELETE_FOLDER);
+        break;
+      case 'Document':
+        setMutation(DELETE_DOCUMENT);
+        break;
+      case 'TodoBox':
+        setMutation(DELETE_TODO_BOX);
+        break;
+      case 'TodoCollection':
+        setMutation(DELETE_TODO_COLLECTION)
+        setRefetch({
+          refetchQuery: GET_TODO_COLLECTIONS,
+          refetchVariables: {parentTodoBoardParentId: parentId}
+        })
+        break;
+      case 'TodoTask':
+        setMutation(DELETE_TODO_TASK)
+        setRefetch({
+          refetchQuery: GET_TODO_TASKS,
+          refetchVariables: {parentTodoCollectionId: parentId}
+        })
+    }
+  }, [type, parentId])
+
+  const [deleteHandler, {loading, data}] = useMutation(mutation, {
     refetchQueries: [{
-      query: GET_TREE_BY_WORKSPACE_ID,
-      variables: { parentWorkspaceId }
-    }]
-  });
-  const [deleteFolder] = useMutation(DELETE_FOLDER, {
-    refetchQueries: [{
-      query: GET_TREE_BY_WORKSPACE_ID,
-      variables: { parentWorkspaceId }
+      query: refetch.refetchQuery,
+      variables: {...refetch.refetchVariables}
     }]
   });
 
-  return async (isFolder: boolean, id: string) => {
+
+  const deleteFile = async (id: string) => {
     try {
-      if (isFolder) await deleteFolder({variables: {_id: id}});
-      else await deleteDocument({variables: {_id: id}});
-      callAlert( 'File deleted successfully', 'success');
+      await deleteHandler({variables: {_id: id}});
+      callAlert('File deleted successfully', 'success');
     } catch (e) {
       console.log(e)
-      callAlert( 'Error deleting file, please try again later!', 'error')
+      callAlert('Error deleting file, please try again later!', 'error')
     }
   }
+
+  return [deleteFile, loading, data]
 }
 
 export default useDeleteFile

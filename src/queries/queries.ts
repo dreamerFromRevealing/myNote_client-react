@@ -6,7 +6,6 @@ export const GET_DOCUMENT = gql`
             _id
             title
             content
-            typeFile
             parentWorkspaceId {
                 _id
             }
@@ -28,12 +27,11 @@ export const GET_FOLDER = gql`
 `
 
 export const UPDATE_DOCUMENT = gql`
-    mutation UpdateDocument ($_id: String!, $content: String, $title: String, $typeFile: String){
-        updateDocument (payload: {_id: $_id, content: $content, title: $title, typeFile: $typeFile}) {
+    mutation UpdateDocument ($_id: String!, $content: String, $title: String){
+        updateDocument (payload: {_id: $_id, content: $content, title: $title}) {
             _id
             title
             content
-            typeFile
         }
     }
 `
@@ -43,6 +41,60 @@ export const UPDATE_FOLDER = gql`
         updateFolder (payload: {_id: $_id, title: $title}) {
             _id
             title
+        }
+    }
+`
+
+export const GET_TODO_BOX = gql`
+    query TodoBox ($_id: String!){
+        todoBox (_id: $_id) {
+            _id
+            title
+            parentWorkspaceId {
+                _id
+            }
+            parentFolderId {
+                _id
+            }
+            childTodoBoardIds {
+                _id
+            }
+        }
+    }
+`
+
+export const GET_TODO_COLLECTIONS = gql`
+    query TodoCollections($parentTodoBoardParentId: String) {
+        todoCollections(filters: {parentTodoBoardParentId: $parentTodoBoardParentId}){
+            _id
+            title
+            color
+            position
+            childrenTodoTaskIds {
+                _id
+            }
+        }
+    }
+`
+
+export const GET_TODO_TASKS = gql`
+    query TodoTasks($parentTodoCollectionId: String) {
+        todoTasks(filters: {parentTodoCollectionId: $parentTodoCollectionId}){
+            _id
+            title
+            position
+            description
+        }
+    }
+`
+
+export const GET_TODO_TASK = gql`
+    query TodoTask ($_id: String!){
+        todoTask (_id: $_id) {
+            _id
+            title
+            position
+            description
         }
     }
 `
