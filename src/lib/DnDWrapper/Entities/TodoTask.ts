@@ -60,39 +60,12 @@ export class TodoTask extends Base {
     if (!!this.resultDrop?.destination) {
       const context = this
       if (this.resultDrop.source.droppableId === this.resultDrop.destination?.droppableId) {
-        this.mutationForMoveInParentCollection(context)
+        this.baseMutationFunc(context, 'todoTasks')
       } else {
         this.mutationForMoveInNewCollection(context)
       }
     }
 
-  }
-
-  mutationForMoveInParentCollection(context: this) {
-    const variables = this.modifiedState.map((item: any) => {
-      return {
-        _id: item._id,
-        position: item.position
-      }
-    })
-    this.client.mutate({
-      mutation: this.mutation,
-      variables: {
-        todoTasks: {
-          todoTasks: variables
-        }
-      },
-      optimisticResponse: {},
-      update(cache,) {
-        cache.writeQuery({
-          query: context.query,
-          variables: {[context.parentVariable]: context.resultDrop.source.droppableId},
-          data: {
-            todoTasks: [...context.modifiedState]
-          }
-        })
-      }
-    })
   }
 
   mutationForMoveInNewCollection(context: this) {

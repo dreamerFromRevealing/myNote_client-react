@@ -53,7 +53,6 @@ export default abstract class Base {
     return this.move(items, sourceIndex, destinationIndex);
   }
 
-
   protected move(arr: any[], oldIndex: number, newIndex: number) {
     if (newIndex >= arr.length) {
       let i = newIndex - arr.length + 1;
@@ -63,6 +62,33 @@ export default abstract class Base {
     }
     arr.splice(newIndex, 0, arr.splice(oldIndex, 1)[0]);
     return arr;
+  }
+
+  protected baseMutationFunc(context: this, variablesName: string) {
+    const variables = this.modifiedState.map((item: any) => {
+      return {
+        _id: item._id,
+        position: item.position
+      }
+    })
+    this.client.mutate({
+      mutation: this.mutation,
+      variables: {
+        [variablesName]: {
+          [variablesName]: variables
+        }
+      },
+      optimisticResponse: {},
+      update(cache,) {
+        cache.writeQuery({
+          query: context.query,
+          variables: {[context.parentVariable]: context.resultDrop.source.droppableId},
+          data: {
+            [variablesName]: [...context.modifiedState]
+          }
+        })
+      }
+    })
   }
 }
 

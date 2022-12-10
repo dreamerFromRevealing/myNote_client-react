@@ -1,8 +1,8 @@
 import {gql} from "@apollo/client";
 
 export const MULTIPLE_DnD_UPDATE_TODO_COLLECTION = gql`
-    mutation UpdatePositionTodoCollection($arrCollections: UpdatePositionArrTodoCollectionsInput!) {
-        updatePositionTodoCollection(payload: $arrCollections) {
+    mutation UpdatePositionTodoCollection($todoCollections: UpdatePositionArrTodoCollectionsInput!) {
+        updatePositionTodoCollection(payload: $todoCollections) {
             _id
             position
             parentTodoBoardParentId {
