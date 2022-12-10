@@ -21,33 +21,7 @@ export default class TodoCollection extends Base {
 
   updateState(): any {
     const context = this
-
-    if (this.resultDrop.destination) {
-      const variables = this.modifiedState.map((item: any) => {
-        return {
-          _id: item._id,
-          position: item.position
-        }
-      })
-      this.client.mutate({
-        mutation: this.mutation,
-        variables: {
-          arrCollections: {
-            arrCollections: variables
-          }
-        },
-        optimisticResponse: {},
-        update(cache,) {
-          cache.writeQuery({
-            query: context.query,
-            variables: {[context.parentVariable]: context.resultDrop.source.droppableId},
-            data: {
-              todoCollections: [...context.modifiedState]
-            }
-          })
-        }
-      })
-    }
+    if (this.resultDrop.destination) this.baseMutationFunc(context, 'todoCollections')
   }
 
 }
