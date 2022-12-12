@@ -5,9 +5,9 @@ import TodoAddTask from "./TODOAddTask";
 import TodoTasksCollection from "./TODOTasksCollection";
 import {TodoCollectionMainProps} from "./TodoCollectionFunc";
 import TodoCollectionMenu from "./TODOCollectionMenu";
-import {GET_TODO_TASKS} from "../../queries/queries";
 import {Droppable} from "react-beautiful-dnd";
 import {useQuery} from "@apollo/client";
+import {GET_TODO_TASKS} from "../../queries/entitis/TodoTask";
 
 interface TODOCollectionProps extends TodoCollectionMainProps {}
 

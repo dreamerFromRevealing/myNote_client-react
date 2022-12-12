@@ -4,11 +4,10 @@ import {FormControl, InputLabel, OutlinedInput} from "@mui/material";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import {useMutation, useQuery} from "@apollo/client";
-import {UPDATE_TODO_TASK} from "../../../../queries/treeFiles";
-import {GET_TODO_TASK, GET_TODO_TASKS} from "../../../../queries/queries";
 import Preloader from "../../../layout/items/Preloader";
 import {useDispatch} from "react-redux";
 import {openModal} from "../../../../store/modalSlice/modalSlice";
+import {GET_TODO_TASK, GET_TODO_TASKS, UPDATE_TODO_TASK} from "../../../../queries/entitis/TodoTask";
 
 interface EditTODOTaskModalProps {
   parentTodoCollectionId: string

@@ -27,14 +27,8 @@ const Branch: FC<BranchProps> = ({data, openWhenCreateNewNode}) => {
   }
 
   switch (data.__typename) {
+    case 'Project':
     case 'Folder':
-      return (
-        <StyledTreeItem parentWorkspaceId={data?.parentWorkspaceId?._id} type={data.__typename} nodeId={data._id}
-                        labelText={data.title || ''}>
-          {(Array.isArray(data.children) && data.children.length > 0) && data.children.map((node: any) => (
-            <Branch key={node._id} data={node}/>))}
-        </StyledTreeItem>
-      )
     case 'TodoBox':
       return (
         <StyledTreeItem parentWorkspaceId={data?.parentWorkspaceId?._id} type={data.__typename} nodeId={data._id}

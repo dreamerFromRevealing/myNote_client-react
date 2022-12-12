@@ -4,9 +4,8 @@ import {FormControl, InputLabel, OutlinedInput} from "@mui/material";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import {useMutation} from "@apollo/client";
-import {CREATE_TODO_TASK} from "../../../../queries/treeFiles";
-import {GET_TODO_TASKS} from "../../../../queries/queries";
 import Preloader from "../../../layout/items/Preloader";
+import {CREATE_TODO_TASK, GET_TODO_TASKS} from "../../../../queries/entitis/TodoTask";
 
 interface CreateTODOTaskModalProps {
   parentTodoCollectionId: string

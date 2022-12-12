@@ -20,7 +20,7 @@ const FileMenu: FC<FileMenuProps> = ({anchorEl, open, handleClose}) => {
   }
 
   const handleCreateWorkspace = () => {
-    dispatch(openModal({modalType: 'create', subtype: 'workspace'}))
+    dispatch(openModal({modalType: 'create', subtype: 'Workspace'}))
   }
 
   return (

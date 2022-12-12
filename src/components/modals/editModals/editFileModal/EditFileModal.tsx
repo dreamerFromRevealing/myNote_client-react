@@ -21,22 +21,8 @@ const EditFileModal: FC<EditModalProps> = ({id, type, parentWorkspaceId}) => {
 
   useEffect(() => {
     if (!!currentData) {
-      switch (type) {
-        case 'Folder':
-          setValues({
-            title: currentData.folder.title
-          })
-          break;
-        case 'Document':
-          setValues({
-            title: currentData.document.title
-          })
-          break;
-          case 'TodoBox':
-          setValues({
-            title: currentData.todoBox.title
-          })
-      }
+      const propName = type[0].toLowerCase() + type.slice(1)
+      setValues({title: currentData[propName].title})
     }
   }, [currentData])
 

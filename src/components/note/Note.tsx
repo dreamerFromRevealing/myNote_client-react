@@ -6,9 +6,7 @@ import {setStatus, switchSaveDocument} from "../../store/fileSlice/fileSlice";
 import {useDispatch, useSelector} from "react-redux";
 import { useParams } from 'react-router-dom';
 import HeaderNote from "./HeaderNote";
-import {GET_DOCUMENT, UPDATE_DOCUMENT} from "../../queries/queries";
-
-
+import {GET_DOCUMENT, UPDATE_DOCUMENT} from "../../queries/entitis/Document";
 const Note = () => {
   const dispatch = useDispatch()
   const state = useSelector((state: any) => state.file);

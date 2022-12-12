@@ -6,7 +6,7 @@ import {FormControl, InputLabel, OutlinedInput} from "@mui/material";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import {CreateModalProps} from "../createFileModal/CreateFileModal";
-import {CREATE_TODO_BOARD} from "../../../../queries/treeFiles";
+import {CREATE_TODO_BOARD} from "../../../../queries/entitis/TodoBoard";
 
 const TodoBoardCreateModal  = ({parentId, parentWorkspaceId}: CreateModalProps) => {
   const [values, setValues] = useState({

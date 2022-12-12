@@ -21,7 +21,9 @@ const BodyModal = () => {
         case 'TodoBox':
         case 'Folder':
         case 'Document':
-          return <EditFileModal parentWorkspaceId={state.modalProps.parentWorkspaceId} id={state.modalProps.id} type={state.modalProps.type}/>
+        case 'Project':
+          return <EditFileModal parentWorkspaceId={state.modalProps.parentWorkspaceId} id={state.modalProps.id}
+                                type={state.modalProps.type}/>
         case 'Workspace':
           return <WorkspaceEditModal id={state.modalProps.id}/>
         case 'TodoCollection':
@@ -31,7 +33,8 @@ const BodyModal = () => {
             title={state.modalProps.name}
             color={state.modalProps.color}/>
         case 'TodoTask':
-          return <EditTODOTaskModal parentTodoCollectionId={state.modalProps.parentTodoCollectionId} id={state.modalProps.id}/>
+          return <EditTODOTaskModal parentTodoCollectionId={state.modalProps.parentTodoCollectionId}
+                                    id={state.modalProps.id}/>
         default:
           return null;
       }
@@ -40,20 +43,22 @@ const BodyModal = () => {
     case 'create':
       switch (state.subtype) {
         case 'Folder':
-          return <CreateFileModal parentWorkspaceId={state.modalProps.parentWorkspaceId}
+        case 'Project':
+          return <CreateFileModal parentType={state.subtype} parentWorkspaceId={state.modalProps.parentWorkspaceId}
                                   parentId={state.modalProps.id}/>
         case 'Workspace':
           return <WorkspaceCreateModal/>
         case 'TodoBox':
-          return  <TodoBoardCreateModal parentWorkspaceId={state.modalProps.parentWorkspaceId}
-                                        parentId={state.modalProps.id}/>
+          return <TodoBoardCreateModal parentWorkspaceId={state.modalProps.parentWorkspaceId}
+                                       parentId={state.modalProps.id}/>
         case 'TodoCollection':
           return <CreateTodoCollectionModal
             parentTodoBoardParentId={state.modalProps.parentTodoBoardParentId}
             countItems={state.modalProps.countItems}
           />
         case 'TodoTask':
-          return <CreateTodoTaskModal parentTodoCollectionId={state.modalProps.parentTodoCollectionId} countItems={state.modalProps.countItems}/>
+          return <CreateTodoTaskModal parentTodoCollectionId={state.modalProps.parentTodoCollectionId}
+                                      countItems={state.modalProps.countItems}/>
         default:
           return null;
       }

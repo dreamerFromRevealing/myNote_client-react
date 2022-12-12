@@ -1,15 +1,15 @@
 import useAlert from "../useAlert";
 import {useMutation} from "@apollo/client";
-import {
-  DELETE_DOCUMENT,
-  DELETE_FOLDER,
-  DELETE_TODO_BOX,
-  DELETE_TODO_COLLECTION,
-  DELETE_TODO_TASK
-} from "../../queries/treeFiles";
 import {GET_TREE_BY_WORKSPACE_ID} from "../../queries/layout";
 import {useEffect, useState} from "react";
-import {GET_TODO_COLLECTIONS, GET_TODO_TASKS} from "../../queries/queries";
+import {DELETE_TODO_COLLECTION, GET_TODO_COLLECTIONS} from "../../queries/entitis/TodoCollection";
+import {DELETE_TODO_TASK, GET_TODO_TASKS} from "../../queries/entitis/TodoTask";
+import {DELETE_TODO_BOX} from "../../queries/entitis/TodoBox";
+import {DELETE_FOLDER} from "../../queries/entitis/Folder";
+import {DELETE_PROJECT} from "../../queries/entitis/Project";
+import {DELETE_DOCUMENT} from "../../queries/entitis/Document";
+import {DELETE_TODO_BOARD} from "../../queries/entitis/TodoBoard";
+import {DELETE_LOGBOOK} from "../../queries/entitis/Logbook";
 
 const useDeleteFile = (type: string, parentId?: string): [Function, boolean, any] => {
   const callAlert = useAlert();
@@ -37,12 +37,22 @@ const useDeleteFile = (type: string, parentId?: string): [Function, boolean, any
           refetchVariables: {parentTodoBoardParentId: parentId}
         })
         break;
+      case 'TodoBoard':
+        setMutation(DELETE_TODO_BOARD)
+        break;
       case 'TodoTask':
         setMutation(DELETE_TODO_TASK)
         setRefetch({
           refetchQuery: GET_TODO_TASKS,
           refetchVariables: {parentTodoCollectionId: parentId}
         })
+        break;
+      case 'Project':
+        setMutation(DELETE_PROJECT)
+        break;
+      case 'Logbook':
+        setMutation(DELETE_LOGBOOK)
+        break;
     }
   }, [type, parentId])
 

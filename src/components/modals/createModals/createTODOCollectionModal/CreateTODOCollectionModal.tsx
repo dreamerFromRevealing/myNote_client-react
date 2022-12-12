@@ -5,10 +5,9 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Preloader from "../../../layout/items/Preloader";
 import {useMutation} from "@apollo/client";
-import {CREATE_TODO_COLLECTION} from "../../../../queries/treeFiles";
-import {GET_TODO_COLLECTIONS} from "../../../../queries/queries";
 import useHandleReqAlert from "../../../../hooks/useHandleReqAlert";
 import {ColorResult, SliderPicker} from "react-color";
+import {CREATE_TODO_COLLECTION, GET_TODO_COLLECTIONS} from "../../../../queries/entitis/TodoCollection";
 
 
 const CreateTodoCollectionModal = ({parentTodoBoardParentId, countItems}: {parentTodoBoardParentId: string, countItems: number}) => {

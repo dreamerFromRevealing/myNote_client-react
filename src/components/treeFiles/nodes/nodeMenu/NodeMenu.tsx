@@ -57,6 +57,7 @@ const NodeMenu: FC<NodeMenuProps> = ({type, id, parentWorkspaceId, name}) => {
       handleCreateFile={handleCreateFile}
       handleEdit={handleEdit}
       handleDelete={handleDelete}
+      id={id}
     />
   );
 };

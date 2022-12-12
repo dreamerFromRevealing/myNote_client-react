@@ -27,14 +27,14 @@ const TodoTask = ({title, _id, description, parentTodoCollectionId}: TodoCollect
   return (
     <Box sx={{backgroundColor: '#fff', p: 1, mb: 1}}>
       <Box sx={{display: 'flex', justifyContent: 'space-between', mb: 1}}>
-        <Typography sx={{fontSize: '1.2em'}} variant="subtitle2">
+        <Typography sx={{fontWeight: '600'}} variant="subtitle2">
           {title}
         </Typography>
         <Button size="small" onClick={handleEdit}>
           <EditIcon  sx={{ color: '#60226f' }}/>
         </Button>
       </Box>
-      <Typography>
+      <Typography >
         {description}
       </Typography>
     </Box>

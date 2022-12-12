@@ -1,8 +1,5 @@
 import React from 'react';
 import TodoTask from "./TODOTask";
-import {GET_TODO_COLLECTIONS, GET_TODO_TASKS} from "../../queries/queries";
-import {useQuery} from "@apollo/client";
-import useFormatPositionElement from "../../hooks/useFormatPositionElement";
 import {Draggable} from "react-beautiful-dnd";
 
 interface TodoTasksCollectionProps {

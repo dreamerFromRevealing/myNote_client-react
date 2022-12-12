@@ -56,6 +56,28 @@ export const GET_TREE_BY_WORKSPACE_ID = gql`
             }
         }
         
+        projects(filters: {parentWorkspaceId: $parentWorkspaceId}){
+            _id
+            title
+            parentFolderId {
+                _id
+            }
+            parentWorkspaceId {
+                _id
+            }
+        }
+        
+        logbooks(filters: {parentWorkspaceId: $parentWorkspaceId}){
+            _id
+            title
+            parentFolderId {
+                _id
+            }
+            parentWorkspaceId {
+                _id
+            }
+        }
+        
         todoBoxes(filters: {parentWorkspaceId: $parentWorkspaceId}){
             _id
             title

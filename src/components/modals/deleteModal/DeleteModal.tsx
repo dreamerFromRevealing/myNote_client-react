@@ -1,5 +1,4 @@
 import React, {useEffect} from 'react';
-import {EditModalProps} from "../editModals/editFileModal/EditFileModal";
 import useDeleteFile from "../../../hooks/CRUD/useDeleteFile";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
