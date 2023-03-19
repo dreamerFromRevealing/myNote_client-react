@@ -4,23 +4,21 @@ import {Menu, MenuItem} from "@mui/material";
 import {useDispatch} from "react-redux";
 import Box from "@mui/material/Box";
 import {openModal} from "../../../store/modalSlice/modalSlice";
-import useDeleteWorkspace from "../../../hooks/WorkspaceCRUD/useDeleteWorkspace";
-
 
 interface WorkspaceNodeMenuProps {
   id: string;
 }
 
-const WorkspaceNodeMenu: FC<WorkspaceNodeMenuProps> = ({id}) => {
+const ProjectNodeMenu: FC<WorkspaceNodeMenuProps> = ({id}) => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
-  const deleteWorkspace = useDeleteWorkspace()
   const dispatch = useDispatch()
 
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     event.stopPropagation()
     setAnchorEl(event.currentTarget);
   };
+
   const handleClose = (e: any) => {
     e.stopPropagation()
     setAnchorEl(null);
@@ -29,8 +27,8 @@ const WorkspaceNodeMenu: FC<WorkspaceNodeMenuProps> = ({id}) => {
   const handleCreateFile = (e: React.MouseEvent<HTMLElement>) => {
     dispatch(openModal({
       modalType: 'create',
-      subtype: 'Project',
-      modalProps: { parentWorkspaceId: id, id: null}
+      subtype: 'ProjectFile',
+      modalProps: { parentProjectId: id, id: null}
     }))
     handleClose(e);
   };
@@ -38,17 +36,24 @@ const WorkspaceNodeMenu: FC<WorkspaceNodeMenuProps> = ({id}) => {
   const handleEdit = (e: React.MouseEvent<HTMLElement>) => {
     dispatch(openModal({
       modalType: 'edit',
-      subtype: 'Workspace',
-      modalProps: {id}
+      subtype: 'Project',
+      modalProps: {
+        id
+      }
     }))
     handleClose(e)
   };
 
-
   const handleDelete = (e: React.MouseEvent<HTMLElement>) => {
-    deleteWorkspace(id)
+    dispatch(openModal({
+      modalType: 'delete',
+      modalProps: {
+        id,
+        type: 'Project',
+      }
+    }))
     handleClose(e)
-  };
+  }
 
   return (
     <div>
@@ -73,4 +78,4 @@ const WorkspaceNodeMenu: FC<WorkspaceNodeMenuProps> = ({id}) => {
   );
 };
 
-export default WorkspaceNodeMenu;
+export default ProjectNodeMenu;

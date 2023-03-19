@@ -12,9 +12,12 @@ export interface ItemsNodeMenuProps {
   handleEdit: any,
   handleDelete: any
   id?: string
+  parentProjectId?: string
 }
 
-const ItemsNodeMenu = ({close, type, handleCreateFile, handleEdit, handleDelete, id}: ItemsNodeMenuProps) => {
+const ItemsNodeMenu = (props: ItemsNodeMenuProps) => {
+  const {close, type, handleCreateFile, handleEdit, handleDelete, id, parentProjectId} = props;
+
   switch (type) {
     case 'Folder':
       return (
@@ -50,6 +53,7 @@ const ItemsNodeMenu = ({close, type, handleCreateFile, handleEdit, handleDelete,
           handleEdit={handleEdit}
           handleDelete={handleDelete}
           id={id}
+          parentProjectId={parentProjectId}
         />
       )
     default:

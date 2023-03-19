@@ -1,8 +1,8 @@
 import {gql} from "@apollo/client";
 
 export const CREATE_PROJECT = gql`
-    mutation CreateProject($title: String!, $parentFolderId: String, $parentWorkspaceId: String!) {
-        createProject(payload: {title: $title, parentFolderId: $parentFolderId, parentWorkspaceId: $parentWorkspaceId}) {
+    mutation CreateProject($title: String!, $parentWorkspaceId: String!) {
+        createProject(payload: {title: $title, parentWorkspaceId: $parentWorkspaceId}) {
             _id
             title
         }
@@ -18,8 +18,8 @@ export const DELETE_PROJECT = gql`
 `
 
 export const UPDATE_PROJECT = gql`
-    mutation UpdateProject($_id: String!, $title: String, $parentWorkspaceId: String, $parentFolderId: String) {
-        updateProject(payload: {_id: $_id, title: $title, parentWorkspaceId: $parentWorkspaceId, parentFolderId: $parentFolderId}) {
+    mutation UpdateProject($_id: String!, $title: String, $parentWorkspaceId: String) {
+        updateProject(payload: {_id: $_id, title: $title, parentWorkspaceId: $parentWorkspaceId}) {
             _id
         }
     }
@@ -33,9 +33,16 @@ export const GET_PROJECT = gql`
             parentWorkspaceId {
                 _id
             }
-            parentFolderId {
-                _id
-            }
+        }
+    }
+`
+
+
+export const GET_PROJECTS = gql`
+    query Projects ($parentWorkspaceId: String!){
+        projects (filters: {parentWorkspaceId: $parentWorkspaceId}) {
+            _id
+            title
         }
     }
 `

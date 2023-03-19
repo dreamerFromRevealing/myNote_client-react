@@ -9,8 +9,8 @@ export const UPDATE_DOCUMENT_TITLE = gql`
     }
 `
 export const CREATE_NEW_DOCUMENT = gql`
-    mutation CreateDocument ($parentFolderId: String, $title: String!, $parentWorkspaceId: String!){
-        createDocument (payload: {parentFolderId: $parentFolderId, title: $title, parentWorkspaceId: $parentWorkspaceId}) {
+    mutation CreateDocument ($parentFolderId: String, $title: String!, $parentProjectId: String!){
+        createDocument (payload: {parentFolderId: $parentFolderId, title: $title, parentProjectId: $parentProjectId}) {
             _id
             title
         }
@@ -30,7 +30,7 @@ export const GET_DOCUMENT = gql`
             _id
             title
             content
-            parentWorkspaceId {
+            parentProjectId {
                 _id
             }
         }

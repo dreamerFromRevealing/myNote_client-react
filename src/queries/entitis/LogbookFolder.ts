@@ -1,8 +1,8 @@
 import {gql} from "@apollo/client";
 
 export const CREATE_LOGBOOK_FOLDER = gql`
-    mutation CreateLogbookFolder($title: String!, $parentLogbookId: String) {
-        createLogbookFolder(payload: {title: $title, parentLogbookId: $parentLogbookId}) {
+    mutation CreateLogbookFolder($title: String!, $parentLogbookId: String!, $parentProjectId: String!) {
+        createLogbookFolder(payload: {title: $title, parentLogbookId: $parentLogbookId, parentProjectId: $parentProjectId}) {
             _id
             title
         }
@@ -26,8 +26,8 @@ export const UPDATE_LOGBOOK_FOLDER = gql`
 `
 
 export const GET_TODO_LOGBOOK_FOLDER_BY_TITLE = gql`
-    query LogbookFolder($title: String, $parentLogbookId: String) {
-        logbookFolder(filters: {title: $title, parentLogbookId: $parentLogbookId}){
+    query LogbookFolders($title: String, $parentLogbookId: String!) {
+        logbookFolders(filters: {title: $title, parentLogbookId: $parentLogbookId}){
             _id
             title
         }

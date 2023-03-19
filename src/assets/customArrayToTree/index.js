@@ -56,6 +56,12 @@ function groupByParents(array, options) {
       case 'TodoBoard':
         parentProperty = 'parentTodoBoxId._id';
         break
+      case 'LogbookFolder':
+        parentProperty = 'parentLogbookId._id';
+        break
+      case 'Log':
+        parentProperty = 'parentLogbookFolderId._id';
+        break
     }
     var parentID = property.get(item, parentProperty);
     // Если у элемента нету parentID, или если нету элемента у которого _id === parentID

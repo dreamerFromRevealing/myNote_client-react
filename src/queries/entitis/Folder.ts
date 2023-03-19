@@ -1,8 +1,8 @@
 import {gql} from "@apollo/client";
 
 export const CREATE_NEW_FOLDER = gql`
-    mutation createFolder ($parentFolderId: String, $title: String!, $parentWorkspaceId: String!){
-        createFolder (payload: {parentFolderId: $parentFolderId, title: $title, parentWorkspaceId: $parentWorkspaceId}) {
+    mutation createFolder ($parentFolderId: String, $title: String!, $parentProjectId: String!){
+        createFolder (payload: {parentFolderId: $parentFolderId, title: $title, parentProjectId: $parentProjectId}) {
             _id
             title
         }
@@ -25,7 +25,7 @@ export const GET_FOLDER = gql`
             _id
             title
             pathname
-            parentWorkspaceId {
+            parentProjectId {
                 _id
             }
         }

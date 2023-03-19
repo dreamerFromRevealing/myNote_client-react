@@ -1,13 +1,13 @@
 import {useEffect, useState} from "react";
 import {useLazyQuery, useMutation} from "@apollo/client";
-import {GET_TREE_BY_WORKSPACE_ID} from "../../queries/layout";
+import {GET_TREE_BY_PROJECT_ID} from "../../queries/layout";
 import useHandleReqAlert from "../useHandleReqAlert";
 import {GET_FOLDER, UPDATE_FOLDER} from "../../queries/entitis/Folder";
 import {GET_DOCUMENT, UPDATE_DOCUMENT} from "../../queries/entitis/Document";
 import {GET_TODO_BOX, UPDATE_TODO_BOX} from "../../queries/entitis/TodoBox";
 import {GET_LOGBOOK, UPDATE_LOGBOOK} from "../../queries/entitis/Logbook";
 import {GET_PROJECT, UPDATE_PROJECT} from "../../queries/entitis/Project";
-const useUpdateFile = (id: string, type: string, parentWorkspaceId: string): [Function, boolean, any] => {
+const useUpdateFile = (id: string, type: string, parentProjectId: string): [Function, boolean, any] => {
 //Это значения по умолчанию
   const [query, setQuery] = useState<any>({
     query: GET_FOLDER,
@@ -51,8 +51,8 @@ const useUpdateFile = (id: string, type: string, parentWorkspaceId: string): [Fu
   const [updateFile, {loading}] = useMutation(query.mutation,
     {
       refetchQueries: [{
-        query: GET_TREE_BY_WORKSPACE_ID,
-        variables: { parentWorkspaceId }
+        query: GET_TREE_BY_PROJECT_ID,
+        variables: { parentProjectId }
       }]
     });
   const {callSuccessAlert, callErrorAlert} = useHandleReqAlert()

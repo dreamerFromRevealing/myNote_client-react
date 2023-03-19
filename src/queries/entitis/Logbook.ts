@@ -1,8 +1,8 @@
 import {gql} from "@apollo/client";
 
 export const CREATE_LOGBOOK = gql`
-    mutation CreateLogbook($title: String!, $parentFolderId: String, $parentWorkspaceId: String!) {
-        createLogbook(payload: {title: $title, parentFolderId: $parentFolderId, parentWorkspaceId: $parentWorkspaceId}) {
+    mutation CreateLogbook($title: String!, $parentProjectId: String!) {
+        createLogbook(payload: {title: $title, parentProjectId: $parentProjectId}) {
             _id
             title
         }
@@ -18,8 +18,8 @@ export const DELETE_LOGBOOK = gql`
 `
 
 export const UPDATE_LOGBOOK = gql`
-    mutation UpdateLogbook($_id: String!, $title: String, $parentWorkspaceId: String, $parentFolderId: String) {
-        updateLogbook(payload: {_id: $_id, title: $title, parentWorkspaceId: $parentWorkspaceId, parentFolderId: $parentFolderId}) {
+    mutation UpdateLogbook($_id: String!, $title: String, $parentProjectId: String, $parentFolderId: String) {
+        updateLogbook(payload: {_id: $_id, title: $title, parentProjectId: $parentProjectId, parentFolderId: $parentFolderId}) {
             _id
         }
     }
@@ -31,12 +31,10 @@ export const GET_LOGBOOK = gql`
         logbook (_id: $_id) {
             _id
             title
-            parentWorkspaceId {
-                _id
-            }
-            parentFolderId {
+            parentProjectId {
                 _id
             }
         }
     }
 `
+

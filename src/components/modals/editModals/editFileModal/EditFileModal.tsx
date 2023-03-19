@@ -9,11 +9,11 @@ import useUpdateFile from "../../../../hooks/CRUD/useUpdateFile";
 export interface EditModalProps {
   id: string;
   type: string;
-  parentWorkspaceId: string;
+  parentProjectId: string;
 }
 
-const EditFileModal: FC<EditModalProps> = ({id, type, parentWorkspaceId}) => {
-  const [handleUpdate, loading, currentData] = useUpdateFile(id, type, parentWorkspaceId)
+const EditFileModal: FC<EditModalProps> = ({id, type, parentProjectId}) => {
+  const [handleUpdate, loading, currentData] = useUpdateFile(id, type, parentProjectId)
   const [values, setValues] = useState<any>({
     title: '',
   })

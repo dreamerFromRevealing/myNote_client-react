@@ -16,22 +16,22 @@ import {CREATE_PROJECT} from "../../../../queries/entitis/Project";
 
 export interface CreateModalProps {
   parentId?: string;
-  parentWorkspaceId: string;
+  parentProjectId: string;
   parentType?: string
 }
 
 export type CreateModalFormType = {
   title: string;
   type: string;
-  parentWorkspaceId: string;
+  parentProjectId: string;
   parentFolderId?: string;
 }
 
-const CreateFileModal = ({parentId, parentWorkspaceId, parentType}: CreateModalProps) => {
+const CreateFileModal = ({parentId, parentProjectId, parentType}: CreateModalProps) => {
   const [values, setValues] = useState<CreateModalFormType>({
     title: '',
     type: 'Folder',
-    parentWorkspaceId,
+    parentProjectId,
     parentFolderId: parentId
   })
   const [mutation, setMutation] = useState<DocumentNode>(CREATE_NEW_FOLDER)
@@ -50,17 +50,15 @@ const CreateFileModal = ({parentId, parentWorkspaceId, parentType}: CreateModalP
       case 'Logbook':
         setMutation(CREATE_LOGBOOK);
         break;
-      case 'Project':
+      case 'ProjectFile':
         setMutation(CREATE_PROJECT);
         break;
     }
   }, [values.type])
 
-  const [createFile, loading] = useCreateFile(mutation, parentWorkspaceId)
+  const [createFile, loading] = useCreateFile(mutation, parentProjectId)
 
   const handleType = (event: SelectChangeEvent) => {
-
-
     setValues(prevState => ({...prevState, type: event.target.value as string}));
   };
 
@@ -91,9 +89,9 @@ const CreateFileModal = ({parentId, parentWorkspaceId, parentType}: CreateModalP
             >
               <MenuItem value={'Folder'}>Папка</MenuItem>
               <MenuItem value={'Document'}>Документ</MenuItem>
-              {parentType === 'Project' && <MenuItem value={'TodoBox'}>TODO-Box</MenuItem>}
-              {parentType === 'Project' && <MenuItem value={'Logbook'}>Набор журналов</MenuItem>}
-              {parentType === 'Folder' && <MenuItem value={'Project'}>Проект</MenuItem>}
+              {parentType === 'ProjectFile' && <MenuItem value={'TodoBox'}>TODO-Box</MenuItem>}
+              {parentType === 'ProjectFile' && <MenuItem value={'Logbook'}>Набор журналов</MenuItem>}
+              {/*{parentType === 'Folder' && <MenuItem value={'Project'}>Проект</MenuItem>}*/}
             </Select>
           </FormControl>
         </Grid>

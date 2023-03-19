@@ -25,12 +25,12 @@ export const GET_TREE = gql`
 `
 
 
-export const GET_TREE_BY_WORKSPACE_ID = gql`
-    query FoldersDocuments($parentWorkspaceId: String!){
-        folders(filters: {parentWorkspaceId: $parentWorkspaceId}){
+export const GET_TREE_BY_PROJECT_ID = gql`
+    query FoldersDocuments($parentProjectId: String!){
+        folders(filters: {parentProjectId: $parentProjectId}){
             _id
             title
-            parentWorkspaceId {
+            parentProjectId {
                 _id
             }
             parentFolderId {
@@ -42,63 +42,80 @@ export const GET_TREE_BY_WORKSPACE_ID = gql`
             childDocsIds{
                 _id
             }
-            
+
         }
 
-        documents(filters: {parentWorkspaceId: $parentWorkspaceId}){
+        documents(filters: {parentProjectId: $parentProjectId}){
             _id
             title
             parentFolderId {
                 _id
             }
-            parentWorkspaceId {
+            parentProjectId {
                 _id
             }
         }
-        
-        projects(filters: {parentWorkspaceId: $parentWorkspaceId}){
+
+        logbooks(filters: {parentProjectId: $parentProjectId}){
             _id
             title
+            parentProjectId {
+                _id
+            }
+        }
+
+        logbookFolders(filters: {parentProjectId: $parentProjectId}){
+            _id
+            title
+            parentProjectId {
+                _id
+            }
+            parentLogbookId {
+                _id
+            }
+        }
+
+        logs (filters: {parentProjectId: $parentProjectId}){
+            _id
+            title
+            parentProjectId {
+                _id
+            }
+            parentLogbookFolderId {
+                _id
+            }
+        }
+
+        todoBoxes(filters: {parentProjectId: $parentProjectId}){
+            _id
+            title
+            parentProjectId {
+                _id
+            }
             parentFolderId {
                 _id
             }
-            parentWorkspaceId {
-                _id
-            }
         }
-        
-        logbooks(filters: {parentWorkspaceId: $parentWorkspaceId}){
+
+        todoBoards(filters: {parentProjectId: $parentProjectId}){
             _id
             title
-            parentFolderId {
-                _id
-            }
-            parentWorkspaceId {
-                _id
-            }
-        }
-        
-        todoBoxes(filters: {parentWorkspaceId: $parentWorkspaceId}){
-            _id
-            title
-            parentWorkspaceId {
-                _id
-            }
-            parentFolderId {
-                _id
-            }
-        }
-        
-        todoBoards(filters: {parentWorkspaceId: $parentWorkspaceId}){
-            _id
-            title
-            parentWorkspaceId {
+            parentProjectId {
                 _id
             }
             parentTodoBoxId {
                 _id
-                }
+            }
         }
     }
 `
 
+
+export const GET_PROJECTS_ID = gql`
+    query Projects ($parentWorkspaceId: String!) {
+        projects(filters: {parentWorkspaceId: $parentWorkspaceId}) {
+            _id
+            title
+        }
+    }
+`
