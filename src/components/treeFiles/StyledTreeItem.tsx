@@ -14,7 +14,7 @@ export type StyledTreeItemProps = TreeItemProps & {
   labelIcon?: React.ElementType<SvgIconProps>;
   labelText: string;
   type: string;
-  parentWorkspaceId?: string;
+  parentProjectId?: string;
 };
 
 const StyledTreeItem: FC<StyledTreeItemProps> = (props) => {
@@ -23,7 +23,7 @@ const StyledTreeItem: FC<StyledTreeItemProps> = (props) => {
     color,
     labelText,
     type,
-    parentWorkspaceId,
+    parentProjectId,
     ...other
   } = props;
   const navigate = useNavigate();
@@ -35,6 +35,8 @@ const StyledTreeItem: FC<StyledTreeItemProps> = (props) => {
       case 'Document': url = '/doc/' + other.nodeId
         break;
       case 'TodoBoard': url = '/todo/' + other.nodeId
+        break;
+      case 'Log': url = '/log/' + other.nodeId
         break;
     }
 
@@ -49,7 +51,7 @@ const StyledTreeItem: FC<StyledTreeItemProps> = (props) => {
           <Box sx={{display: 'flex', alignItems: 'center', p: 0.5, pr: 0}}>
             <NodeIcon type={type}/>
             <NodeText labelText={labelText}/>
-            <NodeMenu name={labelText} parentWorkspaceId={parentWorkspaceId} id={other.nodeId} type={type}/>
+            <NodeMenu name={labelText} parentProjectId={parentProjectId} id={other.nodeId} type={type}/>
           </Box>
         }
         {...other}
@@ -64,7 +66,7 @@ const StyledTreeItem: FC<StyledTreeItemProps> = (props) => {
             <NodeIcon  type={type}/>
             <NodeText  labelText={labelText}/>
             </Box>
-            <NodeMenu name={labelText} parentWorkspaceId={parentWorkspaceId} id={other.nodeId} type={type}/>
+            <NodeMenu name={labelText} parentProjectId={parentProjectId} id={other.nodeId} type={type}/>
           </Box>
         }
         {...other}

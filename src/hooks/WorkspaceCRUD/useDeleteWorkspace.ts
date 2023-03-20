@@ -1,6 +1,6 @@
 import useHandleReqAlert from "../useHandleReqAlert";
 import {useMutation} from "@apollo/client";
-import {DELETE_WORKSPACE, GET_WORKSPACES} from "../../queries/workspace";
+import {DELETE_WORKSPACE, GET_WORKSPACES} from "../../queries/entitis/Workspace";
 
 const useDeleteWorkspace = () => {
   const {callSuccessAlert, callErrorAlert} = useHandleReqAlert();

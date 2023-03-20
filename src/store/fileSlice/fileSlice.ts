@@ -14,7 +14,10 @@ const fileSlice = createSlice({
       const parseResult = action.payload.folders.concat(
         action.payload.documents,
         action.payload.todoBoxes,
-        action.payload.todoBoards
+        action.payload.todoBoards,
+        action.payload.logbooks,
+        action.payload.logbookFolders,
+        action.payload.logs,
       )
       // И все полученное отдаем функции для преобразования в дерево
       // тут результат будет банально записыватсья в хранилище

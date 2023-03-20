@@ -26,11 +26,11 @@ const WorkspaceNodeMenu: FC<WorkspaceNodeMenuProps> = ({id}) => {
     setAnchorEl(null);
   };
 
-  const handleCreateFile = (e: React.MouseEvent<HTMLElement>, type: string) => {
+  const handleCreateFile = (e: React.MouseEvent<HTMLElement>) => {
     dispatch(openModal({
       modalType: 'create',
-      subtype: 'Document',
-      modalProps: {id: null, parentWorkspaceId: id}
+      subtype: 'Project',
+      modalProps: { parentWorkspaceId: id, id: null}
     }))
     handleClose(e);
   };
@@ -65,7 +65,7 @@ const WorkspaceNodeMenu: FC<WorkspaceNodeMenuProps> = ({id}) => {
         }}
       >
 
-        <MenuItem onClick={e => handleCreateFile(e, 'Document')}>Создать</MenuItem>
+        <MenuItem onClick={handleCreateFile}>Создать</MenuItem>
         <MenuItem onClick={handleEdit}>Редактировать</MenuItem>
         <MenuItem onClick={handleDelete}>Удалить</MenuItem>
       </Menu>

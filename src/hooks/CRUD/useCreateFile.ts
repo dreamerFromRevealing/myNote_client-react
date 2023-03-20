@@ -1,17 +1,15 @@
 import {useMutation} from "@apollo/client";
-import {CREATE_NEW_DOCUMENT, CREATE_NEW_FOLDER, CREATE_TODO_BOARD, CREATE_TODO_BOX} from "../../queries/treeFiles";
-import {GET_TREE_BY_WORKSPACE_ID} from "../../queries/layout";
+import {GET_TREE_BY_PROJECT_ID} from "../../queries/layout";
 import useAlert from "../useAlert";
-import {useEffect, useState} from "react";
 import {DocumentNode} from "graphql/language";
 
-const useCreateFile = (mutation: DocumentNode, parentWorkspaceId: string): [Function, boolean] => {
+const useCreateFile = (mutation: DocumentNode, parentProjectId: string): [Function, boolean] => {
   const callAlert = useAlert();
 
   const [createHandler, {loading}] = useMutation(mutation, {
     refetchQueries: [{
-      query: GET_TREE_BY_WORKSPACE_ID,
-      variables: {parentWorkspaceId}
+      query: GET_TREE_BY_PROJECT_ID,
+      variables: {parentProjectId}
     }]
   });
 

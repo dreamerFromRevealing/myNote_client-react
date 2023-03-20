@@ -3,10 +3,10 @@ import {TodoWrapper} from './styles';
 import {TODONewCollection} from "./TODONewCollection";
 import {useParams} from "react-router-dom";
 import {useQuery} from "@apollo/client";
-import {GET_TODO_COLLECTIONS} from "../../queries/queries";
 import Preloader from "../layout/items/Preloader";
 import TodoCollectionFunc from "./TodoCollectionFunc";
 import {Droppable} from 'react-beautiful-dnd';
+import {GET_TODO_COLLECTIONS} from "../../queries/entitis/TodoCollection";
 
 
 const TODO = () => {

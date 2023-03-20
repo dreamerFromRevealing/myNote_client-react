@@ -1,3 +1,4 @@
+
 import React from 'react';
 import {useSelector} from "react-redux";
 import EditFileModal from "../editModals/editFileModal/EditFileModal";
@@ -10,6 +11,8 @@ import CreateTodoCollectionModal from "../createModals/createTODOCollectionModal
 import TodoCollectionEditModal from "../editModals/todoCollectionEditModal/TodoCollectionEditModal";
 import CreateTodoTaskModal from "../createModals/createTODOTaskModal/CreateTODOTaskModal";
 import EditTODOTaskModal from "../editModals/editTODOTaskModal/EditTODOTaskModal";
+import ProjectCreateModal from "../createModals/projectCreateModal/ProjectCreateModal";
+import ProjectEditModal from "../editModals/projectEditModal/ProjectEditModal";
 
 const BodyModal = () => {
   const state = useSelector((state: any) => state.modal);
@@ -21,7 +24,10 @@ const BodyModal = () => {
         case 'TodoBox':
         case 'Folder':
         case 'Document':
-          return <EditFileModal parentWorkspaceId={state.modalProps.parentWorkspaceId} id={state.modalProps.id} type={state.modalProps.type}/>
+          return <EditFileModal parentProjectId={state.modalProps.parentProjectId} id={state.modalProps.id}
+                                type={state.modalProps.type}/>
+        case 'Project':
+          return <ProjectEditModal id={state.modalProps.id}/>
         case 'Workspace':
           return <WorkspaceEditModal id={state.modalProps.id}/>
         case 'TodoCollection':
@@ -31,29 +37,33 @@ const BodyModal = () => {
             title={state.modalProps.name}
             color={state.modalProps.color}/>
         case 'TodoTask':
-          return <EditTODOTaskModal parentTodoCollectionId={state.modalProps.parentTodoCollectionId} id={state.modalProps.id}/>
+          return <EditTODOTaskModal parentTodoCollectionId={state.modalProps.parentTodoCollectionId}
+                                    id={state.modalProps.id}/>
         default:
           return null;
       }
-    //--------------------------------------------------------------------------------------------------------
+    //----------------------------------------------------------------------------------------------------------------
     //Create modals===================================================================================================
     case 'create':
       switch (state.subtype) {
         case 'Folder':
-          return <CreateFileModal parentWorkspaceId={state.modalProps.parentWorkspaceId}
-                                  parentId={state.modalProps.id}/>
+        case 'ProjectFile':
+          return <CreateFileModal parentType={state.subtype} parentProjectId={state.modalProps.parentProjectId} parentId={state.modalProps.id}/>
+        case 'Project':
+          return <ProjectCreateModal parentWorkspaceId={state.modalProps.parentWorkspaceId}/>
         case 'Workspace':
           return <WorkspaceCreateModal/>
         case 'TodoBox':
-          return  <TodoBoardCreateModal parentWorkspaceId={state.modalProps.parentWorkspaceId}
-                                        parentId={state.modalProps.id}/>
+          return <TodoBoardCreateModal parentProjectId={state.modalProps.parentProjectId}
+                                       parentId={state.modalProps.id}/>
         case 'TodoCollection':
           return <CreateTodoCollectionModal
             parentTodoBoardParentId={state.modalProps.parentTodoBoardParentId}
             countItems={state.modalProps.countItems}
           />
         case 'TodoTask':
-          return <CreateTodoTaskModal parentTodoCollectionId={state.modalProps.parentTodoCollectionId} countItems={state.modalProps.countItems}/>
+          return <CreateTodoTaskModal parentTodoCollectionId={state.modalProps.parentTodoCollectionId}
+                                      countItems={state.modalProps.countItems}/>
         default:
           return null;
       }

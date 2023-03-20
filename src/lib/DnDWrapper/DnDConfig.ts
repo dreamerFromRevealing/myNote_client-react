@@ -1,7 +1,7 @@
 import {DocumentNode} from "graphql";
-import {GET_TODO_COLLECTIONS, GET_TODO_TASKS} from "../../queries/queries";
 import {MULTIPLE_DnD_UPDATE_TODO_COLLECTION, MULTIPLE_DnD_UPDATE_TODO_TASK} from "./mutations";
-import {gql} from "@apollo/client";
+import {GET_TODO_COLLECTIONS} from "../../queries/entitis/TodoCollection";
+import {GET_TODO_TASKS} from "../../queries/entitis/TodoTask";
 
 export type DnDConfigItemType = {
   query: DocumentNode,

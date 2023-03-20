@@ -4,9 +4,9 @@ import FormControl from "@mui/material/FormControl";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import {useMutation, useQuery} from "@apollo/client";
-import {GET_WORKSPACE, GET_WORKSPACES, UPDATE_WORKSPACE} from "../../../../queries/workspace";
 import useHandleReqAlert from "../../../../hooks/useHandleReqAlert";
 import Preloader from "../../../layout/items/Preloader";
+import {GET_WORKSPACE, GET_WORKSPACES, UPDATE_WORKSPACE} from "../../../../queries/entitis/Workspace";
 
 interface WorkspaceEditModalProps {
   id: string;

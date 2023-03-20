@@ -6,11 +6,11 @@ import ItemsNodeMenu from "./ItemsNodeMenu";
 interface NodeMenuProps {
   type: string;
   id: string;
-  parentWorkspaceId?: string;
+  parentProjectId?: string;
   name: string;
 }
 
-const NodeMenu: FC<NodeMenuProps> = ({type, id, parentWorkspaceId, name}) => {
+const NodeMenu: FC<NodeMenuProps> = ({type, id, parentProjectId, name}) => {
   const dispatch = useDispatch()
   const [close, setClose] = useState<any>(false)
 
@@ -18,7 +18,7 @@ const NodeMenu: FC<NodeMenuProps> = ({type, id, parentWorkspaceId, name}) => {
     dispatch(openModal({
       modalType: 'create',
       subtype: type,
-      modalProps: {id, parentWorkspaceId, type}
+      modalProps: {id, parentProjectId, type}
     }))
     setClose(e);
   };
@@ -30,7 +30,7 @@ const NodeMenu: FC<NodeMenuProps> = ({type, id, parentWorkspaceId, name}) => {
       modalProps: {
         id,
         type,
-        parentWorkspaceId
+        parentProjectId
       }
     }))
     setClose(e)
@@ -43,7 +43,7 @@ const NodeMenu: FC<NodeMenuProps> = ({type, id, parentWorkspaceId, name}) => {
       modalProps: {
         id,
         type,
-        parentId: parentWorkspaceId,
+        parentId: parentProjectId,
         name
       }
     }))
@@ -57,6 +57,8 @@ const NodeMenu: FC<NodeMenuProps> = ({type, id, parentWorkspaceId, name}) => {
       handleCreateFile={handleCreateFile}
       handleEdit={handleEdit}
       handleDelete={handleDelete}
+      id={id}
+      parentProjectId={parentProjectId}
     />
   );
 };

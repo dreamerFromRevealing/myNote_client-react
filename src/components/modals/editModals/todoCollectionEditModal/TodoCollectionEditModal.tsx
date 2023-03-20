@@ -1,14 +1,13 @@
 import React, {useState} from 'react';
 import useHandleReqAlert from "../../../../hooks/useHandleReqAlert";
 import {useMutation} from "@apollo/client";
-import {UPDATE_TODO_COLLECTION} from "../../../../queries/treeFiles";
-import {GET_TODO_COLLECTIONS} from "../../../../queries/queries";
 import {ColorResult, SliderPicker} from "react-color";
 import Preloader from "../../../layout/items/Preloader";
 import Grid from "@mui/material/Grid/Grid";
 import {FormControl, InputLabel, OutlinedInput} from "@mui/material";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
+import {GET_TODO_COLLECTIONS, UPDATE_TODO_COLLECTION} from "../../../../queries/entitis/TodoCollection";
 
 
 const TodoCollectionEditModal = ({id, parentId, title, color}: {id: string, parentId: string, title: string, color: string}) => {

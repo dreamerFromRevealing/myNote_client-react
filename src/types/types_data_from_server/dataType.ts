@@ -3,7 +3,7 @@ export type DATAType = {
   title?: string
   children?: DATAType[]
   __typename: string
-  parentWorkspaceId?: { _id: string }
+  parentProjectId?: { _id: string }
   childTodoBoardIds?: TodoBoardType[] | TodoBoardType
 }
 

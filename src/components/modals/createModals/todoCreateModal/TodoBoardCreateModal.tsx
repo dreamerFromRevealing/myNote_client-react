@@ -6,15 +6,16 @@ import {FormControl, InputLabel, OutlinedInput} from "@mui/material";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import {CreateModalProps} from "../createFileModal/CreateFileModal";
-import {CREATE_TODO_BOARD} from "../../../../queries/treeFiles";
+import {CREATE_TODO_BOARD} from "../../../../queries/entitis/TodoBoard";
 
-const TodoBoardCreateModal  = ({parentId, parentWorkspaceId}: CreateModalProps) => {
+const TodoBoardCreateModal  = ({parentId, parentProjectId}: CreateModalProps) => {
   const [values, setValues] = useState({
     title: '',
-    parentTodoBoxId: parentId
+    parentTodoBoxId: parentId,
+    parentProjectId
   })
 
-  const [createFile, loading] = useCreateFile(CREATE_TODO_BOARD, parentWorkspaceId)
+  const [createFile, loading] = useCreateFile(CREATE_TODO_BOARD, parentProjectId)
 
   const handleTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
     setValues(prevState => ({...prevState, title: event.target.value}));

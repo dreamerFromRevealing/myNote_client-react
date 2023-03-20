@@ -1,4 +1,4 @@
-import React, {FC, PropsWithChildren, useEffect, useState} from 'react'
+import React, {FC, PropsWithChildren, useState} from 'react'
 import {
   MainLayoutHideLeftSideBtn,
   MainLayoutLeftSide,
@@ -14,8 +14,8 @@ import MainAlert from "../alert/MainAlert";
 import Preloader from "./items/Preloader";
 import MainModal from "../modals/mainModal/MainModal";
 import Workspace from "../treeFiles/workspace/Workspace";
-import {GET_WORKSPACES} from "../../queries/workspace";
-import {Outlet, useParams} from "react-router-dom";
+import {Outlet} from "react-router-dom";
+import {GET_WORKSPACES} from "../../queries/entitis/Workspace";
 
 
 const MainLayout: FC<PropsWithChildren> = (props) => {
