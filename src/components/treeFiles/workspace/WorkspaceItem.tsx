@@ -1,4 +1,4 @@
-import React, {FC, useEffect, useState} from 'react';
+import React, {FC, useState} from "react";
 import {useLazyQuery} from "@apollo/client";
 import {GET_PROJECTS_ID} from "../../../queries/layout";
 import {Collapse, ListItemButton} from "@mui/material";
@@ -6,9 +6,6 @@ import HexagonIcon from "@mui/icons-material/Hexagon";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import {ExpandLess, ExpandMore} from "@mui/icons-material";
-import {useDispatch, useSelector} from "react-redux";
-import {createFileTree} from "../../../store/fileSlice/fileSlice";
-import Tree from "../Tree";
 import Preloader from "../../layout/items/Preloader";
 import WorkspaceNodeMenu from "./WorkspaceNodeMenu";
 import Projects from "../project/Projects";

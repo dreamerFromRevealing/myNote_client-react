@@ -4,8 +4,6 @@ import arrayToTree from "../../assets/customArrayToTree";
 const fileSlice = createSlice({
   name: 'file',
   initialState: {
-    saveDocument: false,
-    status: 'Ожидание...',
     tree: {},
   },
   reducers: {
@@ -25,14 +23,8 @@ const fileSlice = createSlice({
       const tree = arrayToTree(parseResult, {parentProperty: 'parentFolderId._id', customID: '_id'});
       state.tree = {...state.tree, [action.payload.title]: tree}
     },
-    switchSaveDocument: (state) => {
-      state.saveDocument = !state.saveDocument;
-    },
-    setStatus: (state, action) => {
-      state.status = action.payload;
-    },
   },
 })
 
 export default fileSlice.reducer;
-export const { switchSaveDocument, setStatus, createFileTree} = fileSlice.actions;
+export const { createFileTree} = fileSlice.actions;
